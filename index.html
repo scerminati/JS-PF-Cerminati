@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>Javascra - Escoge tu camino</title>
+  </head>
+  <body>
+    <header>
+      <h1>Javascra</h1>
+      <h2>Escoge tu camino</h2>
+    </header>
+    <div id="usuario"><img src="./images/magom.png" /></div>
+    <div id="oponente"><img src="./images/dragon.png" /></div>
+    <div id="pergamino">
+      <h3 id="titulo">Intro</h3>
+      <p id="texto"></p>
+      <input id="input" placeholder="Introduce tu nombre" class="oculto" />
+      <div id="personajesHTML" class="oculto"></div>
+      <div id="botonera"></div>
+    </div>
+    <div id="inventario" class="oculto">HOLASD</div>
+    <div id="detalles" class="detalleInv">
+      <i class="bx bx-help-circle"></i>
+    </div>
+    <div id="mostrarDetalles" class="oculto">
+      <div class="box">
+        <h3>Detalle de Stats</h3>
+        <br />Aquí puedes encontrar el detalle de los stats que hay en juego, y
+        un poco del sistema de combate.<br /><br />
+      </div>
+      <div id="scroll">
+        <div class="inside">
+          <p class="titulo">Vida</p>
+          Los puntos de vida son primordiales para sobrevivir. Tus enemigos
+          tratarán de quitártelos todos, y si eso sucede, morirás y se acabará
+          el juego. Siempre debes estar atento a los puntos que tienes.<br /><br />
+          <p class="titulo">Iniciativa</p>
+          La tirada de iniciativa se realiza previo a comenzar el combate, una
+          vez por turno. Tu modificador de iniciativa se sumará a 1d10, e igual
+          para tu oponente. El que saque el mayor número de iniciativa, empieza
+          realizando el golpe. Si tu oponente y tu empatan, comenzará tu
+          oponente.<br /><br />
+          <p class="titulo">Combate</p>
+          El combate representa tus puntos de daño. Es un modificador que se le
+          suma 1d20. A este resultado, se le restará el 1d20 más la defensa de
+          tu oponente. Si sacas el puntaje máximo, es decir, 20 y tu
+          modificador, ¡será un crítico! Sobrepasarás la defensa de tu oponente,
+          y harás el daño máximo.<br /><br />
+          <p class="titulo">Defensa</p>
+          Este modificador representa el daño que puedes absober. Se tira con
+          1d20 y el modificador. Si sacas el puntaje máximo en la defensa, es
+          decir, 20 y tu modificador, ¡será un crítico! Tu defensa será perfecta
+          y no recibirás daño por ese turno.<br /><br />
+          <p class="titulo">Daño</p>
+          El daño recibido o dado se calcula con la diferencia de la tirada de
+          combate menos la defensa de tu oponente, divido 4 y redondeando hacia
+          abajo. Siempre el mínimo daño recibido y hecho es 1, salvo el caso de
+          un crítico en la defensa.
+        </div>
+      </div>
+    </div>
+    <div id="ordenarDiv" class="oculto">
+      <h3 id="ordenarTitulo"></h3>
+      <p id="ordenarTexto"></p>
+      <div class="contenedor">
+        <div id="columna1" class="columnaBotones">
+          De menor a mayor
+          <button>hola</button>
+          <button>hola</button>
+          <button>hola</button>
+          <button>hola</button>
+          <button>hola</button>
+          <button>hola</button><button>hola</button>
+        </div>
+        <div id="columna2" class="columnaBotones">
+          De mayor a menor
+          <button>hola</button>
+          <button>hola</button>
+          <button>hola</button>
+          <button>hola</button>
+          <button>hola</button>
+          <button>hola</button>
+        </div>
+      </div>
+      <div id="botonesBuscador"></div>
+    </div>
+
+    <footer>
+      <p>
+        Hola! Mi nombre es Sofía y agradezco cualquier comentario que tengas
+        sobre este juego. Puedes enviarme tus comentarios a mi casilla de
+        correo.
+        <i id="sendEmail" class="bx bx-mail-send"></i>
+      </p>
+    </footer>
+
+    <script src="./script/script.js"></script>
+  </body>
+</html>
