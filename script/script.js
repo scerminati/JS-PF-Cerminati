@@ -363,9 +363,7 @@ function setNombre(id) {
     nombre = "";
     texto.innerHTML = `De acuerdo, no utilizaré ningún título para dirigirme a ti.`;
   } else {
-    if (sexo == "f") {
-      terminacion = "a";
-    }
+    sexo == "f" && (terminacion = "a");
     localStorage.setItem("terminacion", terminacion);
     nombre += " ";
     texto.innerHTML = `¡Este es un buen comienzo! Bienvenid${terminacion}, ${nombre}.`;
@@ -412,9 +410,8 @@ function enviarInput() {
     texto.innerHTML += `<br><br>Por último, deberás escoger una raza. Dime, ¿con cuál de las siguientes razas crees que te identificas más?`;
     let categoriaRazas = [];
     personajes.forEach((personaje) => {
-      if (!categoriaRazas.includes(personaje.raza)) {
+      !categoriaRazas.includes(personaje.raza) &&
         categoriaRazas.push(personaje.raza);
-      }
     });
 
     for (let index = 0; index < categoriaRazas.length; index++) {
@@ -532,9 +529,7 @@ function crearBoton(parametro, funcionPasada) {
   window["boton" + parametro].id = parametro.toLowerCase();
   botonera.appendChild(window["boton" + parametro]);
   window["boton" + parametro].addEventListener("click", funcionPasada);
-  if (parametro == "Siguiente") {
-    window["boton" + parametro].focus();
-  }
+  parametro == "Siguiente" && window["boton" + parametro].focus();
 }
 
 function mostrarInventario() {
@@ -631,28 +626,32 @@ function inputChecker(arrayInput) {
   chequeoInput = false;
   eliminar = false;
   antesDeLogica = false;
+  divToAppend = false;
+  arma = false;
   textoAdicional = "";
   descripcionEspecial = "";
 
   oponente.classList.add("oculto");
   for (const propiedad in oponenteIds) {
-    if (oponenteIds[propiedad].id == idActual) {
-      if (oponenteIds[propiedad].oponente.vida > 0) {
-        oponente.classList.remove("oculto");
-        imagenOpo = oponenteIds[propiedad].oponente.ruta;
-        oponente.innerHTML = imagenOpo;
-      }
+    if (
+      oponenteIds[propiedad].id == idActual &&
+      oponenteIds[propiedad].oponente.vida > 0
+    ) {
+      oponente.classList.remove("oculto");
+      imagenOpo = oponenteIds[propiedad].oponente.ruta;
+      oponente.innerHTML = imagenOpo;
     }
   }
 
   if (arrayInput[index].especial != undefined) {
     switch (arrayInput[index].especial) {
       case "Voces":
-        inventario.vida = inventario.vida - 1;
+        inventario.vida -= 1;
+        tostada(1);
         registroLogro("Voces");
-        if (inventario.vida <= 0) {
-          arrayInput[index].nextid[0] = arrayInput[index].nextid[1];
-        }
+        inventario.vida <= 0 &&
+          (arrayInput[index].nextid[0] = arrayInput[index].nextid[1]);
+
         break;
       case "Monedas":
         inventario.monedas += 10;
@@ -715,15 +714,25 @@ function inputChecker(arrayInput) {
         inventario.herramientas = "Soga";
         break;
       case "Arma":
-        arma++;
-        localStorage.setItem("arma", arma);
-        if (arma == 2) {
-          idACambiar = 3.5;
+        arma = true;
+        divToAppend = document.createElement("div");
+        divToAppend.id = "aguaID";
+        divToAppend.classList.add("agua");
+        console.log(divToAppend.offsetWidth);
+        let armaEscondida = document.createElement("div");
+        armaEscondida.id = "armaEscondida";
+
+        armaEscondida.addEventListener("click", () => {
+          console.log("encontrado");
+          idACambiar = 3.6;
           respirar = 0;
           localStorage.setItem("respirar", respirar);
-          localStorage.removeItem("arma");
-          modificarNextId(arrayInput, idACambiar, [3.1, 3.7]);
-        }
+          modificarNextId(arrayInput, idACambiar, [3.7]);
+          nextIndex(arrayInput, 0);
+          inputChecker(arrayInput);
+        });
+
+        divToAppend.appendChild(armaEscondida);
         break;
       case "Respiración":
         respirar = localStorage.getItem("respirar");
@@ -787,12 +796,12 @@ function inputChecker(arrayInput) {
       case "Huida":
         turnoHuida++;
         localStorage.setItem("turnoHuida", turnoHuida);
-        inventario.vida =
-          inventario.vida -
-          Math.floor((Math.random() * 20 + dragon.combate) / 5);
-
+        let danoEscape = Math.floor((Math.random() * 20 + dragon.combate) / 5);
+        inventario.vida -= danoEscape;
+        tostada(danoEscape);
         if (inventario.vida <= 0 && turnoHuida <= 5) {
           arrayInput[index].nextid[0] = arrayInput[index].nextid[1];
+          inventario.vida = 0;
           descripcionEspecial = `¡El dragón te ha derrotado! Te has quedado sin vida.<br><br><center>FIN DEL JUEGO.</center>`;
           antesDeLogica = true;
           idACambiar = 2.8;
@@ -834,6 +843,22 @@ function inputChecker(arrayInput) {
     }
   } else {
     texto.innerHTML = arrayInput[index].descripcion + textoAdicional;
+    if (divToAppend != false) {
+      texto.appendChild(divToAppend);
+      if (arma) {
+        let x = Math.round(
+          Math.random() * (divToAppend.offsetWidth - armaEscondida.offsetWidth)
+        );
+        let y = Math.round(
+          Math.random() *
+            (divToAppend.offsetHeight - armaEscondida.offsetHeight)
+        );
+        armaEscondida.style.top = `${y}px`;
+        armaEscondida.style.left = `${x}px`;
+        console.log(y);
+        console.log(armaEscondida.offsetHeight);
+      }
+    }
     crearBoton("Siguiente", () => {
       if (!salir) {
         if (!antesDeLogica) {
@@ -987,9 +1012,7 @@ function estadistica() {
     columna2.innerHTML = ``;
     let razaFiltro = [];
     jugadores.forEach((jugador) => {
-      if (!razaFiltro.includes(jugador.raza)) {
-        razaFiltro.push(jugador.raza);
-      }
+      !razaFiltro.includes(jugador.raza) && razaFiltro.push(jugador.raza);
     });
     razaFiltro.push("Todos");
     for (let i = 0; i < razaFiltro.length; i++) {
@@ -1035,9 +1058,7 @@ function estadistica() {
         );
 
         limite = jugadoresEncontrados.length;
-        if (limite > 5) {
-          limite = 5;
-        }
+        limite > 5 && (limite = 5);
         mostrarResultados.innerHTML = ``;
         if (limite == 0) {
           mostrarResultados.innerText = `No se encontró ningún nombre que coincida`;
@@ -1048,11 +1069,9 @@ function estadistica() {
           }
         }
 
-        if (limite > 0) {
-          botonBuscar.classList.remove("oculto");
-        } else {
-          botonBuscar.classList.add("oculto");
-        }
+        limite > 0
+          ? botonBuscar.classList.remove("oculto")
+          : botonBuscar.classList.add("oculto");
       } else {
         mostrarResultados.innerHTML = ``;
         botonBuscar.classList.add("oculto");
@@ -1105,11 +1124,10 @@ function estadistica() {
 
   crearBoton("Stats", () => {
     statsOLogros = !statsOLogros;
-    if (statsOLogros) {
-      window["botonStats"].innerText = "Puntaje";
-    } else {
-      window["botonStats"].innerText = "Stats";
-    }
+    statsOLogros
+      ? (window["botonStats"].innerText = "Puntaje")
+      : (window["botonStats"].innerText = "Stats");
+
     tabla.innerHTML = "";
     crearTabla(tabla, jugadoresFiltrados, coincide);
   });
@@ -1155,9 +1173,7 @@ function crearBotonFiltrar(parametro, tabla) {
             jugadoresFiltrados = jugadores.filter(
               (jugador) => jugador.raza == parametro
             );
-            if (jugadorFinal.raza == parametro) {
-              coincide = true;
-            }
+            jugadorFinal.raza == parametro && (coincide = true);
           } else {
             jugadoresFiltrados = jugadores.filter(
               (jugador) => jugador.clase == claseFiltro[i]
@@ -1215,11 +1231,10 @@ function crearBotonOrdenar(parametro, prueba, tabla) {
 
 function ordenarFunciones(prueba, tabla) {
   statsOLogros = prueba;
-  if (statsOLogros) {
-    window["botonStats"].innerText = "Puntaje";
-  } else {
-    window["botonStats"].innerText = "Stats";
-  }
+  statsOLogros
+    ? (window["botonStats"].innerText = "Puntaje")
+    : (window["botonStats"].innerText = "Stats");
+
   for (let i = 0; i < jugadoresFiltrados.length; i++) {
     jugadoresFiltrados[i].num = i + 1;
   }
@@ -1254,16 +1269,10 @@ function crearTabla(tabla, jugadores, jugadorBoo) {
     titulos.push(propiedades);
   }
   let filaJugador;
-  if (jugadorBoo) {
-    filaJugador = document.createElement("tr");
-  }
+  jugadorBoo && (filaJugador = document.createElement("tr"));
 
   let maxRows = jugadores.length;
-  if (maxRows >= 10) {
-    maxRows = 11;
-  } else {
-    maxRows++;
-  }
+  maxRows >= 10 ? (maxRows = 11) : maxRows++;
 
   let tiempomod;
   for (let j = 0; j < maxRows; j++) {
@@ -1271,9 +1280,8 @@ function crearTabla(tabla, jugadores, jugadorBoo) {
     for (let i = 0; i < 1; i++) {
       let celda = document.createElement("td");
       let celdaJugador;
-      if (jugadorBoo) {
-        celdaJugador = document.createElement("td");
-      }
+      jugadorBoo && (celdaJugador = document.createElement("td"));
+
       if (j == 0) {
         celda.innerHTML = `<b>#</b>`;
         if (jugadorBoo) {
@@ -1295,9 +1303,8 @@ function crearTabla(tabla, jugadores, jugadorBoo) {
     for (let i = 0; i < 3; i++) {
       let celda = document.createElement("td");
       let celdaJugador;
-      if (jugadorBoo) {
-        celdaJugador = document.createElement("td");
-      }
+      jugadorBoo && (celdaJugador = document.createElement("td"));
+
       if (j == 0) {
         celda.innerHTML = `<b>${titulos[i]}</b>`;
         if (jugadorBoo) {
@@ -1316,30 +1323,27 @@ function crearTabla(tabla, jugadores, jugadorBoo) {
       for (let i = 7; i < 10; i++) {
         let celda = document.createElement("td");
         let celdaJugador;
-        if (jugadorBoo) {
-          celdaJugador = document.createElement("td");
-        }
+        jugadorBoo && (celdaJugador = document.createElement("td"));
+
         if (j == 0) {
           celda.innerHTML = `<b>${titulos[i]}</b>`;
-          if (titulos[i] == "Tiempo") {
-            tiempomod = i;
-          }
+          titulos[i] == "Tiempo" && (tiempomod = i);
+
           if (jugadorBoo) {
-            if (i == tiempomod) {
-              celdaJugador.innerText = modificarTiempo(
-                jugadorFinal[titulosReal[i]]
-              );
-            } else {
-              celdaJugador.innerText = jugadorFinal[titulosReal[i]];
-            }
+            i == tiempomod
+              ? (celdaJugador.innerText = modificarTiempo(
+                  jugadorFinal[titulosReal[i]]
+                ))
+              : (celdaJugador.innerText = jugadorFinal[titulosReal[i]]);
+
             filaJugador.appendChild(celdaJugador);
           }
         } else {
-          if (i == tiempomod) {
-            celda.innerText = modificarTiempo(jugadores[j - 1][titulosReal[i]]);
-          } else {
-            celda.innerText = jugadores[j - 1][titulosReal[i]];
-          }
+          i == tiempomod
+            ? (celda.innerText = modificarTiempo(
+                jugadores[j - 1][titulosReal[i]]
+              ))
+            : (celda.innerText = jugadores[j - 1][titulosReal[i]]);
         }
 
         fila.appendChild(celda);
@@ -1348,9 +1352,8 @@ function crearTabla(tabla, jugadores, jugadorBoo) {
       for (let i = 3; i < 7; i++) {
         let celda = document.createElement("td");
         let celdaJugador;
-        if (jugadorBoo) {
-          celdaJugador = document.createElement("td");
-        }
+        jugadorBoo && (celdaJugador = document.createElement("td"));
+
         if (j == 0) {
           celda.innerHTML = `<b>${titulos[i]}</b>`;
           if (jugadorBoo) {
@@ -1392,9 +1395,7 @@ function descripcionChecker(arrayInput, eliminarEspecial, idACambiar) {
 
   if (descripcionEspecial != "") {
     arrayInput[i].descripcion = descripcionEspecial;
-    if (eliminarEspecial) {
-      delete arrayInput[i].especial;
-    }
+    eliminarEspecial && delete arrayInput[i].especial;
   }
 }
 
@@ -1445,6 +1446,9 @@ function combate(oponente) {
   }
 
   segundo.vida -= danoASegundo;
+  if (!ini && danoASegundo > 0) {
+    tostada(danoASegundo);
+  }
 
   if (segundo.vida <= 0) {
     segundo.vida = 0;
@@ -1465,6 +1469,9 @@ function combate(oponente) {
     }
 
     primero.vida -= danoAPrimero;
+    if (ini && danoAPrimero > 0) {
+      tostada(danoAPrimero);
+    }
   }
 
   if (primero.vida <= 0) {
@@ -1864,42 +1871,6 @@ function declaracionDeCaminos() {
 
 function declaracionDeJugadores() {
   jugadores = [
-    {
-      nombre: "Lord List",
-      raza: "Humano",
-      clase: "Caballero",
-      vida: 13,
-      iniciativa: 0,
-      combate: 2,
-      defensa: 5,
-      puntaje: 95,
-      logros: 3,
-      tiempo: 8,
-    },
-    {
-      nombre: "Sir William",
-      raza: "Humano",
-      clase: "Rogue",
-      vida: 10,
-      iniciativa: 4,
-      combate: 3,
-      defensa: 3,
-      puntaje: 1,
-      logros: 2,
-      tiempo: 1,
-    },
-    {
-      nombre: "Lord Richard",
-      raza: "Humano",
-      clase: "Cazador",
-      vida: 7,
-      iniciativa: 5,
-      combate: 6,
-      defensa: 2,
-      puntaje: 96,
-      logros: 0,
-      tiempo: 1,
-    },
     {
       nombre: "Dame Elizabeth",
       raza: "Elfo",
@@ -2388,4 +2359,19 @@ function levantarDOM() {
   columna1 = document.getElementById("columna1");
   columna2 = document.getElementById("columna2");
   botonesBuscador = document.getElementById("botonesBuscador");
+}
+
+function tostada(dano) {
+  Toastify({
+    text: `Perdiste ${dano} de vida`,
+    duration: 3000,
+    gravity: "bottom", // `top` or `bottom`
+    position: "left", // `left`, `center` or `right`
+    stopOnFocus: true, // Prevents dismissing of toast on hover
+    className: "tostada",
+    style: {
+      background: "#936b47",
+    },
+    offset: { y: 30 },
+  }).showToast();
 }

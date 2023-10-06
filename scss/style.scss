@@ -294,10 +294,12 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 26px;
+  height: 32px;
+  padding: 2px;
   display: flex;
   #sendEmail {
     cursor: pointer;
+    padding: 5px;
   }
   p {
     display: flex;
@@ -408,11 +410,32 @@ footer {
   }
 
   #personajesHTML {
-    font-size: 0.9em;
+    font-size: 0.8em;
   }
 
   #texto {
     overflow: auto;
     max-height: 325px;
   }
+}
+
+.agua {
+  height: 200px;
+  width: 100%;
+  background-image: url(../images/agua2.gif);
+  position: relative;
+  padding: 5px;
+}
+
+#armaEscondida {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  cursor: pointer;
+}
+
+.tostada {
+  font-family: General;
+  color: black;
+  border: 1px solid #ecd495;
 }
