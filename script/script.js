@@ -1,4 +1,3 @@
-
 inicio();
 
 function inicio() {
@@ -262,7 +261,6 @@ function seleccionarRaza(razaSeleccionada, personajes) {
   });
 }
 
-//Luego de Realizar Inventario, se realiza caminos, por lo tanto, si tengo el juego "guardado" en otra instancia, debo evitar esta inicialización.
 function realizarInventario(razaPersonaje, personajeEscogido) {
   let usuarioEscogido = razaPersonaje.find(
     (personaje) => personaje.clase === personajeEscogido
@@ -324,9 +322,8 @@ function realizarInventario(razaPersonaje, personajeEscogido) {
       localStorage.setItem("armaAEncontrar", armaAEncontrar);
       localStorage.setItem("armaTexto", armaTexto);
       localStorage.setItem("usuarioImagen", imagenPersonaje.ruta);
-      //Seteo de variables que se inicializan de determinada forma, y que en el resto del código se van a ir cambiando.
-      setStorage(caminos);
 
+      setStorage(caminos);
       inputChecker(caminos);
     })
     .catch((error) => alert(error));
@@ -1280,7 +1277,7 @@ function modificarNextId(arrayInput, nextIDacambiar, nextID) {
 }
 
 function modificarTiempo(celda) {
-  //celda me lo da en segundos.
+  //Celda me deja el tiempo en segundos
   let horas = Math.floor(celda) / (60 * 60);
   let horasAmostrar = Math.floor(horas);
   let minutos = (horas - horasAmostrar) * 60;
