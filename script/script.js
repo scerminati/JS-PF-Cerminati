@@ -749,7 +749,9 @@ function inputChecker(arrayInput) {
 }
 
 function catchError() {
+  resetBotonera();
   titulo.innerText = "Error";
+  texto.innerText = "Error, volver a cargar el sitio.";
   crearBoton("Reiniciar", () => {
     localStorage.clear();
     inicio();
