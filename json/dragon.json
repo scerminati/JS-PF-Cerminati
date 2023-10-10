@@ -1,0 +1,8 @@
+{
+  "nombre": "Dragón",
+  "vida": 15,
+  "iniciativa": 3,
+  "combate": 4,
+  "defensa": 4,
+  "ruta": "<img src=\"./images/dragon.png\" />"
+}

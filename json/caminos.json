@@ -1,0 +1,376 @@
+[
+  {
+    "id": 0,
+    "descripcion": "*codigo.nombre, del reino *codigo.raza, ¡un gusto conocerte! Has llegado en el momento indicado, necesitamos tu ayuda.<br><br>Debes saber que en nuestro reino, Javascra, una terrible amenaza acecha en el temible castillo que tenemos delante.<br><br>Mira, sígueme, te mostraré.",
+    "categoria": "Introducción",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [0.1]
+  },
+  {
+    "id": 0.1,
+    "descripcion": "Espera, antes que lo olvide. En cualquier momento puedes presionar la imagen de tu personaje para ver tus estadísticas actualizadas. ¡Recuerda que tus puntos de vida son primordiales!<br><br>Por otro lado, si en cualquier momento del juego, de ahora en adelante, necesitas salir, ¡no te preocupes! Aquí en Javascra tenemos muy buena memoria, por lo que no se borrarán tus datos. Simplemente volverás donde quedaste.<br><br>Ahora sí, continuemos.",
+    "categoria": "Introducción",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [0.2]
+  },
+  {
+    "id": 0.2,
+    "descripcion": "Presta mucha atención a lo que te voy a contar. Acércate un poco más.<br><br>Verás, el castillo que ves en el camino de adelante, es custodiado por un enorme dragón que lo ha invadido, y ha sacado a todos con su temible fuego hace algunas lunas llenas atrás. El castillo contaba con un puente que cruza el río, pero el fuego del dragón lo ha deshecho. Si tomas ese camino, no podrás regresar. ¡Pero necesitamos que vayas a por él! No estamos apurados, debo confesarte, pero nos gustaria que nos puedas ayudar.",
+    "categoria": "Introducción",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [0.3]
+  },
+  {
+    "id": 0.3,
+    "descripcion": "En el camino de la izquierda, tienes el bosque encantado. Puedes descubrir algún que otro secreto en él, podrías investigarlo, y siempre puedes regresar aquí... Si no mueres en el intento, claro está. En el bosque hay criaturas que pueden atentar contra ti, aunque creo que podrías conseguir algo de ayuda.<br><br>Por último, en este camino que tienes a la derecha, irás al muelle, donde se encuentra un pequeño poblado, ahí se han refugiado la mayoría de los sirvientes del castillo. El rey y la reina se encuentran seguros en un lugar que no puedo decirte... Porque lo desconozco.",
+    "categoria": "Introducción",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [0.4]
+  },
+  {
+    "id": 0.4,
+    "descripcion": "En fin, *codigo.nombre, ¡necesitamos de tu ayuda! ¿Estás list*codigo.terminacion para la aventura? Todos los caminos te conducirán a algún lugar, si tienes el alma aventurera, podrías conseguir la victoria eterna.",
+    "categoria": "Introducción",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [0.5]
+  },
+  {
+    "id": 0.5,
+    "descripcion": "¡Debes escoger tu camino! En los botones de abajo tienes las opciones.<br><br>¡Recuerda! Si escoges ir al castillo, no podrás regresar.",
+    "categoria": "Introducción",
+    "input": true,
+    "cantidadOpciones": 3,
+    "nextid": [1, 2, 3],
+    "opciones": ["Bosque", "Castillo", "Muelle"]
+  },
+  {
+    "id": 1,
+    "descripcion": "\"El Bosque Encantado: Donde los árboles susurran secretos y la magia cobra vida.\"<br><br>Lo cierto es que nunca escuché a un árbol susurrar, pero igualmente, deberías tener cuidado.<br><br>*codigo.nombre, encuentras a tu izquierda la continuación del bosque. Una dulce voz te llama la atención. A tu derecha, sin embargo, una lúgubre cabaña te invita a pasar.",
+    "categoria": "Bosque",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [1.01]
+  },
+  {
+    "id": 1.01,
+    "descripcion": "¡Debes escoger tu camino! En los botones de abajo tienes las opciones.<br><br>El bosque es un lugar un poco peligroso, y sientes algo de escalofríos a la sombra de los árboles.",
+    "categoria": "Bosque",
+    "input": true,
+    "cantidadOpciones": 3,
+    "nextid": [0.5, 1.1, 1.2],
+    "opciones": ["Regresar", "Continuar", "Cabaña"]
+  },
+  {
+    "id": 1.1,
+    "descripcion": "Sigues la dulce voz, y a medida que te adentras en el bosque, te da un poco de sueño.<br><br>Te duermes sin darte cuenta. Algo te picotea en el brazo. Pierdes 1 de vida.<br><br>Al despertarte, te encuentras nuevamente frente a los tres caminos. ¿Raro? Sin duda. Quizás no debas volver a perderte en el bosque.",
+    "categoria": "Bosque",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [0.5, 1.11],
+    "especial": "Voces"
+  },
+  {
+    "id": 1.11,
+    "descripcion": "¡Te has quedado sin puntos de vida! Los animales del bosque tendrán qué comer esta noche.<br><br><center>FIN DEL JUEGO.</center>",
+    "categoria": "Bosque",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [4]
+  },
+  {
+    "id": 1.2,
+    "descripcion": "Entras a la cabaña ya sin pensarlo nuevamente. Sientes un frío importante, te tiembla el cuerpo. Sientes miedo, y tienes el presentimiento de que no te encuentras sol*codigo.terminacion.",
+    "categoria": "Bosque",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [1.21]
+  },
+  {
+    "id": 1.21,
+    "descripcion": "¡Debes escoger tu camino! En los botones de abajo tienes las opciones.<br><br>Hay un olor extraño en el aire. Ves a la izquierda hay una trampilla abierta que parece tener escaleras que bajan a un sótano. A la derecha, un pasillo parece conducir a una cocina.",
+    "categoria": "Bosque",
+    "input": true,
+    "cantidadOpciones": 3,
+    "nextid": [1.01, 1.3, 1.4],
+    "opciones": ["Regresar", "Sótano", "Cocina"]
+  },
+  {
+    "id": 1.3,
+    "descripcion": "Bajas las escaleras con cuidado, el olor extraño viene de ahí abajo.<br><br>Una figura indescifrable te mira desde la esquina, sus ojos brillan en la oscuridad. Observas que sus manos está haciendo movimientos extraños. ¡Es una bruja! ¡Y está por lanzar un hechizo!",
+    "categoria": "Bosque",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [1.31]
+  },
+  {
+    "id": 1.31,
+    "descripcion": "¡Debes escoger tu camino! En los botones de abajo tienes las opciones.<br><br>La bruja te mira determinada a pelear y sacarte de su casa. Siempre está la opción de huir...<br>",
+    "categoria": "Bosque",
+    "input": true,
+    "cantidadOpciones": 2,
+    "nextid": [1.21, 1.32],
+    "opciones": ["Huir", "Pelear"],
+    "especial": "Log Bruja"
+  },
+  {
+    "id": 1.32,
+    "descripcion": "",
+    "categoria": "Bosque",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [1.31, 1.33, 1.34],
+    "especial": "Combate Bruja"
+  },
+  {
+    "id": 1.33,
+    "descripcion": "¡La bruja te ha derrotado! Te has quedado sin vida. La bruja quizás aproveche para hacer alguna poción con partes de tu cuerpo...<br><br><center>FIN DEL JUEGO.</center>",
+    "categoria": "Bosque",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [4]
+  },
+  {
+    "id": 1.34,
+    "descripcion": "¡Has derrotado a la bruja!<br><br>Esto te da experiencia, ¡te sientes más fuerte!.",
+    "categoria": "Bosque",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [1.21]
+  },
+  {
+    "id": 1.4,
+    "descripcion": "Entras a la cocina sin dudarlo. Está lleno de calderos con sustancias muy extrañas a los cuales no te atreves a acercarte.<br><br>Decides revisar las alacenas. Encuentras, luego de varios minutos, un pequeño cofre detrás de algunos frascos de pociones vacías.<br><br>Lo abres... ¡Dentro hay 10 monedas! Las guardas antes que nadie te vea.<br><br>Tranquil*codigo.terminacion, no voy a juzgarte.",
+    "categoria": "Bosque",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [1.21],
+    "especial": "Monedas"
+  },
+  {
+    "id": 2,
+    "descripcion": "¡Cuanta valentía estás demostrando, *codigo.nombre!<br><br>Recuerda, no hay vuelta atrás. A partir de este punto, o la victoria o la muerte están aseguradas, ¡pero a no desesperar! Confio plenamente en ti y en tus habilidades. Después de todo, haz estado explorando, ¿cierto?",
+    "categoria": "Castillo",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [2.1]
+  },
+  {
+    "id": 2.1,
+    "descripcion": "El castillo se encuentra a lo lejos, lo ves que está a unas leguas de distancia. El puente roto está frente a ti ahora, y debes cruzar el agua para llegar al otro lado.",
+    "categoria": "Castillo",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [2.3, 2.2],
+    "especial": "Puente"
+  },
+  {
+    "id": 2.2,
+    "descripcion": "¡Fuiste lo suficientemente astuto como para traer la soga contigo! Atas la soga, te balanceas y llegas al otro lado sin problemas, demostrando tu destreza y, por sobretodo, tu valentía.<br><br>Llegas a las puertas del castillo, y entras ya sin dudarlo.",
+    "categoria": "Castillo",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [2.4]
+  },
+  {
+    "id": 2.3,
+    "descripcion": "Bajas despacio hasta tocar el agua. Cruzar por el río provoca que te canses, y sientes que te lastimas en el proceso. Luego, vuelves a escalar hasta llegar a los pies del castillo.<br><br>Llegas a la puerta, y titubeas al entrar, aunque finalmente lo haces.",
+    "categoria": "Castillo",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [2.4]
+  },
+  {
+    "id": 2.4,
+    "descripcion": "Un gran salón se impone frente a ti. El enorme dragón se encuentra ahí, ansioso. Pareciera como si te hubiese estado esperando.<br><br>El ruido de la puerta le llama la atención, te ve llegar y abre la boca para escupir fuego. ¡Esto se está por poner muy feo!",
+    "categoria": "Castillo",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [2.5]
+  },
+  {
+    "id": 2.5,
+    "descripcion": "¡Debes escoger tu camino! En los botones de abajo tienes las opciones.<br><br>El dragón tiene un tamaño imponente, sus escamas de color rojo brillan con la luz del sol que se cuela por el vitral. ¿Estás list*codigo.terminacion para esta batalla? Siempre está la opción de huir...",
+    "categoria": "Castillo",
+    "input": true,
+    "cantidadOpciones": 2,
+    "nextid": [2.8, 2.6],
+    "opciones": ["Escapar", "Pelear"]
+  },
+  {
+    "id": 2.6,
+    "descripcion": "El dragón se ve feroz, se para frente a ti y su mirada se ve aterradora, ¡pero nada como la valentía de *codigo.nombre para enfrentarlo!<br><br>Te preparas para la gran batalla final. ¡Es tu oportunidad para salvar a Javascra! ¡Mucha suerte!",
+    "categoria": "Castillo",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [2.72]
+  },
+  {
+    "id": 2.7,
+    "descripcion": "¡Debes escoger tu camino! En los botones de abajo tienes las opciones.<br><br>El dragón no dará tregua, peleará hasta acabar contigo.<br>",
+    "categoria": "Castillo",
+    "input": true,
+    "cantidadOpciones": 2,
+    "nextid": [2.8, 2.72],
+    "opciones": ["Huir", "Pelear"],
+    "especial": "Log Dragón"
+  },
+  {
+    "id": 2.72,
+    "descripcion": "",
+    "categoria": "Castillo",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [2.7, 2.73, 2.74],
+    "especial": "Combate Dragón"
+  },
+  {
+    "id": 2.73,
+    "descripcion": "¡El dragón te ha derrotado! Te has quedado sin vida. El dragón se entretendrá unas horas comiendo tu cuerpo sin vida.<br><br><center>FIN DEL JUEGO.</center>",
+    "categoria": "Castillo",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [4]
+  },
+  {
+    "id": 2.74,
+    "descripcion": "¡Has derrotado al dragón! La gloria será por siempre tuya. ¡Felicidades! El reino de Javascra te debe tu vida. Vivirás el resto de tus días siendo honrad*codigo.terminacion. ¡Hurra *codigo.nombre del reino *codigo.raza!<br><br>Se realizará una celebración por un ciclo de luna llena en tu nombre. ¡Eres y serás famos*codigo.terminacion por muchas décadas!<br><br><center>FIN DEL JUEGO.</center>",
+    "categoria": "Castillo",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [4]
+  },
+  {
+    "id": 2.8,
+    "descripcion": "¡Huye! Corres tan rápido como te dan las piernas.<br>",
+    "categoria": "Castillo",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [2.8, 4, 2.81],
+    "especial": "Huida"
+  },
+  {
+    "id": 2.81,
+    "descripcion": "¡Has logrado huir! No pudiste con el dragón. Si bien no has salido con la gloria, has logrado conservar tu vida, no sin tener unas quemaduras importantes en tu cuerpo.<br><br>Vivirás el resto de tus días escondid*codigo.terminacion y exiliad*codigo.terminacion, y tu nombre terminará por olvidarse pronto. Alguien más vendrá después de ti a llevarse la victoria y salvar nuestro reino. No te preocupes, es preferible estar viv*codigo.terminacion, yo no te juzgo.<br><br><center>FIN DEL JUEGO.</center>",
+    "categoria": "Castillo",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [4]
+  },
+  {
+    "id": 3,
+    "descripcion": "\"Muelle Javascra: Visite a nuestro hermoso mercado.\"<br><br>*codigo.nombre, te encuentras frente a una gran cantidad de tiendas que te llaman la atención. Las baratijas se ven bonitas y la comida más que deliciosa. En uno de los puestos de tu izquierda, un hombre te saluda efusivamente para que te acerques.<br><br>A tu derecha, está el puerto, con el agua cristalina reflejando la luz del sol.",
+    "categoria": "Muelle",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [3.1]
+  },
+  {
+    "id": 3.1,
+    "descripcion": "¡Debes escoger tu camino! En los botones de abajo tienes las opciones.<br><br>El vendedor sigue gritando tu nombre para que te acerques. Aun así, el agua del puerto te llama la atención.",
+    "categoria": "Muelle",
+    "input": true,
+    "cantidadOpciones": 3,
+    "nextid": [0.5, 3.2, 3.5],
+    "opciones": ["Regresar", "Vendedor", "Puerto"]
+  },
+  {
+    "id": 3.2,
+    "descripcion": "\"¡Buenos días! ¿Usted es *codigo.nombre? ¡Ya me parecía! He escuchado mucho de usted. ¡Hice bien en llamar su atención!\"<br><br>\n    \"Tengo hoy en oferta esta hermosa soga que le permitirá atravesar hasta los más temibles obstáculos. ¡Solo 10 monedas! ¡Es una oferta de tiempo limitado! Entiéndame, estamos aquí para generar ganancias, ¿cierto? Después de todo, debo cenar esta noche, y mi familia también.\"",
+    "categoria": "Muelle",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [3.3, 3.4],
+    "especial": "Vendedor"
+  },
+  {
+    "id": 3.3,
+    "descripcion": "\"Me parece que usted no tiene monedas suficientes para esta maravillosa soga. Lamento decirle que no puedo rebajarle el precio. Además, 10 monedas no es mucho.\"",
+    "categoria": "Muelle",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [3.1]
+  },
+  {
+    "id": 3.4,
+    "descripcion": "\"¡Muchas gracias! *codigo.nombre, ¡usted ha hecho una fantástica compra! Vuelva pronto. Recuerde que no hago devoluciones de ningún tipo. Perdone, como le comenté, necesitamos comer esta noche.\"",
+    "categoria": "Muelle",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [3.1],
+    "especial": "Soga"
+  },
+  {
+    "id": 3.5,
+    "descripcion": "¡Debes escoger tu camino! En los botones de abajo tienes las opciones.<br><br>Puedes pasar el tiempo mirando el suave movimiento del agua o regresar donde se encuentran las tiendas.",
+    "categoria": "Muelle",
+    "input": true,
+    "cantidadOpciones": 2,
+    "nextid": [3.1, 3.6],
+    "opciones": ["Regresar", "Mirar el agua"]
+  },
+  {
+    "id": 3.6,
+    "descripcion": "El agua está muy tranquila, no parece haber nada más que peces.",
+    "categoria": "Muelle",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [3.5],
+    "especial": "Arma"
+  },
+  {
+    "id": 3.7,
+    "descripcion": "¡Hay algo en el agua! Un brillo, un artefacto extraño. Te lanzas al agua sin pensarlo dos veces.",
+    "categoria": "Muelle",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [3.71]
+  },
+  {
+    "id": 3.71,
+    "descripcion": "Te zambulles para alcanzar el artefacto. Aguantas la respiración.",
+    "categoria": "Muelle",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [3.72]
+  },
+  {
+    "id": 3.72,
+    "descripcion": "¡Estira la mano! ¡Ya casi!",
+    "categoria": "Muelle",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [3.73]
+  },
+  {
+    "id": 3.73,
+    "descripcion": "...",
+    "categoria": "Muelle",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [3.73, 3.8],
+    "especial": "Respiración"
+  },
+  {
+    "id": 3.8,
+    "descripcion": "¡Has conseguido salir del agua! ¡Y con un arma en la mano! ¡*codigo.arma! Aumentan tu combate, estás list*codigo.terminacion para pelear contra cualquier enemigo que se cruce en tu camino.",
+    "categoria": "Muelle",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [3.1],
+    "especial": "Log Arma"
+  },
+  {
+    "id": 4,
+    "descripcion": "¡El juego ha terminado! A continuación verás tu puntaje final y tus logros, veamos...",
+    "categoria": "Fin",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [],
+    "especial": "Fin"
+  }
+]
