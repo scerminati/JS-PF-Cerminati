@@ -42,9 +42,11 @@ function inicio() {
   turnoContador = Number(localStorage.getItem("turnoContador")) || 0;
   logBruja = JSON.parse(localStorage.getItem("logBruja")) || [];
 
+  previoAFetch();
   fetch("./json/bruja.json")
     .then((respuesta) => respuesta.json())
     .then((brujaJson) => {
+      resetBotonera();
       bruja = JSON.parse(localStorage.getItem("bruja")) || brujaJson;
     })
     .catch(catchError);
@@ -52,23 +54,30 @@ function inicio() {
   turnoHuida = Number(localStorage.getItem("turnoHuida")) || 0;
   logDragon = JSON.parse(localStorage.getItem("logDragon")) || [];
 
+  previoAFetch();
   fetch("./json/dragon.json")
     .then((respuesta) => respuesta.json())
     .then((dragonJson) => {
+      resetBotonera();
       dragon = JSON.parse(localStorage.getItem("dragon")) || dragonJson;
     })
     .catch(catchError);
 
   let mensajeBruja, mensajeDragon;
+  previoAFetch();
   fetch("./json/mensajeBruja.json")
     .then((respuesta) => respuesta.json())
     .then((mensajeB) => {
+      resetBotonera();
       mensajeBruja = mensajeB;
     })
     .catch(catchError);
+
+  previoAFetch();
   fetch("./json/mensajeDragon.json")
     .then((respuesta) => respuesta.json())
     .then((mensajeD) => {
+      resetBotonera();
       mensajeDragon = mensajeD;
     })
     .catch(catchError);
@@ -101,9 +110,11 @@ function inicio() {
   if (idActual == -1) {
     titulo.innerText = `Selección de Personaje`;
     texto.innerHTML = `¡Una cordial bienvenida!<br><br>Quisiera saber como puedo dirigirme a ti, ¿puedo llamarte Sir? ¿O debo llamarte Lady? Quizás simplemente debería pedirte el nombre, pero aquí en este reino tenemos esto tan cordial... tu dime.<br><br>Selecciona la opción que más te guste.`;
+    previoAFetch();
     fetch("./json/cordialidad.json")
       .then((respuesta) => respuesta.json())
       .then((cordialidad) => {
+        resetBotonera();
         for (let index = 0; index < cordialidad.length; index++) {
           crearBoton(cordialidad[index].titulo, () =>
             setNombre(cordialidad, index)
@@ -176,9 +187,11 @@ function enviarInput() {
     input.value = "";
 
     texto.innerHTML += `<br><br>Por último, deberás escoger una raza. Dime, ¿con cuál de las siguientes razas crees que te identificas más?`;
+    previoAFetch();
     fetch("./json/personajes.json")
       .then((respuesta) => respuesta.json())
       .then((personajes) => {
+        resetBotonera();
         personajes.forEach((personaje) => {
           let razaP = personaje.raza;
           razaP = razaP.toLowerCase();
@@ -302,9 +315,11 @@ function realizarInventario(razaPersonaje, personajeEscogido) {
   id = [0];
   index = 0;
   idActual = 0;
+  previoAFetch();
   fetch("./json/caminos.json")
     .then((respuesta) => respuesta.json())
     .then((caminos) => {
+      resetBotonera();
       caminos.forEach((camino) => {
         camino.descripcion = camino.descripcion.replace(
           "*codigo.nombre",
@@ -454,10 +469,11 @@ function inputChecker(arrayInput) {
   descripcionEspecial = "";
 
   oponente.classList.add("oculto");
-
+  previoAFetch();
   fetch("./json/oponenteIds.json")
     .then((respuesta) => respuesta.json())
     .then((oponenteIds) => {
+      resetBotonera();
       oponenteIds.forEach((idConOponente) => {
         idConOponente.oponente = idConOponente.oponente.replace(
           "*codigo.bruja",
@@ -751,7 +767,7 @@ function inputChecker(arrayInput) {
 function catchError() {
   resetBotonera();
   titulo.innerText = "Error";
-  texto.innerText = "Error, volver a cargar el sitio. ACTUALIZADO";
+  texto.innerText = "Error, volver a cargar el sitio. ACTUALIZADO v2";
   crearBoton("Reiniciar", () => {
     localStorage.clear();
     inicio();
@@ -759,7 +775,7 @@ function catchError() {
   console.log("error de " + idActual);
 }
 
-function finDelJuego() {
+function previoAFetch() {
   resetBotonera();
   let cargando = document.createElement("div");
   cargando.classList.add("waviy");
@@ -773,7 +789,10 @@ function finDelJuego() {
     cargando.appendChild(spanNuevo);
   }
   botonera.appendChild(cargando);
+}
 
+function finDelJuego() {
+  previoAFetch();
   usuario.classList.remove("oculto");
   titulo.innerText = `Fin`;
   texto.innerHTML = `¡Muchas gracias por jugar! Tus datos se enviaron por correo a mi casilla. Puede que no aparezcan enseguida, pero no te preocupes, ¡en la próxima actualización podrás buscarte y compararte con el resto de los jugadores!<br><br>Puedes reiniciar el juego o ver las distintas estadísticas de previos jugadores.`;
@@ -834,9 +853,11 @@ function estadistica() {
     tiempo: Math.round((final - comienzo) / 1000),
   };
 
+  previoAFetch();
   fetch("./json/jugadores.json")
     .then((respuesta) => respuesta.json())
     .then((jugadores) => {
+      resetBotonera();
       jugadores.push(jugadorFinal);
       let tabla = document.createElement("div");
       tabla.classList.add("tablaEstilo");
