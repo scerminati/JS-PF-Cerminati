@@ -42,7 +42,7 @@ function inicio() {
   turnoContador = Number(localStorage.getItem("turnoContador")) || 0;
   logBruja = JSON.parse(localStorage.getItem("logBruja")) || [];
 
-  fetch("/json/bruja.json")
+  fetch("../json/bruja.json")
     .then((respuesta) => respuesta.json())
     .then((brujaJson) => {
       bruja = JSON.parse(localStorage.getItem("bruja")) || brujaJson;
@@ -52,7 +52,7 @@ function inicio() {
   turnoHuida = Number(localStorage.getItem("turnoHuida")) || 0;
   logDragon = JSON.parse(localStorage.getItem("logDragon")) || [];
 
-  fetch("/json/dragon.json")
+  fetch("../json/dragon.json")
     .then((respuesta) => respuesta.json())
     .then((dragonJson) => {
       dragon = JSON.parse(localStorage.getItem("dragon")) || dragonJson;
@@ -60,13 +60,13 @@ function inicio() {
     .catch(catchError);
 
   let mensajeBruja, mensajeDragon;
-  fetch("/json/mensajeBruja.json")
+  fetch("../json/mensajeBruja.json")
     .then((respuesta) => respuesta.json())
     .then((mensajeB) => {
       mensajeBruja = mensajeB;
     })
     .catch(catchError);
-  fetch("/json/mensajeDragon.json")
+  fetch("../json/mensajeDragon.json")
     .then((respuesta) => respuesta.json())
     .then((mensajeD) => {
       mensajeDragon = mensajeD;
@@ -101,7 +101,7 @@ function inicio() {
   if (idActual == -1) {
     titulo.innerText = `Selección de Personaje`;
     texto.innerHTML = `¡Una cordial bienvenida!<br><br>Quisiera saber como puedo dirigirme a ti, ¿puedo llamarte Sir? ¿O debo llamarte Lady? Quizás simplemente debería pedirte el nombre, pero aquí en este reino tenemos esto tan cordial... tu dime.<br><br>Selecciona la opción que más te guste.`;
-    fetch("/json/cordialidad.json")
+    fetch("../json/cordialidad.json")
       .then((respuesta) => respuesta.json())
       .then((cordialidad) => {
         for (let index = 0; index < cordialidad.length; index++) {
@@ -176,7 +176,7 @@ function enviarInput() {
     input.value = "";
 
     texto.innerHTML += `<br><br>Por último, deberás escoger una raza. Dime, ¿con cuál de las siguientes razas crees que te identificas más?`;
-    fetch("/json/personajes.json")
+    fetch("../json/personajes.json")
       .then((respuesta) => respuesta.json())
       .then((personajes) => {
         personajes.forEach((personaje) => {
@@ -302,7 +302,7 @@ function realizarInventario(razaPersonaje, personajeEscogido) {
   id = [0];
   index = 0;
   idActual = 0;
-  fetch("/json/caminos.json")
+  fetch("../json/caminos.json")
     .then((respuesta) => respuesta.json())
     .then((caminos) => {
       caminos.forEach((camino) => {
@@ -455,7 +455,7 @@ function inputChecker(arrayInput) {
 
   oponente.classList.add("oculto");
 
-  fetch("/json/oponenteIds.json")
+  fetch("../json/oponenteIds.json")
     .then((respuesta) => respuesta.json())
     .then((oponenteIds) => {
       oponenteIds.forEach((idConOponente) => {
@@ -756,6 +756,7 @@ function catchError() {
     localStorage.clear();
     inicio();
   });
+  console.log("error de " + idActual);
 }
 
 function finDelJuego() {
@@ -833,7 +834,7 @@ function estadistica() {
     tiempo: Math.round((final - comienzo) / 1000),
   };
 
-  fetch("/json/jugadores.json")
+  fetch("../json/jugadores.json")
     .then((respuesta) => respuesta.json())
     .then((jugadores) => {
       jugadores.push(jugadorFinal);
