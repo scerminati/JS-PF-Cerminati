@@ -500,6 +500,12 @@ function realizarInventario(razaPersonaje, personajeEscogido) {
   index = 0;
   idActual = 0;
   declaracionDeCaminos();
+  // fetch("../json/caminos.json")
+  // .then((respuesta) => respuesta.json())
+  // .then((caminos) => (caminos));
+
+
+  console.log(JSON.stringify(caminos));
 
   //Seteo de los Local Storages
   localStorage.setItem("comienzo", comienzo);
@@ -1488,6 +1494,11 @@ function combate(oponente) {
 }
 
 function declaracionDeCaminos() {
+  // fetch("../json/caminos.json")
+  //   .then((respuesta) => respuesta.json())
+  //   .then((caminos) => (caminos));
+  // .catch(error => alert("error"))
+
   caminos = [
     {
       id: 0,
