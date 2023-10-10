@@ -1,0 +1,130 @@
+[
+  {
+    "raza": "Humano",
+    "clase": "Caballero",
+    "vida": 13,
+    "iniciativa": 0,
+    "combate": 2,
+    "defensa": 5
+  },
+  {
+    "raza": "Humano",
+    "clase": "Rogue",
+    "vida": 10,
+    "iniciativa": 4,
+    "combate": 3,
+    "defensa": 3
+  },
+  {
+    "raza": "Humano",
+    "clase": "Cazador",
+    "vida": 7,
+    "iniciativa": 5,
+    "combate": 6,
+    "defensa": 2
+  },
+  {
+    "raza": "Elfo",
+    "clase": "Bardo",
+    "vida": 8,
+    "iniciativa": 5,
+    "combate": 2,
+    "defensa": 5
+  },
+  {
+    "raza": "Elfo",
+    "clase": "Guerrero",
+    "vida": 10,
+    "iniciativa": 2,
+    "combate": 7,
+    "defensa": 1
+  },
+  {
+    "raza": "Elfo",
+    "clase": "Profeta",
+    "vida": 9,
+    "iniciativa": 3,
+    "combate": 5,
+    "defensa": 3
+  },
+  {
+    "raza": "Mago",
+    "clase": "Monje",
+    "vida": 12,
+    "iniciativa": 2,
+    "combate": 2,
+    "defensa": 4
+  },
+  {
+    "raza": "Elfo",
+    "clase": "Asesino",
+    "vida": 11,
+    "iniciativa": 6,
+    "combate": 3,
+    "defensa": 0
+  },
+  {
+    "raza": "Orco",
+    "clase": "Arquero",
+    "vida": 12,
+    "iniciativa": 0,
+    "combate": 5,
+    "defensa": 3
+  },
+  {
+    "raza": "Orco",
+    "clase": "Herrero",
+    "vida": 9,
+    "iniciativa": 4,
+    "combate": 6,
+    "defensa": 1
+  },
+  {
+    "raza": "Orco",
+    "clase": "Asaltador",
+    "vida": 7,
+    "iniciativa": 6,
+    "combate": 4,
+    "defensa": 3
+  },
+  {
+    "raza": "Orco",
+    "clase": "Destructor",
+    "vida": 9,
+    "iniciativa": 2,
+    "combate": 7,
+    "defensa": 2
+  },
+  {
+    "raza": "Elfo",
+    "clase": "Artesano",
+    "vida": 11,
+    "iniciativa": 1,
+    "combate": 2,
+    "defensa": 6
+  },
+  {
+    "raza": "Orco",
+    "clase": "Carroñero",
+    "vida": 8,
+    "iniciativa": 4,
+    "combate": 3,
+    "defensa": 5
+  },
+  {
+    "raza": "Mago",
+    "clase": "Profeta",
+    "vida": 13,
+    "iniciativa": 3,
+    "combate": 4,
+    "defensa": 0
+  },
+  {
+    "raza": "Mago",
+    "clase": "Nigromante",
+    "vida": 10,
+    "iniciativa": 1,
+    "combate": 5,
+    "defensa": 4
+  }
+]

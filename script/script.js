@@ -5,6 +5,7 @@ let nombre,
   arma,
   armaAEncontrar,
   armaTexto,
+  caminos,
   comienzo,
   final,
   salir,
@@ -24,7 +25,6 @@ let nombre,
   logrosID,
   inventario,
   healthBase,
-  jugadores,
   jugadoresFiltrados,
   coincide,
   index,
@@ -57,206 +57,12 @@ let texto,
   columna2;
 
 //Declaración variables globales fijas
-let cordialidad = [
-    { titulo: "Lord", sexo: "m" },
-    { titulo: "Sir", sexo: "m" },
-    { titulo: "Lady", sexo: "f" },
-    { titulo: "Dame", sexo: "f" },
-    { titulo: "Sin título", sexo: "m" },
-  ],
-  personajes = [
-    {
-      raza: "Humano",
-      clase: "Caballero",
-      vida: 13,
-      iniciativa: 0,
-      combate: 2,
-      defensa: 5,
-    },
-
-    {
-      raza: "Humano",
-      clase: "Rogue",
-      vida: 10,
-      iniciativa: 4,
-      combate: 3,
-      defensa: 3,
-    },
-    {
-      raza: "Humano",
-      clase: "Cazador",
-      vida: 7,
-      iniciativa: 5,
-      combate: 6,
-      defensa: 2,
-    },
-    {
-      raza: "Elfo",
-      clase: "Bardo",
-      vida: 8,
-      iniciativa: 5,
-      combate: 2,
-      defensa: 5,
-    },
-    {
-      raza: "Elfo",
-      clase: "Guerrero",
-      vida: 10,
-      iniciativa: 2,
-      combate: 7,
-      defensa: 1,
-    },
-    {
-      raza: "Elfo",
-      clase: "Profeta",
-      vida: 9,
-      iniciativa: 3,
-      combate: 5,
-      defensa: 3,
-    },
-    {
-      raza: "Mago",
-      clase: "Monje",
-      vida: 12,
-      iniciativa: 2,
-      combate: 2,
-      defensa: 4,
-    },
-    {
-      raza: "Elfo",
-      clase: "Asesino",
-      vida: 11,
-      iniciativa: 6,
-      combate: 3,
-      defensa: 0,
-    },
-    {
-      raza: "Orco",
-      clase: "Arquero",
-      vida: 12,
-      iniciativa: 0,
-      combate: 5,
-      defensa: 3,
-    },
-    {
-      raza: "Orco",
-      clase: "Herrero",
-      vida: 9,
-      iniciativa: 4,
-      combate: 6,
-      defensa: 1,
-    },
-    {
-      raza: "Orco",
-      clase: "Asaltador",
-      vida: 7,
-      iniciativa: 6,
-      combate: 4,
-      defensa: 3,
-    },
-    {
-      raza: "Orco",
-      clase: "Destructor",
-      vida: 9,
-      iniciativa: 2,
-      combate: 7,
-      defensa: 2,
-    },
-    {
-      raza: "Elfo",
-      clase: "Artesano",
-      vida: 11,
-      iniciativa: 1,
-      combate: 2,
-      defensa: 6,
-    },
-    {
-      raza: "Orco",
-      clase: "Carroñero",
-      vida: 8,
-      iniciativa: 4,
-      combate: 3,
-      defensa: 5,
-    },
-    {
-      raza: "Mago",
-      clase: "Profeta",
-      vida: 13,
-      iniciativa: 3,
-      combate: 4,
-      defensa: 0,
-    },
-    {
-      raza: "Mago",
-      clase: "Nigromante",
-      vida: 10,
-      iniciativa: 1,
-      combate: 5,
-      defensa: 4,
-    },
-  ],
-  mensajeBruja = [
-    `Tienes miedo de la bruja, aunque no dudas de tus capacidades.`,
-    `Das pelea, tu valentía no flanquea.`,
-    `La bruja quiere que te vayas de su cabaña.`,
-    `La bruja te lanza un hechizo, no te hace sentir muy bien.`,
-    `Pegas con todas tus fuerzas, aunque no estás seguro que eso funcione.`,
-    `Crees que capaz no fue la mejor decisión de todas entrar a la cabaña, ¿merece la pena terminar esta batalla?`,
-    `Dudas de tus capacidades por un segundo, aunque correr no es opción, ¿no?`,
-    `¡No te rindas todavía! ¡Aun eres capaz de derrotarla!`,
-    `¿Venir a Javascra fue un error? ¿Acaso todas las brujas del reino son así de malvadas?`,
-    `Logras esquivar un frasco, un olor pútrido sale de la poción cuando cae al suelo. ¡Era veneno!`,
-    `¡Esto se torna personal! Le das batalla a la bruja.`,
-  ],
-  mensajeDragon = [
-    `El fuego del dragón es inoportable, te quema parte de tus ropas.`,
-    `Das pelea, tu valentía no flanquea.`,
-    `El dragón te mira con hambre, parece que te considera tu cena.`,
-    `El dragón tira un zarpazo, rasguña tu pierna. Estás sangrando.`,
-    `Atacas con todo tu poder, pero no sabes si eso será suficiente para derrotar a la bestia.`,
-    `¿Puedes ser la salvación del reino? ¿Vale la pena pasar por esto?`,
-    `Dudas de tus capacidades por un segundo. Siempre se puede huir.`,
-    `¡No te rindas todavía! ¡Aun eres capaz de derrotarlo!`,
-    `¿Un dragón? Podría haber sido una lagartija a derrotar, ¿no? Bueno, eso no convertiría en heroe a cualquiera.`,
-    `Logras esquivar el aliento del dragón, cargado de calor.`,
-    `¡Esto se torna personal! Le das batalla al dragón. ¡El fuego se vuelve insoportable!`,
-  ];
-
-//Se añaden las imágenes para cada personaje.
-personajes.forEach((personaje) => {
-  let razaP = personaje.raza;
-  razaP = razaP.toLowerCase();
-  let sexoP = ["m", "f"];
-  personaje.imagen = [];
-  for (let index = 0; index < sexoP.length; index++) {
-    personaje.imagen[index] = {
-      sexo: sexoP[index],
-      ruta: `<img src="./images/${razaP}${sexoP[index]}.png" />`,
-    };
-  }
-  switch (personaje.raza) {
-    case "Humano":
-      personaje.armaTexto = "Una Espada";
-      personaje.armaAEncontrar = "Espada";
-      break;
-    case "Elfo":
-      personaje.armaTexto = "Un arco y flechas";
-      personaje.armaAEncontrar = "Arco y Flechas";
-      break;
-    case "Mago":
-      personaje.armaTexto = "Un báculo";
-      personaje.armaAEncontrar = "Báculo";
-      break;
-    case "Orco":
-      personaje.armaTexto = "Una masa";
-      personaje.armaAEncontrar = "Masa";
-      break;
-  }
-});
+let mensajeBruja, mensajeDragon;
 
 //Detalles adicionales de combate, creación de botones y footer con opción a enviar correo + levantar elementos DOM.
 levantarDOM();
 creacionAdicionales();
+declaracionMensajes();
 inicio();
 
 // Inicialización de variables globales disponibles para reset.
@@ -311,6 +117,8 @@ function inicio() {
     { id: 2.73, oponente: dragon },
     { id: 2.8, oponente: dragon },
   ];
+
+  console.log(JSON.stringify(oponenteIds));
   logrosTotales = Number(localStorage.getItem("logrosTotales")) || 0;
   puntaje = Number(localStorage.getItem("puntaje")) || 0;
   logros = JSON.parse(localStorage.getItem("logros")) || [
@@ -339,11 +147,17 @@ function inicio() {
   if (idActual == -1) {
     titulo.innerText = `Selección de Personaje`;
     texto.innerHTML = `¡Una cordial bienvenida!<br><br>Quisiera saber como puedo dirigirme a ti, ¿puedo llamarte Sir? ¿O debo llamarte Lady? Quizás simplemente debería pedirte el nombre, pero aquí en este reino tenemos esto tan cordial... tu dime.<br><br>Selecciona la opción que más te guste.`;
-    for (let index = 0; index < cordialidad.length; index++) {
-      crearBoton(cordialidad[index].titulo, () => setNombre(index));
-    }
+    fetch("../json/cordialidad.json")
+      .then((respuesta) => respuesta.json())
+      .then((cordialidad) => {
+        for (let index = 0; index < cordialidad.length; index++) {
+          crearBoton(cordialidad[index].titulo, () =>
+            setNombre(cordialidad, index)
+          );
+        }
+      });
   } else {
-    let caminos = JSON.parse(localStorage.getItem("caminos"));
+    caminos = JSON.parse(localStorage.getItem("caminos"));
     inventario = JSON.parse(localStorage.getItem("inventario"));
     healthBase = Number(localStorage.getItem("healthBase"));
     usuario.classList.remove("oculto");
@@ -354,7 +168,7 @@ function inicio() {
   }
 }
 
-function setNombre(id) {
+function setNombre(cordialidad, id) {
   nombre = cordialidad[id].titulo;
   sexo = cordialidad[id].sexo;
   terminacion = "o";
@@ -407,21 +221,56 @@ function enviarInput() {
     input.value = "";
 
     texto.innerHTML += `<br><br>Por último, deberás escoger una raza. Dime, ¿con cuál de las siguientes razas crees que te identificas más?`;
-    let categoriaRazas = [];
-    personajes.forEach((personaje) => {
-      !categoriaRazas.includes(personaje.raza) &&
-        categoriaRazas.push(personaje.raza);
-    });
+    fetch("../json/personajes.json")
+      .then((respuesta) => respuesta.json())
+      .then((personajes) => {
+        personajes.forEach((personaje) => {
+          let razaP = personaje.raza;
+          razaP = razaP.toLowerCase();
+          let sexoP = ["m", "f"];
+          personaje.imagen = [];
+          for (let index = 0; index < sexoP.length; index++) {
+            personaje.imagen[index] = {
+              sexo: sexoP[index],
+              ruta: `<img src="./images/${razaP}${sexoP[index]}.png" />`,
+            };
+          }
+          switch (personaje.raza) {
+            case "Humano":
+              personaje.armaTexto = "Una Espada";
+              personaje.armaAEncontrar = "Espada";
+              break;
+            case "Elfo":
+              personaje.armaTexto = "Un arco y flechas";
+              personaje.armaAEncontrar = "Arco y Flechas";
+              break;
+            case "Mago":
+              personaje.armaTexto = "Un báculo";
+              personaje.armaAEncontrar = "Báculo";
+              break;
+            case "Orco":
+              personaje.armaTexto = "Una masa";
+              personaje.armaAEncontrar = "Masa";
+              break;
+          }
+        });
 
-    for (let index = 0; index < categoriaRazas.length; index++) {
-      crearBoton(categoriaRazas[index], () =>
-        seleccionarRaza(categoriaRazas[index])
-      );
-    }
+        let categoriaRazas = [];
+        personajes.forEach((personaje) => {
+          !categoriaRazas.includes(personaje.raza) &&
+            categoriaRazas.push(personaje.raza);
+        });
+
+        for (let index = 0; index < categoriaRazas.length; index++) {
+          crearBoton(categoriaRazas[index], () =>
+            seleccionarRaza(categoriaRazas[index], personajes)
+          );
+        }
+      });
   }
 }
 
-function seleccionarRaza(razaSeleccionada) {
+function seleccionarRaza(razaSeleccionada, personajes) {
   let razaPersonaje = personajes.filter(
     (personaje) => personaje.raza == razaSeleccionada
   );
@@ -498,23 +347,23 @@ function realizarInventario(razaPersonaje, personajeEscogido) {
   id = [0];
   index = 0;
   idActual = 0;
-  //caminos = declaracionDeCaminos();
-  fetch("../json/caminos.json")
+  caminos = declaracionDeCaminos();
+  /*fetch("../json/caminos.json")
     .then((respuesta) => respuesta.json())
-    .then((caminos) => {
-      console.log(caminos);
-      //Seteo de los Local Storages
-      localStorage.setItem("comienzo", comienzo);
-      localStorage.setItem("healthBase", healthBase);
-      localStorage.setItem("armaAEncontrar", armaAEncontrar);
-      localStorage.setItem("armaTexto", armaTexto);
-      localStorage.setItem("usuarioImagen", imagenPersonaje.ruta);
-      //Seteo de variables que se inicializan de determinada forma, y que en el resto del código se van a ir cambiando.
-      setStorage(caminos);
+    .then((caminos) => {*/
+  console.log(caminos);
+  //Seteo de los Local Storages
+  localStorage.setItem("comienzo", comienzo);
+  localStorage.setItem("healthBase", healthBase);
+  localStorage.setItem("armaAEncontrar", armaAEncontrar);
+  localStorage.setItem("armaTexto", armaTexto);
+  localStorage.setItem("usuarioImagen", imagenPersonaje.ruta);
+  //Seteo de variables que se inicializan de determinada forma, y que en el resto del código se van a ir cambiando.
+  setStorage(caminos);
 
-      inputChecker(caminos);
-    })
-    .catch((error) => alert(error));
+  inputChecker(caminos);
+  /* })
+    .catch((error) => alert(error));*/
 }
 
 function setStorage(caminos) {
@@ -825,7 +674,7 @@ function inputChecker(arrayInput) {
         final = new Date();
         break;
     }
-    setStorage();
+    setStorage(arrayInput);
   }
   if (antesDeLogica) {
     descripcionChecker(arrayInput, eliminar, idACambiar);
@@ -932,7 +781,7 @@ function finDelJuego() {
         "template_46ks43j",
         templateParams,
         "OhrLN8D4Q7Jyx8Vle"
-      )
+      ) //AÑADIR UN TIEMPO DE ESPERA, TARDAN EN CARGAR LOS BOTONES Y SE ESPERA A QUE SE MANDE EL CORREO.
       .then(
         function (response) {
           console.log("Correo enviado", response.status, response.text);
@@ -940,10 +789,12 @@ function finDelJuego() {
         function (error) {
           console.log("Error al enviar correo", error);
         }
-      );
+      )
+      .finally(() => {
+        crearBoton("Reiniciar", inicio);
+        crearBoton("Estadísticas", estadistica);
+      });
   }
-  crearBoton("Reiniciar", inicio);
-  crearBoton("Estadísticas", estadistica);
 }
 
 function estadistica() {
@@ -951,7 +802,9 @@ function estadistica() {
   usuario.classList.add("oculto");
   titulo.innerText = `Estadísticas`;
   texto.innerHTML = `Aquí encontrarás las estadísticas de otros jugadores. Puedes buscar por nombres, filtrar por razas, ¡y hasta ver los stats de otros jugadores! Abajo encontrarás tu posición resaltada de acuerdo a cómo quieres ordenar los datos.<br><br>`;
-  declaracionDeJugadores();
+
+  //  declaracionDeJugadores();
+
   jugadorFinal = {
     nombre: inventario.nombre,
     raza: inventario.raza,
@@ -965,184 +818,188 @@ function estadistica() {
     tiempo: Math.round((final - comienzo) / 1000),
   };
 
-  jugadores.push(jugadorFinal);
-  let tabla = document.createElement("div");
-  tabla.classList.add("tablaEstilo");
-  texto.appendChild(tabla);
+  fetch("../json/jugadores.json")
+    .then((respuesta) => respuesta.json())
+    .then((jugadores) => {
+      jugadores.push(jugadorFinal);
+      let tabla = document.createElement("div");
+      tabla.classList.add("tablaEstilo");
+      texto.appendChild(tabla);
 
-  //Sort jugadores por puntaje para poner en primera tabla.
-  jugadores.sort(function (a, b) {
-    return b.puntaje - a.puntaje;
-  });
+      //Sort jugadores por puntaje para poner en primera tabla.
+      jugadores.sort(function (a, b) {
+        return b.puntaje - a.puntaje;
+      });
 
-  for (let i = 0; i < jugadores.length; i++) {
-    jugadores[i].num = i + 1;
-  }
+      for (let i = 0; i < jugadores.length; i++) {
+        jugadores[i].num = i + 1;
+      }
 
-  jugadoresFiltrados = jugadores;
-  coincide = true;
+      jugadoresFiltrados = jugadores;
+      coincide = true;
 
-  crearTabla(tabla, jugadoresFiltrados, coincide);
-  crearBoton("Volver", finDelJuego);
+      crearTabla(tabla, jugadoresFiltrados, coincide);
+      crearBoton("Volver", finDelJuego);
 
-  crearBoton("Ordenar", () => {
-    ordenarDiv.classList.remove("oculto");
-    pergamino.classList.toggle("blurPergamino");
-    let nodes = botonera.getElementsByTagName("button");
-    for (let i = 0; i < nodes.length; i++) {
-      nodes[i].disabled = !nodes[i].disabled;
-    }
-    ordenarTitulo.innerText = `Ordenar estadísticas`;
-    ordenarTexto.innerText = `Selecciona como quieres ver las estadísticas de los jugadores.`;
-
-    columna1.innerHTML = `De menor a mayor`;
-    columna2.innerHTML = `De mayor a menor`;
-
-    crearBotonOrdenar("Puntaje", false, tabla);
-    crearBotonOrdenar("Logros", false, tabla);
-    crearBotonOrdenar("Tiempo", false, tabla);
-    crearBotonOrdenar("Vida", true, tabla);
-    crearBotonOrdenar("Iniciativa", true, tabla);
-    crearBotonOrdenar("Combate", true, tabla);
-    crearBotonOrdenar("Defensa", true, tabla);
-  });
-
-  crearBoton("Filtrar", () => {
-    jugadoresFiltrados = jugadores;
-    ordenarDiv.classList.remove("oculto");
-    pergamino.classList.add("blurPergamino");
-    let nodes = botonera.getElementsByTagName("button");
-    for (let i = 0; i < nodes.length; i++) {
-      nodes[i].disabled = !nodes[i].disabled;
-    }
-    ordenarTitulo.innerText = "Filtrar Estadísticas";
-    ordenarTexto.innerText = `Selecciona la raza por la que quieres filtrar.`;
-    columna1.innerHTML = `Raza a filtrar`;
-    columna2.innerHTML = ``;
-    let razaFiltro = [];
-    jugadores.forEach((jugador) => {
-      !razaFiltro.includes(jugador.raza) && razaFiltro.push(jugador.raza);
-    });
-    razaFiltro.push("Todos");
-    for (let i = 0; i < razaFiltro.length; i++) {
-      crearBotonFiltrar(razaFiltro[i], tabla);
-    }
-  });
-
-  crearBoton("Buscar", () => {
-    botonesBuscador.classList.remove("oculto");
-    botonesBuscador.innerHTML = "";
-    let anterior = jugadoresFiltrados;
-    let anteriorCoincide = coincide;
-    botonBuscar = document.createElement("button");
-    botonBuscar.innerText = "Buscar";
-    botonesBuscador.appendChild(botonBuscar);
-    botonBuscar.classList.add("oculto");
-    ordenarDiv.classList.remove("oculto");
-    pergamino.classList.add("blurPergamino");
-    let nodes = botonera.getElementsByTagName("button");
-    for (let i = 0; i < nodes.length; i++) {
-      nodes[i].disabled = !nodes[i].disabled;
-    }
-    ordenarTitulo.innerText = "Buscar por Nombre";
-    ordenarTexto.innerText = `Encuentra el nombre que deseas buscar entre la base de datos de los jugadores.`;
-    columna1.innerHTML = ``;
-    columna2.classList.add("oculto");
-    let jugadorBuscado = document.createElement("input");
-    jugadorBuscado.classList.add("jugadorBuscado");
-    jugadorBuscado.placeholder = `Introduce aquí un nombre.`;
-    columna1.appendChild(jugadorBuscado);
-    let mostrarResultados = document.createElement("div");
-    mostrarResultados.classList.add("mostrarResultados");
-    columna1.appendChild(mostrarResultados);
-
-    jugadorBuscado.value = "";
-    let jugadoresEncontrados = [];
-    jugadorBuscado.addEventListener("input", () => {
-      if (jugadorBuscado.value != "") {
-        jugadoresEncontrados = jugadores.filter((jugador) =>
-          jugador.nombre
-            .toLowerCase()
-            .includes(jugadorBuscado.value.toLowerCase())
-        );
-
-        limite = jugadoresEncontrados.length;
-        limite > 5 && (limite = 5);
-        mostrarResultados.innerHTML = ``;
-        if (limite == 0) {
-          mostrarResultados.innerText = `No se encontró ningún nombre que coincida`;
-        } else {
-          mostrarResultados.innerHTML = `Los nombres encontrados son:<br><br>`;
-          for (let i = 0; i < limite; i++) {
-            mostrarResultados.innerHTML += `${jugadoresEncontrados[i].nombre}<br>`;
-          }
+      crearBoton("Ordenar", () => {
+        ordenarDiv.classList.remove("oculto");
+        pergamino.classList.toggle("blurPergamino");
+        let nodes = botonera.getElementsByTagName("button");
+        for (let i = 0; i < nodes.length; i++) {
+          nodes[i].disabled = !nodes[i].disabled;
         }
+        ordenarTitulo.innerText = `Ordenar estadísticas`;
+        ordenarTexto.innerText = `Selecciona como quieres ver las estadísticas de los jugadores.`;
 
-        limite > 0
-          ? botonBuscar.classList.remove("oculto")
-          : botonBuscar.classList.add("oculto");
-      } else {
-        mostrarResultados.innerHTML = ``;
+        columna1.innerHTML = `De menor a mayor`;
+        columna2.innerHTML = `De mayor a menor`;
+
+        crearBotonOrdenar("Puntaje", false, tabla);
+        crearBotonOrdenar("Logros", false, tabla);
+        crearBotonOrdenar("Tiempo", false, tabla);
+        crearBotonOrdenar("Vida", true, tabla);
+        crearBotonOrdenar("Iniciativa", true, tabla);
+        crearBotonOrdenar("Combate", true, tabla);
+        crearBotonOrdenar("Defensa", true, tabla);
+      });
+
+      crearBoton("Filtrar", () => {
+        jugadoresFiltrados = jugadores;
+        ordenarDiv.classList.remove("oculto");
+        pergamino.classList.add("blurPergamino");
+        let nodes = botonera.getElementsByTagName("button");
+        for (let i = 0; i < nodes.length; i++) {
+          nodes[i].disabled = !nodes[i].disabled;
+        }
+        ordenarTitulo.innerText = "Filtrar Estadísticas";
+        ordenarTexto.innerText = `Selecciona la raza por la que quieres filtrar.`;
+        columna1.innerHTML = `Raza a filtrar`;
+        columna2.innerHTML = ``;
+        let razaFiltro = [];
+        jugadores.forEach((jugador) => {
+          !razaFiltro.includes(jugador.raza) && razaFiltro.push(jugador.raza);
+        });
+        razaFiltro.push("Todos");
+        for (let i = 0; i < razaFiltro.length; i++) {
+          crearBotonFiltrar(jugadores, razaFiltro[i], tabla);
+        }
+      });
+
+      crearBoton("Buscar", () => {
+        botonesBuscador.classList.remove("oculto");
+        botonesBuscador.innerHTML = "";
+        let anterior = jugadoresFiltrados;
+        let anteriorCoincide = coincide;
+        botonBuscar = document.createElement("button");
+        botonBuscar.innerText = "Buscar";
+        botonesBuscador.appendChild(botonBuscar);
         botonBuscar.classList.add("oculto");
-      }
-    });
-
-    botonBuscar.addEventListener("click", () => {
-      botonesBuscador.classList.add("oculto");
-      coincide = false;
-      ordenarDiv.classList.add("oculto");
-      columna2.classList.remove("oculto");
-      pergamino.classList.remove("blurPergamino");
-      let nodes = botonera.getElementsByTagName("button");
-      for (let i = 0; i < nodes.length; i++) {
-        nodes[i].disabled = !nodes[i].disabled;
-      }
-      jugadoresFiltrados = jugadoresEncontrados;
-      for (let i = 0; i < jugadoresFiltrados.length; i++) {
-        jugadoresFiltrados[i].num = i + 1;
-        if (
-          jugadoresFiltrados[i].nombre == jugadorFinal.nombre &&
-          jugadoresFiltrados[i].tiempo == jugadorFinal.tiempo
-        ) {
-          coincide = true;
+        ordenarDiv.classList.remove("oculto");
+        pergamino.classList.add("blurPergamino");
+        let nodes = botonera.getElementsByTagName("button");
+        for (let i = 0; i < nodes.length; i++) {
+          nodes[i].disabled = !nodes[i].disabled;
         }
-      }
+        ordenarTitulo.innerText = "Buscar por Nombre";
+        ordenarTexto.innerText = `Encuentra el nombre que deseas buscar entre la base de datos de los jugadores.`;
+        columna1.innerHTML = ``;
+        columna2.classList.add("oculto");
+        let jugadorBuscado = document.createElement("input");
+        jugadorBuscado.classList.add("jugadorBuscado");
+        jugadorBuscado.placeholder = `Introduce aquí un nombre.`;
+        columna1.appendChild(jugadorBuscado);
+        let mostrarResultados = document.createElement("div");
+        mostrarResultados.classList.add("mostrarResultados");
+        columna1.appendChild(mostrarResultados);
 
-      tabla.innerHTML = "";
-      crearTabla(tabla, jugadoresFiltrados, coincide);
+        jugadorBuscado.value = "";
+        let jugadoresEncontrados = [];
+        jugadorBuscado.addEventListener("input", () => {
+          if (jugadorBuscado.value != "") {
+            jugadoresEncontrados = jugadores.filter((jugador) =>
+              jugador.nombre
+                .toLowerCase()
+                .includes(jugadorBuscado.value.toLowerCase())
+            );
+
+            limite = jugadoresEncontrados.length;
+            limite > 5 && (limite = 5);
+            mostrarResultados.innerHTML = ``;
+            if (limite == 0) {
+              mostrarResultados.innerText = `No se encontró ningún nombre que coincida`;
+            } else {
+              mostrarResultados.innerHTML = `Los nombres encontrados son:<br><br>`;
+              for (let i = 0; i < limite; i++) {
+                mostrarResultados.innerHTML += `${jugadoresEncontrados[i].nombre}<br>`;
+              }
+            }
+
+            limite > 0
+              ? botonBuscar.classList.remove("oculto")
+              : botonBuscar.classList.add("oculto");
+          } else {
+            mostrarResultados.innerHTML = ``;
+            botonBuscar.classList.add("oculto");
+          }
+        });
+
+        botonBuscar.addEventListener("click", () => {
+          botonesBuscador.classList.add("oculto");
+          coincide = false;
+          ordenarDiv.classList.add("oculto");
+          columna2.classList.remove("oculto");
+          pergamino.classList.remove("blurPergamino");
+          let nodes = botonera.getElementsByTagName("button");
+          for (let i = 0; i < nodes.length; i++) {
+            nodes[i].disabled = !nodes[i].disabled;
+          }
+          jugadoresFiltrados = jugadoresEncontrados;
+          for (let i = 0; i < jugadoresFiltrados.length; i++) {
+            jugadoresFiltrados[i].num = i + 1;
+            if (
+              jugadoresFiltrados[i].nombre == jugadorFinal.nombre &&
+              jugadoresFiltrados[i].tiempo == jugadorFinal.tiempo
+            ) {
+              coincide = true;
+            }
+          }
+
+          tabla.innerHTML = "";
+          crearTabla(tabla, jugadoresFiltrados, coincide);
+        });
+
+        botonVolver = document.createElement("button");
+        botonVolver.innerText = "Volver";
+        botonVolver.addEventListener("click", () => {
+          botonesBuscador.classList.add("oculto");
+          columna2.classList.remove("oculto");
+          jugadoresFiltrados = anterior;
+          coincide = anteriorCoincide;
+          ordenarDiv.classList.add("oculto");
+          pergamino.classList.remove("blurPergamino");
+          let nodes = botonera.getElementsByTagName("button");
+          for (let i = 0; i < nodes.length; i++) {
+            nodes[i].disabled = !nodes[i].disabled;
+          }
+          tabla.innerHTML = "";
+          crearTabla(tabla, jugadoresFiltrados, coincide);
+        });
+        botonesBuscador.appendChild(botonVolver);
+      });
+
+      crearBoton("Stats", () => {
+        statsOLogros = !statsOLogros;
+        statsOLogros
+          ? (window["botonStats"].innerText = "Puntaje")
+          : (window["botonStats"].innerText = "Stats");
+
+        tabla.innerHTML = "";
+        crearTabla(tabla, jugadoresFiltrados, coincide);
+      });
     });
-
-    botonVolver = document.createElement("button");
-    botonVolver.innerText = "Volver";
-    botonVolver.addEventListener("click", () => {
-      botonesBuscador.classList.add("oculto");
-      columna2.classList.remove("oculto");
-      jugadoresFiltrados = anterior;
-      coincide = anteriorCoincide;
-      ordenarDiv.classList.add("oculto");
-      pergamino.classList.remove("blurPergamino");
-      let nodes = botonera.getElementsByTagName("button");
-      for (let i = 0; i < nodes.length; i++) {
-        nodes[i].disabled = !nodes[i].disabled;
-      }
-      tabla.innerHTML = "";
-      crearTabla(tabla, jugadoresFiltrados, coincide);
-    });
-    botonesBuscador.appendChild(botonVolver);
-  });
-
-  crearBoton("Stats", () => {
-    statsOLogros = !statsOLogros;
-    statsOLogros
-      ? (window["botonStats"].innerText = "Puntaje")
-      : (window["botonStats"].innerText = "Stats");
-
-    tabla.innerHTML = "";
-    crearTabla(tabla, jugadoresFiltrados, coincide);
-  });
 }
 
-function crearBotonFiltrar(parametro, tabla) {
+function crearBotonFiltrar(jugadores, parametro, tabla) {
   window["boton" + parametro] = document.createElement("button");
   window["boton" + parametro].innerText = parametro;
   window["boton" + parametro].id = parametro.toLowerCase();
@@ -1496,15 +1353,7 @@ function combate(oponente) {
   return textoExtra;
 }
 
-/*function declaracionDeCaminos() {
-  fetch("../json/caminos.json")
-    .then((respuesta) => respuesta.json())
-    .then((caminos) => {
-      console.log(caminos);
-      return caminos;
-    })
-    .catch((error) => alert(error));
-
+function declaracionDeCaminos() {
   caminos = [
     {
       id: 0,
@@ -1884,431 +1733,8 @@ function combate(oponente) {
       especial: "Fin",
     },
   ];
-}*/
 
-function declaracionDeJugadores() {
-  jugadores = [
-    {
-      nombre: "Dame Elizabeth",
-      raza: "Elfo",
-      clase: "Bardo",
-      vida: 8,
-      iniciativa: 5,
-      combate: 2,
-      defensa: 5,
-      puntaje: 4,
-      logros: 2,
-      tiempo: 14,
-    },
-    {
-      nombre: "Sir Edward",
-      raza: "Elfo",
-      clase: "Guerrero",
-      vida: 10,
-      iniciativa: 2,
-      combate: 7,
-      defensa: 1,
-      puntaje: 14,
-      logros: 4,
-      tiempo: 4,
-    },
-    {
-      nombre: "Dame Eleanor",
-      raza: "Elfo",
-      clase: "Profeta",
-      vida: 9,
-      iniciativa: 3,
-      combate: 5,
-      defensa: 3,
-      puntaje: 36,
-      logros: 3,
-      tiempo: 0,
-    },
-    {
-      nombre: "Lady Isabella",
-      raza: "Elfo",
-      clase: "Monje",
-      vida: 12,
-      iniciativa: 2,
-      combate: 2,
-      defensa: 4,
-      puntaje: 97,
-      logros: 2,
-      tiempo: 12,
-    },
-    {
-      nombre: "Dame Margaret",
-      raza: "Elfo",
-      clase: "Asesino",
-      vida: 11,
-      iniciativa: 6,
-      combate: 3,
-      defensa: 0,
-      puntaje: 93,
-      logros: 2,
-      tiempo: 13,
-    },
-    {
-      nombre: "Sir Henry",
-      raza: "Orco",
-      clase: "Arquero",
-      vida: 12,
-      iniciativa: 0,
-      combate: 5,
-      defensa: 3,
-      puntaje: 83,
-      logros: 1,
-      tiempo: 8,
-    },
-    {
-      nombre: "Sir Thomas",
-      raza: "Elfo",
-      clase: "Herrero",
-      vida: 9,
-      iniciativa: 4,
-      combate: 6,
-      defensa: 1,
-      puntaje: 32,
-      logros: 0,
-      tiempo: 3,
-    },
-    {
-      nombre: "Sir Richard",
-      raza: "Orco",
-      clase: "Asaltador",
-      vida: 7,
-      iniciativa: 6,
-      combate: 4,
-      defensa: 3,
-      puntaje: 53,
-      logros: 4,
-      tiempo: 14,
-    },
-    {
-      nombre: "Lady Victoria",
-      raza: "Orco",
-      clase: "Destructor",
-      vida: 9,
-      iniciativa: 2,
-      combate: 7,
-      defensa: 2,
-      puntaje: 96,
-      logros: 3,
-      tiempo: 1,
-    },
-    {
-      nombre: "Sir John",
-      raza: "Elfo",
-      clase: "Artesano",
-      vida: 11,
-      iniciativa: 1,
-      combate: 2,
-      defensa: 6,
-      puntaje: 3,
-      logros: 0,
-      tiempo: 1,
-    },
-    {
-      nombre: "Sir Robert",
-      raza: "Orco",
-      clase: "Carroñero",
-      vida: 8,
-      iniciativa: 4,
-      combate: 3,
-      defensa: 5,
-      puntaje: 65,
-      logros: 4,
-      tiempo: 3,
-    },
-    {
-      nombre: "Lady Emily",
-      raza: "Mago",
-      clase: "Profeta",
-      vida: 13,
-      iniciativa: 3,
-      combate: 4,
-      defensa: 0,
-      puntaje: 7,
-      logros: 0,
-      tiempo: 7,
-    },
-    {
-      nombre: "Lord Charles",
-      raza: "Mago",
-      clase: "Nigromante",
-      vida: 10,
-      iniciativa: 1,
-      combate: 5,
-      defensa: 4,
-      puntaje: 17,
-      logros: 5,
-      tiempo: 4,
-    },
-    {
-      nombre: "Dame Catherine",
-      raza: "Humano",
-      clase: "Caballero",
-      vida: 13,
-      iniciativa: 0,
-      combate: 2,
-      defensa: 5,
-      puntaje: -4,
-      logros: 2,
-      tiempo: 2,
-    },
-    {
-      nombre: "Sir James",
-      raza: "Humano",
-      clase: "Rogue",
-      vida: 10,
-      iniciativa: 4,
-      combate: 3,
-      defensa: 3,
-      puntaje: 84,
-      logros: 2,
-      tiempo: 15,
-    },
-    {
-      nombre: "Sir Richard",
-      raza: "Humano",
-      clase: "Cazador",
-      vida: 7,
-      iniciativa: 5,
-      combate: 6,
-      defensa: 2,
-      puntaje: 39,
-      logros: 4,
-      tiempo: 7,
-    },
-    {
-      nombre: "Lord William",
-      raza: "Elfo",
-      clase: "Bardo",
-      vida: 8,
-      iniciativa: 5,
-      combate: 2,
-      defensa: 5,
-      puntaje: 55,
-      logros: 3,
-      tiempo: 9,
-    },
-    {
-      nombre: "Sir Thomas",
-      raza: "Elfo",
-      clase: "Guerrero",
-      vida: 10,
-      iniciativa: 2,
-      combate: 7,
-      defensa: 1,
-      puntaje: 27,
-      logros: 5,
-      tiempo: 1,
-    },
-    {
-      nombre: "Lord Edward",
-      raza: "Elfo",
-      clase: "Profeta",
-      vida: 9,
-      iniciativa: 3,
-      combate: 5,
-      defensa: 3,
-      puntaje: 4,
-      logros: 1,
-      tiempo: 15,
-    },
-    {
-      nombre: "Dame Isabella",
-      raza: "Elfo",
-      clase: "Monje",
-      vida: 12,
-      iniciativa: 2,
-      combate: 2,
-      defensa: 4,
-      puntaje: 55,
-      logros: 5,
-      tiempo: 15,
-    },
-    {
-      nombre: "Dame Margaret",
-      raza: "Elfo",
-      clase: "Asesino",
-      vida: 11,
-      iniciativa: 6,
-      combate: 3,
-      defensa: 0,
-      puntaje: 31,
-      logros: 4,
-      tiempo: 3,
-    },
-    {
-      nombre: "Dame Eleanor",
-      raza: "Orco",
-      clase: "Arquero",
-      vida: 12,
-      iniciativa: 0,
-      combate: 5,
-      defensa: 3,
-      puntaje: 83,
-      logros: 1,
-      tiempo: 12,
-    },
-    {
-      nombre: "Sir William",
-      raza: "Orco",
-      clase: "Herrero",
-      vida: 9,
-      iniciativa: 4,
-      combate: 6,
-      defensa: 1,
-      puntaje: 39,
-      logros: 6,
-      tiempo: 4,
-    },
-    {
-      nombre: "Lady Victoria",
-      raza: "Orco",
-      clase: "Asaltador",
-      vida: 7,
-      iniciativa: 6,
-      combate: 4,
-      defensa: 3,
-      puntaje: 80,
-      logros: 3,
-      tiempo: 6,
-    },
-    {
-      nombre: "Sir John",
-      raza: "Orco",
-      clase: "Destructor",
-      vida: 9,
-      iniciativa: 2,
-      combate: 7,
-      defensa: 2,
-      puntaje: 30,
-      logros: 6,
-      tiempo: 13,
-    },
-    {
-      nombre: "Dame Catherine",
-      raza: "Orco",
-      clase: "Carroñero",
-      vida: 8,
-      iniciativa: 4,
-      combate: 3,
-      defensa: 5,
-      puntaje: 39,
-      logros: 0,
-      tiempo: 10,
-    }, // Datos reales.
-    {
-      nombre: "Sir Hellrider",
-      raza: "Orco",
-      clase: "Destructor",
-      vida: 9,
-      iniciativa: 2,
-      combate: 14,
-      defensa: 2,
-      puntaje: 95,
-      logros: 4,
-      tiempo: 478,
-    },
-    {
-      nombre: "Lord Farquad",
-      raza: "Humano",
-      clase: "Cazador",
-      vida: 12,
-      iniciativa: 5,
-      combate: 13,
-      defensa: 2,
-      puntaje: 100,
-      logros: 5,
-      tiempo: 356,
-    },
-    {
-      nombre: "Andy",
-      raza: "Elfo",
-      clase: "Artesano",
-      vida: 16,
-      iniciativa: 1,
-      combate: 4,
-      defensa: 6,
-      puntaje: 55,
-      logros: 3,
-      tiempo: 1209,
-    },
-    {
-      nombre: "Dame Vagabunda",
-      raza: "Mago",
-      clase: "Nigromante",
-      vida: 15,
-      iniciativa: 1,
-      combate: 12,
-      defensa: 4,
-      puntaje: 95,
-      logros: 4,
-      tiempo: 438,
-    },
-    {
-      nombre: "Dame Cindy",
-      raza: "Elfo",
-      clase: "Asesino",
-      vida: 16,
-      iniciativa: 6,
-      combate: 10,
-      defensa: 0,
-      puntaje: 60,
-      logros: 3,
-      tiempo: 691,
-    },
-    {
-      nombre: "Sir Miguelo",
-      raza: "Mago",
-      clase: "Nigromante",
-      vida: 15,
-      iniciativa: 1,
-      combate: 12,
-      defensa: 4,
-      puntaje: 100,
-      logros: 5,
-      tiempo: 281,
-    },
-    {
-      nombre: "Lord Nekro",
-      raza: "Humano",
-      clase: "Caballero",
-      vida: 18,
-      iniciativa: 0,
-      combate: 9,
-      defensa: 5,
-      puntaje: 100,
-      logros: 5,
-      tiempo: 66,
-    },
-    {
-      nombre: "Sir Legolas",
-      raza: "Elfo",
-      clase: "Asesino",
-      vida: 16,
-      iniciativa: 6,
-      combate: 23,
-      defensa: 5,
-      puntaje: 100,
-      logros: 6,
-      tiempo: 1105,
-    },
-    {
-      nombre: "Lord Anónimo",
-      raza: "Humano",
-      clase: "Caballero",
-      vida: 18,
-      iniciativa: 0,
-      combate: 9,
-      defensa: 5,
-      puntaje: 95,
-      logros: 6,
-      tiempo: 101,
-    },
-  ];
+  return caminos;
 }
 
 function creacionAdicionales() {
@@ -2376,6 +1802,35 @@ function levantarDOM() {
   columna1 = document.getElementById("columna1");
   columna2 = document.getElementById("columna2");
   botonesBuscador = document.getElementById("botonesBuscador");
+}
+
+function declaracionMensajes() {
+  mensajeBruja = [
+    `Tienes miedo de la bruja, aunque no dudas de tus capacidades.`,
+    `Das pelea, tu valentía no flanquea.`,
+    `La bruja quiere que te vayas de su cabaña.`,
+    `La bruja te lanza un hechizo, no te hace sentir muy bien.`,
+    `Pegas con todas tus fuerzas, aunque no estás seguro que eso funcione.`,
+    `Crees que capaz no fue la mejor decisión de todas entrar a la cabaña, ¿merece la pena terminar esta batalla?`,
+    `Dudas de tus capacidades por un segundo, aunque correr no es opción, ¿no?`,
+    `¡No te rindas todavía! ¡Aun eres capaz de derrotarla!`,
+    `¿Venir a Javascra fue un error? ¿Acaso todas las brujas del reino son así de malvadas?`,
+    `Logras esquivar un frasco, un olor pútrido sale de la poción cuando cae al suelo. ¡Era veneno!`,
+    `¡Esto se torna personal! Le das batalla a la bruja.`,
+  ];
+  mensajeDragon = [
+    `El fuego del dragón es inoportable, te quema parte de tus ropas.`,
+    `Das pelea, tu valentía no flanquea.`,
+    `El dragón te mira con hambre, parece que te considera tu cena.`,
+    `El dragón tira un zarpazo, rasguña tu pierna. Estás sangrando.`,
+    `Atacas con todo tu poder, pero no sabes si eso será suficiente para derrotar a la bestia.`,
+    `¿Puedes ser la salvación del reino? ¿Vale la pena pasar por esto?`,
+    `Dudas de tus capacidades por un segundo. Siempre se puede huir.`,
+    `¡No te rindas todavía! ¡Aun eres capaz de derrotarlo!`,
+    `¿Un dragón? Podría haber sido una lagartija a derrotar, ¿no? Bueno, eso no convertiría en heroe a cualquiera.`,
+    `Logras esquivar el aliento del dragón, cargado de calor.`,
+    `¡Esto se torna personal! Le das batalla al dragón. ¡El fuego se vuelve insoportable!`,
+  ];
 }
 
 function tostada(dano) {
