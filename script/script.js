@@ -46,7 +46,8 @@ function inicio() {
     .then((respuesta) => respuesta.json())
     .then((brujaJson) => {
       bruja = JSON.parse(localStorage.getItem("bruja")) || brujaJson;
-    });
+    })
+    .catch(catchError);
 
   turnoHuida = Number(localStorage.getItem("turnoHuida")) || 0;
   logDragon = JSON.parse(localStorage.getItem("logDragon")) || [];
@@ -55,18 +56,22 @@ function inicio() {
     .then((respuesta) => respuesta.json())
     .then((dragonJson) => {
       dragon = JSON.parse(localStorage.getItem("dragon")) || dragonJson;
-    });
+    })
+    .catch(catchError);
+
   let mensajeBruja, mensajeDragon;
   fetch("../json/mensajeBruja.json")
     .then((respuesta) => respuesta.json())
     .then((mensajeB) => {
       mensajeBruja = mensajeB;
-    });
+    })
+    .catch(catchError);
   fetch("../json/mensajeDragon.json")
     .then((respuesta) => respuesta.json())
     .then((mensajeD) => {
       mensajeDragon = mensajeD;
-    });
+    })
+    .catch(catchError);
 
   logrosTotales = Number(localStorage.getItem("logrosTotales")) || 0;
   puntaje = Number(localStorage.getItem("puntaje")) || 0;
@@ -104,7 +109,8 @@ function inicio() {
             setNombre(cordialidad, index)
           );
         }
-      });
+      })
+      .catch(catchError);
   } else {
     caminos = JSON.parse(localStorage.getItem("caminos"));
     inventario = JSON.parse(localStorage.getItem("inventario"));
@@ -215,7 +221,8 @@ function enviarInput() {
             seleccionarRaza(categoriaRazas[index], personajes)
           );
         }
-      });
+      })
+      .catch(catchError);
   }
 }
 
@@ -326,7 +333,7 @@ function realizarInventario(razaPersonaje, personajeEscogido) {
       setStorage(caminos);
       inputChecker(caminos);
     })
-    .catch((error) => alert(error));
+    .catch(catchError);
 }
 
 function setStorage(caminos) {
@@ -738,13 +745,15 @@ function inputChecker(arrayInput) {
         });
       }
     })
-    .catch(() => {
-      titulo.innerText = "Error";
-      crearBoton("Reiniciar", () => {
-        localStorage.clear();
-        inicio();
-      });
-    });
+    .catch(catchError);
+}
+
+function catchError() {
+  titulo.innerText = "Error";
+  crearBoton("Reiniciar", () => {
+    localStorage.clear();
+    inicio();
+  });
 }
 
 function finDelJuego() {
@@ -1000,7 +1009,8 @@ function estadistica() {
         tabla.innerHTML = "";
         crearTabla(tabla, jugadoresFiltrados, coincide);
       });
-    });
+    })
+    .catch(catchError);
 }
 
 function crearBotonFiltrar(jugadores, parametro, tabla) {
