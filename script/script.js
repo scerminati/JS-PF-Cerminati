@@ -24,7 +24,6 @@ let nombre,
   logrosID,
   inventario,
   healthBase,
-  caminos,
   jugadores,
   jugadoresFiltrados,
   coincide,
@@ -277,7 +276,7 @@ function inicio() {
   salir = false;
   muerte = false;
   victoria = false;
-  StatsOLogros = false;
+  statsOLogros = false;
   turno = "";
   turnoContador = Number(localStorage.getItem("turnoContador")) || 0;
   logBruja = JSON.parse(localStorage.getItem("logBruja")) || [];
@@ -344,7 +343,7 @@ function inicio() {
       crearBoton(cordialidad[index].titulo, () => setNombre(index));
     }
   } else {
-    caminos = JSON.parse(localStorage.getItem("caminos"));
+    let caminos = JSON.parse(localStorage.getItem("caminos"));
     inventario = JSON.parse(localStorage.getItem("inventario"));
     healthBase = Number(localStorage.getItem("healthBase"));
     usuario.classList.remove("oculto");
@@ -499,28 +498,26 @@ function realizarInventario(razaPersonaje, personajeEscogido) {
   id = [0];
   index = 0;
   idActual = 0;
-  declaracionDeCaminos();
-  // fetch("../json/caminos.json")
-  // .then((respuesta) => respuesta.json())
-  // .then((caminos) => (caminos));
+  //caminos = declaracionDeCaminos();
+  fetch("../json/caminos.json")
+    .then((respuesta) => respuesta.json())
+    .then((caminos) => {
+      console.log(caminos);
+      //Seteo de los Local Storages
+      localStorage.setItem("comienzo", comienzo);
+      localStorage.setItem("healthBase", healthBase);
+      localStorage.setItem("armaAEncontrar", armaAEncontrar);
+      localStorage.setItem("armaTexto", armaTexto);
+      localStorage.setItem("usuarioImagen", imagenPersonaje.ruta);
+      //Seteo de variables que se inicializan de determinada forma, y que en el resto del código se van a ir cambiando.
+      setStorage(caminos);
 
-
-  console.log(JSON.stringify(caminos));
-
-  //Seteo de los Local Storages
-  localStorage.setItem("comienzo", comienzo);
-  localStorage.setItem("healthBase", healthBase);
-  localStorage.setItem("armaAEncontrar", armaAEncontrar);
-  localStorage.setItem("armaTexto", armaTexto);
-  localStorage.setItem("usuarioImagen", imagenPersonaje.ruta);
-  localStorage.setItem("caminos", JSON.stringify(caminos));
-  //Seteo de variables que se inicializan de determinada forma, y que en el resto del código se van a ir cambiando.
-  setStorage();
-
-  inputChecker(caminos);
+      inputChecker(caminos);
+    })
+    .catch((error) => alert(error));
 }
 
-function setStorage() {
+function setStorage(caminos) {
   localStorage.setItem("puntaje", puntaje);
   localStorage.setItem("logrosTotales", logrosTotales);
   localStorage.setItem("logros", JSON.stringify(logros));
@@ -623,7 +620,7 @@ function resetBotonera() {
 
 function inputChecker(arrayInput) {
   resetBotonera();
-  setStorage();
+  setStorage(arrayInput);
   localStorage.setItem("id", JSON.stringify(id));
   localStorage.setItem("index", index);
   localStorage.setItem("idActual", idActual);
@@ -832,7 +829,7 @@ function inputChecker(arrayInput) {
   }
   if (antesDeLogica) {
     descripcionChecker(arrayInput, eliminar, idACambiar);
-    localStorage.setItem("caminos", JSON.stringify(caminos));
+    localStorage.setItem("caminos", JSON.stringify(arrayInput));
   }
 
   if (arrayInput[index].input) {
@@ -841,7 +838,7 @@ function inputChecker(arrayInput) {
       crearBoton(arrayInput[index].opciones[i], () => {
         if (!antesDeLogica) {
           descripcionChecker(arrayInput, eliminar, idACambiar);
-          localStorage.setItem("caminos", JSON.stringify(caminos));
+          localStorage.setItem("caminos", JSON.stringify(arrayInput));
         }
         nextIndex(arrayInput, i);
         inputChecker(arrayInput);
@@ -869,7 +866,7 @@ function inputChecker(arrayInput) {
       if (!salir) {
         if (!antesDeLogica) {
           descripcionChecker(arrayInput, eliminar, idACambiar);
-          localStorage.setItem("caminos", JSON.stringify(caminos));
+          localStorage.setItem("caminos", JSON.stringify(arrayInput));
         }
         nextIndex(arrayInput, 0);
         inputChecker(arrayInput);
@@ -913,32 +910,38 @@ function finDelJuego() {
   resetBotonera();
   usuario.classList.remove("oculto");
   titulo.innerText = `Fin`;
-  texto.innerHTML = `¡Muchas gracias por jugar! Dado que aun no puedo guardar tus datos, tienes la opción de enviarme tus logros y estadísticas por correo para que figure próximamente en la base de datos del juego. Si lo deseas, puedes presionar el botón 'Correo' para hacerlo. Te recomiendo simplemente mandarlo como se genera. Obviamente puedes dejar algún comentario adicional si lo deseas.<br><br>Puedes reiniciar el juego o ver las distintas estadísticas de previos jugadores.`;
-  crearBoton("Enviar Correo", () => {
-    if (!correoEnviado) {
-      correoEnviado = true;
-      let mail = "sofiacermi@hotmail.com";
-      let asunto = `Javascra - Estadísticas de juego de ${inventario.nombre}`;
-      let cuerpo = `¡Hola! Estas son mis estadísticas para que se incluyan en el juego.
-    
-    {
-      nombre: "${inventario.nombre}",
-      raza: "${inventario.raza}",
-      clase: "${inventario.clase}",
-      vida: ${healthBase},
-      iniciativa: ${inventario.iniciativa},
-      combate: ${inventario.combate},
-      defensa: ${inventario.defensa},
-      puntaje: ${puntaje},
-      logros: ${logrosTotales},
-      tiempo: ${Math.round((final - comienzo) / 1000)},
-    }`;
-      let mailtoLink = `mailto:${mail}?subject=${encodeURIComponent(
-        asunto
-      )}&body=${encodeURIComponent(cuerpo)}`;
-      window.location.href = mailtoLink;
-    }
-  });
+  texto.innerHTML = `¡Muchas gracias por jugar! Tus datos se enviaron por correo a mi casilla. Puede que no aparezcan enseguida, pero no te preocupes, ¡en la próxima actualización podrás buscarte y compararte con el resto de los jugadores!<br><br>Puedes reiniciar el juego o ver las distintas estadísticas de previos jugadores.`;
+  if (!correoEnviado) {
+    correoEnviado = true;
+    let templateParams = {
+      nombre: inventario.nombre,
+      raza: inventario.raza,
+      clase: inventario.clase,
+      healthBase,
+      iniciativa: inventario.iniciativa,
+      combate: inventario.combate,
+      defensa: inventario.defensa,
+      puntaje,
+      logrosTotales,
+      tiempo: Math.round((final - comienzo) / 1000),
+    };
+
+    emailjs
+      .send(
+        "service_wayf2g6",
+        "template_46ks43j",
+        templateParams,
+        "OhrLN8D4Q7Jyx8Vle"
+      )
+      .then(
+        function (response) {
+          console.log("Correo enviado", response.status, response.text);
+        },
+        function (error) {
+          console.log("Error al enviar correo", error);
+        }
+      );
+  }
   crearBoton("Reiniciar", inicio);
   crearBoton("Estadísticas", estadistica);
 }
@@ -1493,11 +1496,14 @@ function combate(oponente) {
   return textoExtra;
 }
 
-function declaracionDeCaminos() {
-  // fetch("../json/caminos.json")
-  //   .then((respuesta) => respuesta.json())
-  //   .then((caminos) => (caminos));
-  // .catch(error => alert("error"))
+/*function declaracionDeCaminos() {
+  fetch("../json/caminos.json")
+    .then((respuesta) => respuesta.json())
+    .then((caminos) => {
+      console.log(caminos);
+      return caminos;
+    })
+    .catch((error) => alert(error));
 
   caminos = [
     {
@@ -1878,7 +1884,7 @@ function declaracionDeCaminos() {
       especial: "Fin",
     },
   ];
-}
+}*/
 
 function declaracionDeJugadores() {
   jugadores = [

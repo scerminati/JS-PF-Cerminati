@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Contact Form</title>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+    ></script>
+    <script type="text/javascript">
+      var templateParams = {
+        nombre: "Holi",
+        raza: "Raza",
+        clase: "Clase",
+        healthBase: 5,
+        iniciativa: 6,
+        combate: 8,
+        defensa: 10,
+        puntaje: 100,
+        logrosTotales: 434,
+        tiempo: 44,
+      };
+
+      emailjs
+        .send(
+          "service_wayf2g6",
+          "template_46ks43j",
+          templateParams,
+          "OhrLN8D4Q7Jyx8Vle"
+        )
+        .then(
+          function (response) {
+            console.log("SUCCESS!", response.status, response.text);
+          },
+          function (error) {
+            console.log("FAILED...", error);
+          }
+        );
+    </script>
+  </head>
+  <body>
+    <form id="contact-form">
+      <input type="hidden" name="contact_number" />
+      <label>Name</label>
+      <input type="text" name="user_name" />
+      <label>Email</label>
+      <input type="email" name="user_email" />
+      <label>Message</label>
+      <textarea name="message"></textarea>
+      <input type="submit" value="Send" />
+    </form>
+  </body>
+</html>
