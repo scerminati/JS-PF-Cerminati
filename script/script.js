@@ -63,7 +63,6 @@ function inicio() {
     })
     .catch(catchError);
 
-  let mensajeBruja, mensajeDragon;
   previoAFetch();
   fetch("./json/mensajeBruja.json")
     .then((respuesta) => respuesta.json())

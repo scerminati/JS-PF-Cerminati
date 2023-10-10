@@ -356,6 +356,11 @@ footer {
     font-size: 20px;
   }
 
+  h1,
+  h2 {
+    -webkit-text-stroke: 1px #5c422c;
+  }
+
   footer {
     height: 38px;
     font-size: 0.7em;
