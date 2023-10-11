@@ -430,5 +430,65 @@
     "puntaje": 0,
     "logros": 0,
     "tiempo": 172
+  },
+  {
+    "nombre": "Lord Pepa pig ",
+    "raza": "Humano",
+    "clase": "Rogue",
+    "vida": 10,
+    "iniciativa": 4,
+    "combate": 3,
+    "defensa": 3,
+    "puntaje": 15,
+    "logros": 1,
+    "tiempo": 468
+  },
+  {
+    "nombre": "Lord Nicolas ",
+    "raza": "Mago",
+    "clase": "Nigromante",
+    "vida": 15,
+    "iniciativa": 1,
+    "combate": 7,
+    "defensa": 4,
+    "puntaje": 60,
+    "logros": 3,
+    "tiempo": 250
+  },
+  {
+    "nombre": "Sir Rupa",
+    "raza": "Humano",
+    "clase": "Caballero",
+    "vida": 18,
+    "iniciativa": 0,
+    "combate": 4,
+    "defensa": 5,
+    "puntaje": 80,
+    "logros": 4,
+    "tiempo": 439
+  },
+  {
+    "nombre": "Lady Tef",
+    "raza": "Mago",
+    "clase": "Monje",
+    "vida": 17,
+    "iniciativa": 2,
+    "combate": 9,
+    "defensa": 4,
+    "puntaje": 100,
+    "logros": 5,
+    "tiempo": 420
+  },
+  {
+    "nombre": "Dame Anda",
+    "raza": "Orco",
+    "clase": "Destructor",
+    "vida": 14,
+    "iniciativa": 2,
+    "combate": 14,
+    "defensa": 2,
+    "puntaje": 100,
+    "logros": 5,
+    "tiempo": 167,
   }
 ]
