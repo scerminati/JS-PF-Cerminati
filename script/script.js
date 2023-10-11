@@ -42,11 +42,9 @@ function inicio() {
   turnoContador = Number(localStorage.getItem("turnoContador")) || 0;
   logBruja = JSON.parse(localStorage.getItem("logBruja")) || [];
 
-  previoAFetch();
   fetch("./json/bruja.json")
     .then((respuesta) => respuesta.json())
     .then((brujaJson) => {
-      resetBotonera();
       bruja = JSON.parse(localStorage.getItem("bruja")) || brujaJson;
     })
     .catch(catchError);
@@ -54,29 +52,23 @@ function inicio() {
   turnoHuida = Number(localStorage.getItem("turnoHuida")) || 0;
   logDragon = JSON.parse(localStorage.getItem("logDragon")) || [];
 
-  previoAFetch();
   fetch("./json/dragon.json")
     .then((respuesta) => respuesta.json())
     .then((dragonJson) => {
-      resetBotonera();
       dragon = JSON.parse(localStorage.getItem("dragon")) || dragonJson;
     })
     .catch(catchError);
 
-  previoAFetch();
   fetch("./json/mensajeBruja.json")
     .then((respuesta) => respuesta.json())
     .then((mensajeB) => {
-      resetBotonera();
       mensajeBruja = mensajeB;
     })
     .catch(catchError);
 
-  previoAFetch();
   fetch("./json/mensajeDragon.json")
     .then((respuesta) => respuesta.json())
     .then((mensajeD) => {
-      resetBotonera();
       mensajeDragon = mensajeD;
     })
     .catch(catchError);
@@ -106,14 +98,18 @@ function inicio() {
   correoEnviado = false;
 
   //Inicio de selección de personaje
+
   if (idActual == -1) {
-    titulo.innerText = `Selección de Personaje`;
-    texto.innerHTML = `¡Una cordial bienvenida!<br><br>Quisiera saber como puedo dirigirme a ti, ¿puedo llamarte Sir? ¿O debo llamarte Lady? Quizás simplemente debería pedirte el nombre, pero aquí en este reino tenemos esto tan cordial... tu dime.<br><br>Selecciona la opción que más te guste.`;
     previoAFetch();
+    console.log("hola?");
+    console.log(botonera);
     fetch("./json/cordialidad.json")
       .then((respuesta) => respuesta.json())
       .then((cordialidad) => {
         resetBotonera();
+        titulo.innerText = `Selección de Personaje`;
+        texto.innerHTML = `¡Una cordial bienvenida!<br><br>Quisiera saber como puedo dirigirme a ti, ¿puedo llamarte Sir? ¿O debo llamarte Lady? Quizás simplemente debería pedirte el nombre, pero aquí en este reino tenemos esto tan cordial... tu dime.<br><br>Selecciona la opción que más te guste.`;
+
         for (let index = 0; index < cordialidad.length; index++) {
           crearBoton(cordialidad[index].titulo, () =>
             setNombre(cordialidad, index)
@@ -319,24 +315,28 @@ function realizarInventario(razaPersonaje, personajeEscogido) {
     .then((respuesta) => respuesta.json())
     .then((caminos) => {
       resetBotonera();
-      caminos.forEach((camino) => {
-        camino.descripcion = camino.descripcion.replace(
-          "*codigo.nombre",
-          inventario.nombre
-        );
-        camino.descripcion = camino.descripcion.replace(
-          "*codigo.raza",
-          inventario.raza
-        );
-        camino.descripcion = camino.descripcion.replace(
-          "*codigo.terminacion",
-          terminacion
-        );
-        camino.descripcion = camino.descripcion.replace(
-          "*codigo.arma",
-          armaTexto
-        );
-      });
+      do {
+        caminos.forEach((camino) => {
+          camino.descripcion = camino.descripcion.replace(
+            "*codigo.nombre",
+            inventario.nombre
+          );
+          camino.descripcion = camino.descripcion.replace(
+            "*codigo.raza",
+            inventario.raza
+          );
+          camino.descripcion = camino.descripcion.replace(
+            "*codigo.terminacion",
+            terminacion
+          );
+          camino.descripcion = camino.descripcion.replace(
+            "*codigo.arma",
+            armaTexto
+          );
+        });
+      } while (
+        !caminos.find((camino) => camino.descripcion.includes("*codigo."))
+      );
       //Seteo de los Local Storages
       localStorage.setItem("comienzo", comienzo);
       localStorage.setItem("healthBase", healthBase);
@@ -346,8 +346,8 @@ function realizarInventario(razaPersonaje, personajeEscogido) {
 
       setStorage(caminos);
       inputChecker(caminos);
-    })
-    .catch(catchError);
+    });
+  //.catch(catchError);
 }
 
 function setStorage(caminos) {
@@ -771,7 +771,7 @@ function catchError() {
     localStorage.clear();
     inicio();
   });
-  console.log("error de " + idActual);
+  console.log(`Error en id ${idActual}, index ${index}`);
 }
 
 function previoAFetch() {
@@ -787,15 +787,17 @@ function previoAFetch() {
     spanNuevo.style = `--i:${i + 1}`;
     cargando.appendChild(spanNuevo);
   }
+  console.log(cargando);
   botonera.appendChild(cargando);
+  console.log("hola? cargando?");
 }
 
 function finDelJuego() {
-  previoAFetch();
   usuario.classList.remove("oculto");
   titulo.innerText = `Fin`;
   texto.innerHTML = `¡Muchas gracias por jugar! Tus datos se enviaron por correo a mi casilla. Puede que no aparezcan enseguida, pero no te preocupes, ¡en la próxima actualización podrás buscarte y compararte con el resto de los jugadores!<br><br>Puedes reiniciar el juego o ver las distintas estadísticas de previos jugadores.`;
   if (!correoEnviado) {
+    previoAFetch();
     correoEnviado = true;
     let templateParams = {
       nombre: inventario.nombre,
