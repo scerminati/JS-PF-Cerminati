@@ -101,8 +101,6 @@ function inicio() {
 
   if (idActual == -1) {
     previoAFetch();
-    console.log("hola?");
-    console.log(botonera);
     fetch("./json/cordialidad.json")
       .then((respuesta) => respuesta.json())
       .then((cordialidad) => {
@@ -346,8 +344,8 @@ function realizarInventario(razaPersonaje, personajeEscogido) {
 
       setStorage(caminos);
       inputChecker(caminos);
-    });
-  //.catch(catchError);
+    })
+    .catch(catchError);
 }
 
 function setStorage(caminos) {
@@ -787,9 +785,7 @@ function previoAFetch() {
     spanNuevo.style = `--i:${i + 1}`;
     cargando.appendChild(spanNuevo);
   }
-  console.log(cargando);
   botonera.appendChild(cargando);
-  console.log("hola? cargando?");
 }
 
 function finDelJuego() {
