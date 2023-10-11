@@ -490,5 +490,17 @@
     "puntaje": 100,
     "logros": 5,
     "tiempo": 167
+  },
+  {
+    "nombre": "Lord Tobby",
+    "raza": "Mago",
+    "clase": "Profeta",
+    "vida": 18,
+    "iniciativa": 3,
+    "combate": 6,
+    "defensa": 0,
+    "puntaje": 80,
+    "logros": 4,
+    "tiempo": 260
   }
 ]
