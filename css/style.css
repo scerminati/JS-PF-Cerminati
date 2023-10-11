@@ -35,25 +35,6 @@
   src: url(../fonts/PixelOperator.ttf);
   -webkit-font-smoothing: none;
 }
-h1,
-h2 {
-  text-align: center;
-  font-family: Titulos;
-  margin: 20px;
-  padding: 5px;
-  line-height: 1;
-  -webkit-text-stroke: 2px #5c422c;
-}
-
-h1 {
-  font-size: 120px;
-}
-
-h2 {
-  font-size: 35px;
-  margin-top: -10px;
-}
-
 body {
   background-image: url(../images/castle2.jpg);
   background-repeat: no-repeat;
@@ -64,6 +45,79 @@ body {
   align-items: center;
   height: 100vh;
   width: 100vw;
+}
+body h1,
+body h2 {
+  text-align: center;
+  font-family: Titulos;
+  margin: 20px;
+  padding: 5px;
+  line-height: 1;
+  -webkit-text-stroke: 2px #5c422c;
+}
+body h1 {
+  font-size: 120px;
+}
+body h2 {
+  font-size: 35px;
+  margin-top: -10px;
+}
+body h3 {
+  text-align: center;
+  font-family: General;
+  padding: 5px;
+}
+body p,
+body button,
+body input,
+body #detalles {
+  font-family: General;
+  font-size: 1em;
+  color: black;
+}
+body input {
+  width: 80%;
+  padding: 0 5px 0 5px;
+}
+body button {
+  background-color: #936b47;
+  padding: 5px;
+  margin: 10px;
+  width: 100px;
+  text-align: center;
+  cursor: pointer;
+}
+body p {
+  padding: 15px;
+  text-align: justify;
+  width: 100%;
+}
+body footer {
+  position: absolute;
+  bottom: 0;
+  background-color: #ecd495;
+  font-family: General;
+  font-size: 1em;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  display: flex;
+}
+body footer #sendEmail {
+  cursor: pointer;
+  padding: 5px;
+  margin: 2px;
+  flex-shrink: 0;
+}
+body footer p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+body i {
+  font-size: 20px;
 }
 
 #pergamino {
@@ -78,41 +132,6 @@ body {
   font-family: General;
   border: 2px solid #936b47;
   border-radius: 0 0% 10% 10%;
-}
-
-h3 {
-  text-align: center;
-  font-family: General;
-  padding: 5px;
-}
-
-p,
-button,
-input,
-#detalles {
-  font-family: General;
-  font-size: 1em;
-  color: black;
-}
-
-input {
-  width: 80%;
-  padding: 0 5px 0 5px;
-}
-
-button {
-  background-color: #936b47;
-  padding: 5px;
-  margin: 10px;
-  width: 100px;
-  text-align: center;
-  cursor: pointer;
-}
-
-p {
-  padding: 15px;
-  text-align: justify;
-  width: 100%;
 }
 
 #botonera {
@@ -148,10 +167,6 @@ p {
   z-index: 3;
 }
 
-.oculto {
-  display: none !important;
-}
-
 #personajesHTML {
   display: flex;
   flex-direction: row;
@@ -182,30 +197,6 @@ p {
   border-radius: 20px;
 }
 
-.flexInv {
-  display: flex;
-  flex-direction: row;
-}
-
-.right {
-  text-align: right;
-}
-
-.center {
-  text-align: center;
-}
-
-.blurPergamino {
-  -webkit-filter: blur(1px);
-  -moz-filter: blur(1px);
-  -o-filter: blur(1px);
-  -ms-filter: blur(1px);
-  filter: blur(1px);
-  width: 100px;
-  height: 100px;
-  background-color: #ccc;
-}
-
 #botonmail {
   background-color: black;
   width: 50px;
@@ -222,19 +213,6 @@ p {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-}
-
-.detalleFirst {
-  z-index: 3;
-  margin-left: 600px;
-  margin-top: -25px;
-}
-
-.detalleInv {
-  z-index: 5;
-  position: absolute;
-  top: 575px;
-  margin-left: 200px;
 }
 
 #mostrarDetalles,
@@ -280,33 +258,56 @@ p {
   text-align: center;
 }
 
-i {
-  font-size: 20px;
+#lineaUsuario {
+  background-color: #936b47;
 }
 
-footer {
+#armaEscondida {
+  width: 20px;
+  height: 20px;
   position: absolute;
-  bottom: 0;
-  background-color: #ecd495;
-  font-family: General;
-  font-size: 1em;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 32px;
-  display: flex;
-}
-footer #sendEmail {
   cursor: pointer;
-  padding: 5px;
-  margin: 2px;
-  flex-shrink: 0;
 }
-footer p {
+
+.oculto {
+  display: none !important;
+}
+
+.flexInv {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
+}
+
+.right {
+  text-align: right;
+}
+
+.center {
+  text-align: center;
+}
+
+.blurPergamino {
+  -webkit-filter: blur(1px);
+  -moz-filter: blur(1px);
+  -o-filter: blur(1px);
+  -ms-filter: blur(1px);
+  filter: blur(1px);
+  width: 100px;
+  height: 100px;
+  background-color: #ccc;
+}
+
+.detalleFirst {
+  z-index: 3;
+  margin-left: 600px;
+  margin-top: -25px;
+}
+
+.detalleInv {
+  z-index: 5;
+  position: absolute;
+  top: 575px;
+  margin-left: 200px;
 }
 
 .tablaEstilo table {
@@ -317,10 +318,6 @@ footer p {
 }
 .tablaEstilo table td {
   text-align: center;
-}
-
-#lineaUsuario {
-  background-color: #936b47;
 }
 
 .contenedor {
@@ -346,6 +343,66 @@ footer p {
   min-height: 120px;
 }
 
+.hvr-buzz {
+  transform: perspective(1px) translateZ(0);
+}
+
+.hvr-buzz:hover,
+.hvr-buzz:focus,
+.hvr-buzz:active {
+  animation-name: hvr-buzz;
+  animation-duration: 0.3s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.agua {
+  height: 200px;
+  width: 100%;
+  background-image: url(../images/agua2.gif);
+  position: relative;
+  padding: 5px;
+}
+
+.tostada {
+  font-family: General;
+  color: black;
+  border: 1px solid #ecd495;
+}
+
+.waviyBut {
+  padding: 5px;
+  margin: 10px;
+}
+
+.waviy {
+  position: relative;
+}
+.waviy span {
+  position: relative;
+  display: inline-block;
+  animation: waviy 1s infinite;
+  animation-delay: calc(0.1s * var(--i));
+}
+
+@keyframes waviy {
+  0%, 40%, 100% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-3px);
+  }
+}
+@keyframes hvr-buzz {
+  50% {
+    -webkit-transform: translateX(3px) rotate(2deg);
+    transform: translateX(3px) rotate(2deg);
+  }
+  100% {
+    -webkit-transform: translateX(-3px) rotate(-2deg);
+    transform: translateX(-3px) rotate(-2deg);
+  }
+}
 @media screen and (max-width: 700px) {
   h1 {
     font-size: 60px;
@@ -406,87 +463,6 @@ footer p {
     overflow: auto;
     max-height: 325px;
   }
-}
-.agua {
-  height: 200px;
-  width: 100%;
-  background-image: url(../images/agua2.gif);
-  position: relative;
-  padding: 5px;
-}
-
-#armaEscondida {
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  cursor: pointer;
-}
-
-.tostada {
-  font-family: General;
-  color: black;
-  border: 1px solid #ecd495;
-}
-
-.waviyBut {
-  padding: 5px;
-  margin: 10px;
-}
-
-.waviy {
-  position: relative;
-}
-.waviy span {
-  position: relative;
-  display: inline-block;
-  animation: waviy 1s infinite;
-  animation-delay: calc(0.1s * var(--i));
-}
-
-@keyframes waviy {
-  0%, 40%, 100% {
-    transform: translateY(0);
-  }
-  20% {
-    transform: translateY(-3px);
-  }
-}
-@-webkit-keyframes hvr-buzz {
-  50% {
-    -webkit-transform: translateX(3px) rotate(2deg);
-    transform: translateX(3px) rotate(2deg);
-  }
-  100% {
-    -webkit-transform: translateX(-3px) rotate(-2deg);
-    transform: translateX(-3px) rotate(-2deg);
-  }
-}
-@keyframes hvr-buzz {
-  50% {
-    -webkit-transform: translateX(3px) rotate(2deg);
-    transform: translateX(3px) rotate(2deg);
-  }
-  100% {
-    -webkit-transform: translateX(-3px) rotate(-2deg);
-    transform: translateX(-3px) rotate(-2deg);
-  }
-}
-.hvr-buzz {
-  -webkit-transform: perspective(1px) translateZ(0);
-  transform: perspective(1px) translateZ(0);
-}
-
-.hvr-buzz:hover,
-.hvr-buzz:focus,
-.hvr-buzz:active {
-  -webkit-animation-name: hvr-buzz;
-  animation-name: hvr-buzz;
-  -webkit-animation-duration: 0.3s;
-  animation-duration: 0.3s;
-  -webkit-animation-timing-function: linear;
-  animation-timing-function: linear;
-  -webkit-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
 }
 
 /*# sourceMappingURL=style.css.map */

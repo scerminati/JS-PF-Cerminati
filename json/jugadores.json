@@ -418,5 +418,17 @@
     "puntaje": 95,
     "logros": 6,
     "tiempo": 101
+  },
+  {
+    "nombre": "Sir Jona's",
+    "raza": "Mago",
+    "clase": "Profeta",
+    "vida": 13,
+    "iniciativa": 3,
+    "combate": 4,
+    "defensa": 0,
+    "puntaje": 0,
+    "logros": 0,
+    "tiempo": 172
   }
 ]

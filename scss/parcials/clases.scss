@@ -1,0 +1,118 @@
+.oculto {
+  display: none !important;
+}
+
+.flexInv {
+  display: flex;
+  flex-direction: row;
+}
+
+.right {
+  text-align: right;
+}
+
+.center {
+  text-align: center;
+}
+
+.blurPergamino {
+  -webkit-filter: blur(1px);
+  -moz-filter: blur(1px);
+  -o-filter: blur(1px);
+  -ms-filter: blur(1px);
+  filter: blur(1px);
+  width: 100px;
+  height: 100px;
+  background-color: #ccc;
+}
+
+.detalleFirst {
+  z-index: 3;
+  margin-left: 600px;
+  margin-top: -25px;
+}
+
+.detalleInv {
+  z-index: 5;
+  position: absolute;
+  top: 575px;
+  margin-left: 200px;
+}
+
+.tablaEstilo {
+  table {
+    border: 1px solid black;
+    width: 100%;
+    table-layout: fixed;
+    font-size: 0.85em;
+    td {
+      text-align: center;
+    }
+  }
+}
+
+.contenedor {
+  display: flex;
+  align-items: top;
+  justify-content: space-between;
+  #columna1,
+  #columna2 {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: center;
+  }
+}
+
+.jugadorBuscado {
+  width: 300px;
+  margin: 5px;
+}
+
+.mostrarResultados {
+  min-height: 120px;
+}
+
+.hvr-buzz {
+  transform: perspective(1px) translateZ(0);
+}
+.hvr-buzz:hover,
+.hvr-buzz:focus,
+.hvr-buzz:active {
+  animation-name: hvr-buzz;
+  animation-duration: 0.3s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.agua {
+  height: 200px;
+  width: 100%;
+  background-image: url(../images/agua2.gif);
+  position: relative;
+  padding: 5px;
+}
+
+.tostada {
+  font-family: General;
+  color: black;
+  border: 1px solid #ecd495;
+}
+
+.waviyBut {
+  padding: 5px;
+  margin: 10px;
+}
+
+.waviy {
+  position: relative;
+
+  span {
+    position: relative;
+    display: inline-block;
+
+    animation: waviy 1s infinite;
+    animation-delay: calc(0.1s * var(--i));
+  }
+}

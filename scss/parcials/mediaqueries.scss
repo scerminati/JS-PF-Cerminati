@@ -1,0 +1,76 @@
+@media screen and (max-width: 700px) {
+  h1 {
+    font-size: 60px;
+  }
+  h2 {
+    font-size: 20px;
+  }
+
+  h1,
+  h2 {
+    -webkit-text-stroke: 1px #5c422c;
+  }
+
+  footer {
+    height: 38px;
+    font-size: 0.7em;
+  }
+
+  .detalleFirst {
+    z-index: 3;
+    margin-left: 400px;
+    margin-top: -25px;
+  }
+
+  .detalleInv {
+    z-index: 5;
+    position: absolute;
+    top: 470px;
+    margin-left: 200px;
+  }
+  #inventario {
+    top: 190px;
+  }
+
+  #mostrarDetalles,
+  #ordenarDiv {
+    top: 130px;
+  }
+  #usuario {
+    margin-top: -35px;
+    margin-left: -350px;
+    margin-bottom: -65px;
+  }
+
+  #oponente {
+    margin-left: 350px;
+    //margin-bottom: 50px;
+    margin-top: -35px;
+    margin-bottom: -65px;
+  }
+
+  #pergamino {
+    margin-top: 25px;
+    width: 400px;
+  }
+  #botonera {
+    button {
+      margin: 2px;
+    }
+  }
+
+  .tablaEstilo {
+    table {
+      font-size: 0.56em;
+    }
+  }
+
+  #personajesHTML {
+    font-size: 0.8em;
+  }
+
+  #texto {
+    overflow: auto;
+    max-height: 325px;
+  }
+}
