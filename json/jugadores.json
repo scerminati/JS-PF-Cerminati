@@ -214,5 +214,101 @@
     "puntaje": 45,
     "logros": 3,
     "tiempo": 178
+  },
+  {
+    "nombre": "Lord Azathoth",
+    "raza": "Mago",
+    "clase": "Nigromante",
+    "vida": 15,
+    "iniciativa": 1,
+    "combate": 15,
+    "defensa": 7,
+    "puntaje": 100,
+    "logros": 4,
+    "tiempo": 827
+  },
+  {
+    "nombre": "Lady Latigo",
+    "raza": "Humano",
+    "clase": "Caballero",
+    "vida": 18,
+    "iniciativa": 0,
+    "combate": 9,
+    "defensa": 5,
+    "puntaje": 100,
+    "logros": 5,
+    "tiempo": 171
+  },
+  {
+    "nombre": "Anónimo",
+    "raza": "Elfo",
+    "clase": "Artesano",
+    "vida": 11,
+    "iniciativa": 1,
+    "combate": 2,
+    "defensa": 6,
+    "puntaje": -5,
+    "logros": 1,
+    "tiempo": 44
+  },
+  {
+    "nombre": "Lord Cthulhu",
+    "raza": "Mago",
+    "clase": "Nigromante",
+    "vida": 15,
+    "iniciativa": 1,
+    "combate": 12,
+    "defensa": 4,
+    "puntaje": 100,
+    "logros": 5,
+    "tiempo": 169
+  },
+  {
+    "nombre": "LordSirLadyDame",
+    "raza": "Elfo",
+    "clase": "Guerrero",
+    "vida": 10,
+    "iniciativa": 2,
+    "combate": 7,
+    "defensa": 1,
+    "puntaje": 0,
+    "logros": 0,
+    "tiempo": 97
+  },
+  {
+    "nombre": "Lord Lol",
+    "raza": "Orco",
+    "clase": "Destructor",
+    "vida": 9,
+    "iniciativa": 2,
+    "combate": 7,
+    "defensa": 2,
+    "puntaje": 35,
+    "logros": 1,
+    "tiempo": 89
+  },
+  {
+    "nombre": "Lord Anónimo",
+    "raza": "Humano",
+    "clase": "Caballero",
+    "vida": 13,
+    "iniciativa": 0,
+    "combate": 2,
+    "defensa": 5,
+    "puntaje": 0,
+    "logros": 2,
+    "tiempo": 72
+  },
+  {
+    "nombre": "Sir Anónimo",
+    "raza": "Humano",
+    "clase": "Caballero",
+    "vida": 18,
+    "iniciativa": 0,
+    "combate": 4,
+    "defensa": 5,
+    "puntaje": 40,
+    "logros": 4,
+    "tiempo": 280
   }
 ]

@@ -263,10 +263,30 @@ body i {
 }
 
 #armaEscondida {
-  width: 20px;
-  height: 20px;
   position: absolute;
+  opacity: 0;
+  overflow: visible;
+  top: 5px;
+  left: 5px;
   cursor: pointer;
+  animation: fadeinout 10s linear forwards;
+  animation-iteration-count: infinite;
+}
+#armaEscondida:before {
+  content: "";
+  position: absolute;
+  background: white;
+  width: 0.5em;
+  height: 0.575em;
+  transform: rotate(-45deg) skewX(22.5deg) skewY(22.5deg);
+}
+#armaEscondida:after {
+  content: "";
+  position: absolute;
+  background: white;
+  width: 0.5em;
+  height: 0.575em;
+  transform: rotate(45deg) skewX(22.5deg) skewY(22.5deg);
 }
 
 .oculto {
@@ -402,6 +422,14 @@ body i {
   100% {
     -webkit-transform: translateX(-3px) rotate(-2deg);
     transform: translateX(-3px) rotate(-2deg);
+  }
+}
+@keyframes fadeinout {
+  0%, 45%, 55%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
   }
 }
 @media screen and (max-width: 700px) {

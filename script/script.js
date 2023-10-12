@@ -220,8 +220,8 @@ function enviarInput() {
               personaje.armaAEncontrar = "Báculo";
               break;
             case "Orco":
-              personaje.armaTexto = "Una masa";
-              personaje.armaAEncontrar = "Masa";
+              personaje.armaTexto = "Una maza";
+              personaje.armaAEncontrar = "Maza";
               break;
           }
         });
@@ -770,14 +770,8 @@ function inputChecker(arrayInput) {
           //Creación del agua para encontrar el arma.
           texto.appendChild(divToAppend);
           if (arma) {
-            let x = Math.round(
-              Math.random() *
-                (divToAppend.offsetWidth - armaEscondida.offsetWidth)
-            );
-            let y = Math.round(
-              Math.random() *
-                (divToAppend.offsetHeight - armaEscondida.offsetHeight)
-            );
+            let x = Math.round(Math.random() * (divToAppend.offsetWidth - 15));
+            let y = Math.round(Math.random() * (divToAppend.offsetHeight - 15));
             armaEscondida.style.top = `${y}px`;
             armaEscondida.style.left = `${x}px`;
           }
