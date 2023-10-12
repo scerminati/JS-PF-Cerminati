@@ -671,6 +671,9 @@ function inputChecker(arrayInput) {
               registroLogro("Puente");
             } else {
               inventario.vida -= 3;
+              tostada(3);
+              inventario.vida <= 0 &&
+                (arrayInput[index].nextid[0] = arrayInput[index].nextid[2]);
             }
             break;
           case "Combate Dragón":
@@ -709,7 +712,7 @@ function inputChecker(arrayInput) {
                 (Math.random() * 20 + dragon.combate) / 5
               );
               inventario.vida -= danoEscape;
-              tostada(danoEscape);
+              danoEscape > 0 && tostada(danoEscape);
             }
 
             if (inventario.vida <= 0 && turnoHuida <= 5) {
@@ -861,7 +864,11 @@ function catchError() {
   //Permite, en caso de que falle la traida de archivos json, resetear el juego a 0.
   resetBotonera();
   titulo.innerText = "Error";
-  texto.innerText = "Error, volver a cargar el sitio.";
+  texto.innerText =
+    "Error, puedes refrescar la página o reiniciar todo el juego.";
+  crearBoton("Refrescar", () => {
+    location.reload();
+  });
   crearBoton("Reiniciar", () => {
     localStorage.clear();
     inicio();
@@ -918,13 +925,14 @@ function finDelJuego() {
         "OhrLN8D4Q7Jyx8Vle"
       )
       .then(
-        function (response) {
-          console.log("Correo enviado", response.status, response.text);
+        function () {
+          tostadaEmail(true);
         },
-        function (error) {
-          console.log("Error al enviar correo", error);
+        function () {
+          tostadaEmail(false);
         }
       )
+
       .finally(() => {
         muestraDetalle = false;
         resetBotonera();
@@ -1576,4 +1584,36 @@ function tostada(dano) {
     },
     offset: { y: 30 },
   }).showToast();
+}
+
+function tostadaEmail(ok) {
+  //Tostada para verificar enviar correo.
+  if (ok) {
+    Toastify({
+      text: `Tus datos se enviaron con éxito.
+      ¡Gracias por jugar!`,
+      duration: 3000,
+      gravity: "bottom",
+      position: "left",
+      stopOnFocus: true,
+      className: "tostada",
+      style: {
+        background: "#936b47",
+      },
+      offset: { y: 30 },
+    }).showToast();
+  } else {
+    Toastify({
+      text: `Hubo un error al enviar tus datos.`,
+      duration: 3000,
+      gravity: "bottom",
+      position: "left",
+      stopOnFocus: true,
+      className: "tostada",
+      style: {
+        background: "#936b47",
+      },
+      offset: { y: 30 },
+    }).showToast();
+  }
 }

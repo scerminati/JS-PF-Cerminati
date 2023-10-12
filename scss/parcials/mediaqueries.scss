@@ -1,34 +1,33 @@
 @media screen and (max-width: 700px) {
-  h1 {
-    font-size: 60px;
-  }
-  h2 {
-    font-size: 20px;
+  body {
+    h1 {
+      font-size: 60px;
+    }
+    h2 {
+      font-size: 20px;
+    }
+
+    h1,
+    h2 {
+      -webkit-text-stroke: 1px #5c422c;
+    }
+
+    footer {
+      height: 38px;
+      font-size: 0.7em;
+    }
   }
 
-  h1,
-  h2 {
-    -webkit-text-stroke: 1px #5c422c;
+  #personajesHTML {
+    font-size: 0.8em;
   }
 
-  footer {
-    height: 38px;
-    font-size: 0.7em;
+  #texto {
+    overflow: auto;
+    max-height: 325px;
   }
 
-  .detalleFirst {
-    z-index: 3;
-    margin-left: 400px;
-    margin-top: -25px;
-  }
-
-  .detalleInv {
-    z-index: 5;
-    position: absolute;
-    top: 470px;
-    margin-left: 200px;
-  }
-  #inventario {
+  #inventarioHTML {
     top: 190px;
   }
 
@@ -59,18 +58,22 @@
     }
   }
 
+  .detalleInv {
+    z-index: 5;
+    position: absolute;
+    top: 470px;
+    margin-left: 200px;
+  }
+
   .tablaEstilo {
     table {
       font-size: 0.56em;
     }
   }
 
-  #personajesHTML {
-    font-size: 0.8em;
-  }
-
-  #texto {
-    overflow: auto;
-    max-height: 325px;
+  .detalleFirst {
+    z-index: 3;
+    margin-left: 400px;
+    margin-top: -25px;
   }
 }

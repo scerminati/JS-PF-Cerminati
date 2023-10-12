@@ -368,6 +368,7 @@ body i {
   font-family: General;
   color: black;
   border: 1px solid #ecd495;
+  text-align: center;
 }
 
 .waviyBut {
@@ -404,32 +405,28 @@ body i {
   }
 }
 @media screen and (max-width: 700px) {
-  h1 {
+  body h1 {
     font-size: 60px;
   }
-  h2 {
+  body h2 {
     font-size: 20px;
   }
-  h1,
-  h2 {
+  body h1,
+  body h2 {
     -webkit-text-stroke: 1px #5c422c;
   }
-  footer {
+  body footer {
     height: 38px;
     font-size: 0.7em;
   }
-  .detalleFirst {
-    z-index: 3;
-    margin-left: 400px;
-    margin-top: -25px;
+  #personajesHTML {
+    font-size: 0.8em;
   }
-  .detalleInv {
-    z-index: 5;
-    position: absolute;
-    top: 470px;
-    margin-left: 200px;
+  #texto {
+    overflow: auto;
+    max-height: 325px;
   }
-  #inventario {
+  #inventarioHTML {
     top: 190px;
   }
   #mostrarDetalles,
@@ -453,15 +450,19 @@ body i {
   #botonera button {
     margin: 2px;
   }
+  .detalleInv {
+    z-index: 5;
+    position: absolute;
+    top: 470px;
+    margin-left: 200px;
+  }
   .tablaEstilo table {
     font-size: 0.56em;
   }
-  #personajesHTML {
-    font-size: 0.8em;
-  }
-  #texto {
-    overflow: auto;
-    max-height: 325px;
+  .detalleFirst {
+    z-index: 3;
+    margin-left: 400px;
+    margin-top: -25px;
   }
 }
 

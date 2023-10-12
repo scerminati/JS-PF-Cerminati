@@ -165,7 +165,7 @@
     "categoria": "Castillo",
     "input": false,
     "cantidadOpciones": 0,
-    "nextid": [2.3, 2.2],
+    "nextid": [2.3, 2.2, 2.31],
     "especial": "Puente"
   },
   {
@@ -183,6 +183,14 @@
     "input": false,
     "cantidadOpciones": 0,
     "nextid": [2.4]
+  },
+  {
+    "id": 2.31,
+    "descripcion": "Cruzar por el agua ha demandado demasiado de ti. Con lo último que te quedaba de tus fuerzas, logras cruzar casi hasta la mitad. Te sientes agotad*codigo.terminacion y finalmente, te rindes. Tu cuerpo será alimento de peces por unos días.<br><br><center>FIN DEL JUEGO.</center>",
+    "categoria": "Castillo",
+    "input": false,
+    "cantidadOpciones": 0,
+    "nextid": [4]
   },
   {
     "id": 2.4,
