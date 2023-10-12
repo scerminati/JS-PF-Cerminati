@@ -93,7 +93,7 @@ function inicio() {
     .catch(catchError);
 
   creacionAdicionales();
-  cargandoTitulo();
+  cargandoTexto(false);
   resetBotonera();
 
   comienzo = Date.parse(localStorage.getItem("comienzo")) || new Date();
@@ -101,7 +101,7 @@ function inicio() {
 
   if (idActual == -1) {
     //Inicio de selección de personaje
-    previoAFetch();
+    cargandoTexto(true);
     fetch("./json/cordialidad.json")
       .then((respuesta) => respuesta.json())
       .then((cordialidad) => {
@@ -186,7 +186,7 @@ function enviarInput() {
 
     texto.innerHTML += `<br><br>Por último, deberás escoger una raza. Dime, ¿con cuál de las siguientes razas crees que te identificas más?`;
     //Búsqueda de personajes en archivo json, con el fin de crear botones para cada raza.
-    previoAFetch();
+    cargandoTexto(true);
     fetch("./json/personajes.json")
       .then((respuesta) => respuesta.json())
       .then((personajes) => {
@@ -254,7 +254,7 @@ function seleccionarRaza(razaSeleccionada, personajes) {
   personajesHTML.innerHTML = "";
   razaPersonaje.forEach((personaje) => {
     personajesAElegir = "";
-    let personajeCaja = document.createElement("div");
+    let personajeCaja = crearElemento("", "div", personajesHTML, "");
     for (const propiedad in personaje) {
       if (propiedad == "clase") {
         personajesAElegir += `<center><b>${personaje[propiedad]}</b></center>`;
@@ -272,7 +272,6 @@ function seleccionarRaza(razaSeleccionada, personajes) {
       }
     }
     personajeCaja.innerHTML = personajesAElegir;
-    personajesHTML.appendChild(personajeCaja);
   });
   razaPersonaje.forEach((personaje) => {
     crearBoton(personaje.clase, () =>
@@ -316,7 +315,7 @@ function realizarInventario(razaPersonaje, personajeEscogido) {
   id = [0];
   index = 0;
   idActual = 0;
-  previoAFetch();
+  cargandoTexto(true);
   fetch("./json/caminos.json")
     .then((respuesta) => respuesta.json())
     .then((caminos) => {
@@ -370,10 +369,13 @@ function setStorage(caminos) {
 
 function crearBoton(parametro, funcionPasada) {
   //Permite crear botones, pasando parámetro (palabra del botón) y función. Adicionalmente si es solo el botón siguiente, crea el focus.
-  window["boton" + parametro] = document.createElement("button");
+  window["boton" + parametro] = crearElemento(
+    parametro.toLowerCase(),
+    "button",
+    botonera,
+    ""
+  );
   window["boton" + parametro].innerText = parametro;
-  window["boton" + parametro].id = parametro.toLowerCase();
-  botonera.appendChild(window["boton" + parametro]);
   window["boton" + parametro].addEventListener("click", funcionPasada);
   parametro == "Siguiente" && window["boton" + parametro].focus();
 }
@@ -505,7 +507,7 @@ function inputChecker(arrayInput) {
   textoAdicional = "";
   descripcionEspecial = "";
   oponente.classList.add("oculto");
-  previoAFetch();
+  cargandoTexto(true);
   /*
   Este archivo busca los IDs que corresponden a mostrar imágenes del oponente, así mismo permite correr el resto del código de manera asincrónica.
   */
@@ -615,9 +617,12 @@ function inputChecker(arrayInput) {
             divToAppend = document.createElement("div");
             divToAppend.id = "aguaID";
             divToAppend.classList.add("agua");
-            let armaEscondida = document.createElement("div");
-            armaEscondida.id = "armaEscondida";
-
+            let armaEscondida = crearElemento(
+              "armaEscondida",
+              "div",
+              divToAppend,
+              ""
+            );
             armaEscondida.addEventListener("click", () => {
               idACambiar = 3.6;
               respirar = 0;
@@ -627,7 +632,6 @@ function inputChecker(arrayInput) {
               inputChecker(arrayInput);
             });
 
-            divToAppend.appendChild(armaEscondida);
             break;
           case "Respiración":
             respirar = localStorage.getItem("respirar");
@@ -856,21 +860,24 @@ function catchError() {
   });
 }
 
-function previoAFetch() {
-  //Crea, en el div botonera, un cartel de cargando dinámico.
-  resetBotonera();
-  let cargando = document.createElement("div");
-  cargando.classList.add("waviy");
-  cargando.classList.add("waviyBut");
+function cargandoTexto(fetch) {
+  //Crea, en el div botonera o titulo, un cartel de cargando dinámico.
   let textoCargando = "Cargando...";
+  if (fetch) {
+    resetBotonera();
+    cargando = crearElemento("", "div", botonera, "waviy");
+    cargando.classList.add("waviyBut");
+  } else {
+    titulo.innerHTML = "";
+    textoCargando = textoCargando.toUpperCase();
+    cargando = crearElemento("", "div", titulo, "waviy");
+  }
   for (let i = 0; i < textoCargando.length; i++) {
-    let spanNuevo = document.createElement("span");
+    let spanNuevo = crearElemento("", "span", cargando, "");
     let caracter = textoCargando.charAt(i);
     spanNuevo.innerHTML = caracter;
     spanNuevo.style = `--i:${i + 1}`;
-    cargando.appendChild(spanNuevo);
   }
-  botonera.appendChild(cargando);
 }
 
 function finDelJuego() {
@@ -949,15 +956,13 @@ function estadistica() {
   };
 
   //Búsqueda de jugadores en archivo .json
-  previoAFetch();
+  cargandoTexto(true);
   fetch("./json/jugadores.json")
     .then((respuesta) => respuesta.json())
     .then((jugadores) => {
       resetBotonera();
       jugadores.push(jugadorFinal);
-      let tabla = document.createElement("div");
-      tabla.classList.add("tablaEstilo");
-      texto.appendChild(tabla);
+      let tabla = crearElemento("", "div", texto, "tablaEstilo");
 
       //Sort jugadores por puntaje para poner en primera tabla.
       jugadores.sort(function (a, b) {
@@ -1026,10 +1031,9 @@ function estadistica() {
         botonesBuscador.innerHTML = "";
         let anterior = jugadoresFiltrados;
         let anteriorCoincide = coincide;
-        botonBuscar = document.createElement("button");
+        botonBuscar = crearElemento("", "button", botonesBuscador, "oculto");
         botonBuscar.innerText = "Buscar";
-        botonesBuscador.appendChild(botonBuscar);
-        botonBuscar.classList.add("oculto");
+
         ordenarDiv.classList.remove("oculto");
         pergamino.classList.add("blurPergamino");
         let nodes = botonera.getElementsByTagName("button");
@@ -1040,13 +1044,20 @@ function estadistica() {
         ordenarTexto.innerText = `Encuentra el nombre que deseas buscar entre la base de datos de los jugadores.`;
         columna1.innerHTML = ``;
         columna2.classList.add("oculto");
-        let jugadorBuscado = document.createElement("input");
-        jugadorBuscado.classList.add("jugadorBuscado");
+        let jugadorBuscado = crearElemento(
+          "",
+          "input",
+          columna1,
+          "jugadorBuscado"
+        );
         jugadorBuscado.placeholder = `Introduce aquí un nombre.`;
-        columna1.appendChild(jugadorBuscado);
-        let mostrarResultados = document.createElement("div");
-        mostrarResultados.classList.add("mostrarResultados");
-        columna1.appendChild(mostrarResultados);
+
+        let mostrarResultados = crearElemento(
+          "",
+          "div",
+          columna1,
+          "mostrarResultados"
+        );
 
         jugadorBuscado.value = "";
         let jugadoresEncontrados = [];
@@ -1104,8 +1115,9 @@ function estadistica() {
           crearTabla(tabla, jugadoresFiltrados, coincide);
         });
 
-        botonVolver = document.createElement("button");
+        botonVolver = crearElemento("", "button", botonesBuscador, "");
         botonVolver.innerText = "Volver";
+
         botonVolver.addEventListener("click", () => {
           botonesBuscador.classList.add("oculto");
           columna2.classList.remove("oculto");
@@ -1120,7 +1132,6 @@ function estadistica() {
           tabla.innerHTML = "";
           crearTabla(tabla, jugadoresFiltrados, coincide);
         });
-        botonesBuscador.appendChild(botonVolver);
       });
 
       //Permite mostrar otros valores en la tabla.
@@ -1138,10 +1149,13 @@ function estadistica() {
 }
 
 function crearBotonFiltrar(jugadores, parametro, tabla) {
-  window["boton" + parametro] = document.createElement("button");
+  window["boton" + parametro] = crearElemento(
+    parametro.toLowerCase(),
+    "button",
+    columna1,
+    ""
+  );
   window["boton" + parametro].innerText = parametro;
-  window["boton" + parametro].id = parametro.toLowerCase();
-  columna1.appendChild(window["boton" + parametro]);
   window["boton" + parametro].addEventListener("click", () => {
     coincide = false;
     if (parametro == "Todos") {
@@ -1168,10 +1182,13 @@ function crearBotonFiltrar(jugadores, parametro, tabla) {
       });
 
       for (let i = 0; i < claseFiltro.length; i++) {
-        window["boton" + claseFiltro[i]] = document.createElement("button");
+        window["boton" + claseFiltro[i]] = crearElemento(
+          claseFiltro[i].toLowerCase(),
+          "button",
+          columna2,
+          ""
+        );
         window["boton" + claseFiltro[i]].innerText = claseFiltro[i];
-        window["boton" + claseFiltro[i]].id = claseFiltro[i].toLowerCase();
-        columna2.appendChild(window["boton" + claseFiltro[i]]);
         window["boton" + claseFiltro[i]].addEventListener("click", () => {
           if (claseFiltro[i] == "Todos") {
             jugadoresFiltrados = jugadores.filter(
@@ -1208,13 +1225,21 @@ function crearBotonFiltrar(jugadores, parametro, tabla) {
 }
 
 function crearBotonOrdenar(parametro, prueba, tabla) {
-  window["boton" + parametro + 1] = document.createElement("button");
-  window["boton" + parametro + 2] = document.createElement("button");
+  window["boton" + parametro + 1] = crearElemento(
+    parametro.toLowerCase(),
+    "button",
+    columna1,
+    ""
+  );
+  window["boton" + parametro + 2] = crearElemento(
+    parametro.toLowerCase(),
+    "button",
+    columna2,
+    ""
+  );
+
   window["boton" + parametro + 1].innerText = parametro;
   window["boton" + parametro + 2].innerText = parametro;
-  window["boton" + parametro + 1].id = parametro.toLowerCase();
-  window["boton" + parametro + 2].id = parametro.toLowerCase();
-
   window["boton" + parametro + 1].addEventListener("click", () => {
     propiedad = parametro.toLowerCase();
     jugadoresFiltrados.sort(function (a, b) {
@@ -1229,8 +1254,6 @@ function crearBotonOrdenar(parametro, prueba, tabla) {
     });
     ordenarFunciones(prueba, tabla);
   });
-  columna1.appendChild(window["boton" + parametro + 1]);
-  columna2.appendChild(window["boton" + parametro + 2]);
 }
 
 function ordenarFunciones(prueba, tabla) {
@@ -1493,7 +1516,9 @@ function creacionAdicionales() {
       muestraDetalle = true;
     }
   });
-  crearBoton("Volver", () => {
+
+  botonVolver = crearElemento("botonVolver", "button", mostrarDetalles, "");
+  botonVolver.addEventListener("click", () => {
     mostrarDetalles.classList.add("oculto");
     usuario.classList.remove("blurPergamino");
     scrollDiv.scrollTo(0, 0);
@@ -1508,7 +1533,7 @@ function creacionAdicionales() {
       muestraDetalle = false;
     }
   });
-  mostrarDetalles.appendChild(botonVolver);
+
   sendEmail.addEventListener("click", () => {
     let mail = "sofiacermi@hotmail.com";
     let asunto = `Javascra - Comentarios`;
@@ -1537,20 +1562,4 @@ function tostada(dano) {
     },
     offset: { y: 30 },
   }).showToast();
-}
-
-function cargandoTitulo() {
-  //Creación de animación en título al inicio en caso de no cargar archivos .json
-  let cargando = document.createElement("div");
-  cargando.classList.add("waviy");
-  let textoCargando = "CARGANDO...";
-  for (let i = 0; i < textoCargando.length; i++) {
-    let spanNuevo = document.createElement("span");
-    let caracter = textoCargando.charAt(i);
-    spanNuevo.innerHTML = caracter;
-    spanNuevo.style = `--i:${i + 1}`;
-    cargando.appendChild(spanNuevo);
-  }
-  titulo.innerHTML = "";
-  titulo.appendChild(cargando);
 }
