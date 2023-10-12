@@ -94,6 +94,7 @@ function inicio() {
 
   creacionAdicionales();
   cargandoTexto(false);
+  muestraDetalle = false;
   resetBotonera();
 
   comienzo = Date.parse(localStorage.getItem("comienzo")) || new Date();
@@ -105,6 +106,7 @@ function inicio() {
     fetch("./json/cordialidad.json")
       .then((respuesta) => respuesta.json())
       .then((cordialidad) => {
+        muestraDetalle = false;
         resetBotonera();
         titulo.innerText = `Selección de Personaje`;
         texto.innerHTML = `¡Una cordial bienvenida!<br><br>Quisiera saber como puedo dirigirme a ti, ¿puedo llamarte Sir? ¿O debo llamarte Lady? Quizás simplemente debería pedirte el nombre, pero aquí en este reino tenemos esto tan cordial... tu dime.<br><br>Selecciona la opción que más te guste.`;
@@ -126,6 +128,7 @@ function inicio() {
     personajesHTML.classList.add("oculto");
     usuario.addEventListener("click", mostrarInventario);
     creacionPersonaje = true;
+    console.log(JSON.stringify(caminos));
     inputChecker(caminos);
   }
 }
@@ -190,6 +193,7 @@ function enviarInput() {
     fetch("./json/personajes.json")
       .then((respuesta) => respuesta.json())
       .then((personajes) => {
+        muestraDetalle = false;
         resetBotonera();
         personajes.forEach((personaje) => {
           let razaP = personaje.raza;
@@ -303,6 +307,7 @@ function realizarInventario(razaPersonaje, personajeEscogido) {
   healthBase = inventario.vida;
   armaAEncontrar = usuarioEscogido.armaAEncontrar;
   armaTexto = usuarioEscogido.armaTexto;
+  creacionPersonaje = true;
 
   detalles.classList.add("detalleInv");
   detalles.classList.remove("detalleFirst");
@@ -319,6 +324,7 @@ function realizarInventario(razaPersonaje, personajeEscogido) {
   fetch("./json/caminos.json")
     .then((respuesta) => respuesta.json())
     .then((caminos) => {
+      muestraDetalle = false;
       resetBotonera();
       do {
         caminos.forEach((camino) => {
@@ -340,8 +346,9 @@ function realizarInventario(razaPersonaje, personajeEscogido) {
           );
         });
       } while (
-        !caminos.find((camino) => camino.descripcion.includes("*codigo."))
+        caminos.some((camino) => camino.descripcion.includes("*codigo."))
       );
+
       //Seteo de los Local Storages
       localStorage.setItem("comienzo", comienzo);
       localStorage.setItem("healthBase", healthBase);
@@ -514,6 +521,7 @@ function inputChecker(arrayInput) {
   fetch("./json/oponenteIds.json")
     .then((respuesta) => respuesta.json())
     .then((oponenteIds) => {
+      muestraDetalle = false;
       resetBotonera();
       oponenteIds.forEach((idConOponente) => {
         idConOponente.oponente = idConOponente.oponente.replace(
@@ -806,7 +814,7 @@ function inputChecker(arrayInput) {
             localStorage.clear();
             if (puntaje == 100) {
               crearBoton("Siguiente", () => {
-                texto.innerHTML = `¡JUEGO PERFECTO EN PUNTAJE! Felicidades, ${inventario.nombre} del reino ${inventario.raza}, tu nombre será recordado, y haz sido nombrad${terminacion} el ${inventario.raza} más valiente de estos tiempos.`;
+                texto.innerHTML = `¡JUEGO PERFECTO EN PUNTAJE! Felicidades, ${inventario.nombre} del reino ${inventario.raza}, tu nombre será recordado, y has sido nombrad${terminacion} el ${inventario.raza} más valiente de estos tiempos.`;
                 resetBotonera();
                 crearBoton("Siguiente", finDelJuego);
               });
@@ -863,6 +871,7 @@ function catchError() {
 function cargandoTexto(fetch) {
   //Crea, en el div botonera o titulo, un cartel de cargando dinámico.
   let textoCargando = "Cargando...";
+  muestraDetalle = true;
   if (fetch) {
     resetBotonera();
     cargando = crearElemento("", "div", botonera, "waviy");
@@ -886,7 +895,7 @@ function finDelJuego() {
   titulo.innerText = `Fin`;
   texto.innerHTML = `¡Muchas gracias por jugar! Tus datos se enviaron por correo a mi casilla. Puede que no aparezcan enseguida, pero no te preocupes, ¡en la próxima actualización podrás buscarte y compararte con el resto de los jugadores!<br><br>Puedes reiniciar el juego o ver las distintas estadísticas de previos jugadores.`;
   if (!correoEnviado) {
-    previoAFetch();
+    cargandoTexto(true);
     correoEnviado = true;
     let templateParams = {
       nombre: inventario.nombre,
@@ -917,6 +926,7 @@ function finDelJuego() {
         }
       )
       .finally(() => {
+        muestraDetalle = false;
         resetBotonera();
         crearBoton("Reiniciar", inicio);
         crearBoton("Estadísticas", estadistica);
@@ -960,6 +970,7 @@ function estadistica() {
   fetch("./json/jugadores.json")
     .then((respuesta) => respuesta.json())
     .then((jugadores) => {
+      muestraDetalle = false;
       resetBotonera();
       jugadores.push(jugadorFinal);
       let tabla = crearElemento("", "div", texto, "tablaEstilo");
@@ -1505,6 +1516,7 @@ function creacionAdicionales() {
   detalles.addEventListener("click", () => {
     mostrarDetalles.classList.toggle("oculto");
     usuario.classList.toggle("blurPergamino");
+    oponente.classList.toggle("blurPergamino");
     scrollDiv.scrollTo(0, 0);
     if (!creacionPersonaje) {
       pergamino.classList.toggle("blurPergamino");
@@ -1518,9 +1530,11 @@ function creacionAdicionales() {
   });
 
   botonVolver = crearElemento("botonVolver", "button", mostrarDetalles, "");
+  botonVolver.innerText = "Volver";
   botonVolver.addEventListener("click", () => {
     mostrarDetalles.classList.add("oculto");
     usuario.classList.remove("blurPergamino");
+    oponente.classList.remove("blurPergamino");
     scrollDiv.scrollTo(0, 0);
 
     if (!creacionPersonaje) {

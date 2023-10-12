@@ -153,7 +153,7 @@
   },
   {
     "id": 2,
-    "descripcion": "¡Cuanta valentía estás demostrando, *codigo.nombre!<br><br>Recuerda, no hay vuelta atrás. A partir de este punto, o la victoria o la muerte están aseguradas, ¡pero a no desesperar! Confio plenamente en ti y en tus habilidades. Después de todo, haz estado explorando, ¿cierto?",
+    "descripcion": "¡Cuanta valentía estás demostrando, *codigo.nombre!<br><br>Recuerda, no hay vuelta atrás. A partir de este punto, o la victoria o la muerte están aseguradas, ¡pero a no desesperar! Confio plenamente en ti y en tus habilidades. Después de todo, has estado explorando, ¿cierto?",
     "categoria": "Castillo",
     "input": false,
     "cantidadOpciones": 0,
