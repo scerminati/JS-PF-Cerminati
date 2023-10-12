@@ -266,8 +266,6 @@ body i {
   position: absolute;
   opacity: 0;
   overflow: visible;
-  top: 5px;
-  left: 5px;
   cursor: pointer;
   animation: fadeinout 10s linear forwards;
   animation-iteration-count: infinite;
@@ -425,7 +423,7 @@ body i {
   }
 }
 @keyframes fadeinout {
-  0%, 45%, 55%, 100% {
+  0%, 40%, 60%, 100% {
     opacity: 0;
   }
   50% {
