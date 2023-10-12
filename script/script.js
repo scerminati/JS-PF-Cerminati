@@ -2,11 +2,6 @@ inicio();
 
 function inicio() {
   //Levantar elementos del DOM
-  texto = document.getElementById("texto");
-  botonera = document.getElementById("botonera");
-  titulo = document.getElementById("titulo");
-  input = document.getElementById("input");
-  personajesHTML = document.getElementById("personajesHTML");
   usuario = document.getElementById("usuario");
   oponente = document.getElementById("oponente");
   inventarioHTML = document.getElementById("inventario");
@@ -16,11 +11,14 @@ function inicio() {
   scrollDiv = document.getElementById("scroll");
   sendEmail = document.getElementById("sendEmail");
   ordenarDiv = document.getElementById("ordenarDiv");
-  ordenarTitulo = document.getElementById("ordenarTitulo");
-  ordenarTexto = document.getElementById("ordenarTexto");
-  columna1 = document.getElementById("columna1");
-  columna2 = document.getElementById("columna2");
-  botonesBuscador = document.getElementById("botonesBuscador");
+
+  pergamino.innerHTML = "";
+  titulo = crearElemento("titulo", "h3", pergamino, "");
+  texto = crearElemento("texto", "p", pergamino, "");
+  input = crearElemento("input", "input", pergamino, "oculto");
+  input.placeholder = "Introduce tu nombre";
+  personajesHTML = crearElemento("personajesHTML", "div", pergamino, "oculto");
+  botonera = crearElemento("botonera", "div", pergamino, "");
 
   creacionAdicionales();
   cargandoTitulo();
@@ -900,6 +898,14 @@ function estadistica() {
   titulo.innerText = `Estadísticas`;
   texto.innerHTML = `Aquí encontrarás las estadísticas de otros jugadores. Puedes buscar por nombres, filtrar por razas, ¡y hasta ver los stats de otros jugadores! Abajo encontrarás tu posición resaltada de acuerdo a cómo quieres ordenar los datos.<br><br>`;
 
+  ordenarDiv.innerHTML = "";
+  ordenarTitulo = crearElemento("ordenarTitulo", "h3", ordenarDiv, "");
+  ordenarTexto = crearElemento("ordenarTexto", "p", ordenarDiv, "");
+  contenedor = crearElemento("contenedor", "div", ordenarDiv, "contenedor");
+  columna1 = crearElemento("columna1", "div", contenedor, "columnaBotones");
+  columna2 = crearElemento("columna2", "div", contenedor, "columnaBotones");
+  botonesBuscador = crearElemento("botonesBuscador", "div", ordenarDiv, "");
+
   jugadorFinal = {
     nombre: inventario.nombre,
     raza: inventario.raza,
@@ -1430,6 +1436,16 @@ function combate(oponente) {
     : (turno = `Turno ${turnoContador} - Iniciativa: ${primero.nombre}. Daño Hecho: ${danoAPrimero}. Daño Recibido: ${danoASegundo}. Vida de ${oponente.nombre}: ${oponente.vida}.`);
 
   return textoExtra;
+}
+
+function crearElemento(nombre, tipoDeElemento, padre, clase) {
+  elementoDom = document.createElement(tipoDeElemento);
+  elementoDom.id = nombre;
+  if (clase != "") {
+    elementoDom.classList.add(clase);
+  }
+  padre.appendChild(elementoDom);
+  return elementoDom;
 }
 
 function creacionAdicionales() {
