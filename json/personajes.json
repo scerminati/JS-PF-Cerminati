@@ -40,14 +40,6 @@
     "defensa": 1
   },
   {
-    "raza": "Elfo",
-    "clase": "Profeta",
-    "vida": 9,
-    "iniciativa": 3,
-    "combate": 5,
-    "defensa": 3
-  },
-  {
     "raza": "Mago",
     "clase": "Monje",
     "vida": 12,

@@ -1,6 +1,7 @@
 inicio();
 
 function inicio() {
+  //Levantar elementos del DOM
   texto = document.getElementById("texto");
   botonera = document.getElementById("botonera");
   titulo = document.getElementById("titulo");
@@ -20,9 +21,12 @@ function inicio() {
   columna1 = document.getElementById("columna1");
   columna2 = document.getElementById("columna2");
   botonesBuscador = document.getElementById("botonesBuscador");
-  creacionAdicionales();
 
+  creacionAdicionales();
+  cargandoTitulo();
   resetBotonera();
+
+  //Inicialización de parámetros, en 0 o traidos de Local Storage
   usuario.classList.add("oculto");
   oponente.classList.add("oculto");
   detalles.classList.add("oculto");
@@ -41,6 +45,29 @@ function inicio() {
   turno = "";
   turnoContador = Number(localStorage.getItem("turnoContador")) || 0;
   logBruja = JSON.parse(localStorage.getItem("logBruja")) || [];
+  turnoHuida = Number(localStorage.getItem("turnoHuida")) || 0;
+  logDragon = JSON.parse(localStorage.getItem("logDragon")) || [];
+  logrosTotales = Number(localStorage.getItem("logrosTotales")) || 0;
+  puntaje = Number(localStorage.getItem("puntaje")) || 0;
+  logros = JSON.parse(localStorage.getItem("logros")) || [
+    `<br>- *`,
+    `<br>- *`,
+    `<br>- *`,
+    `<br>- *`,
+    `<br>- *`,
+    `<br>- *`,
+  ];
+  logrosID = JSON.parse(localStorage.getItem("logrosID")) || [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
+  index = localStorage.getItem("index") || -1;
+  id = JSON.parse(localStorage.getItem("id")) || -1;
+  idActual = localStorage.getItem("idActual") || -1;
 
   fetch("./json/bruja.json")
     .then((respuesta) => respuesta.json())
@@ -48,9 +75,6 @@ function inicio() {
       bruja = JSON.parse(localStorage.getItem("bruja")) || brujaJson;
     })
     .catch(catchError);
-
-  turnoHuida = Number(localStorage.getItem("turnoHuida")) || 0;
-  logDragon = JSON.parse(localStorage.getItem("logDragon")) || [];
 
   fetch("./json/dragon.json")
     .then((respuesta) => respuesta.json())
@@ -73,33 +97,11 @@ function inicio() {
     })
     .catch(catchError);
 
-  logrosTotales = Number(localStorage.getItem("logrosTotales")) || 0;
-  puntaje = Number(localStorage.getItem("puntaje")) || 0;
-  logros = JSON.parse(localStorage.getItem("logros")) || [
-    `<br>- *`,
-    `<br>- *`,
-    `<br>- *`,
-    `<br>- *`,
-    `<br>- *`,
-    `<br>- *`,
-  ];
-  logrosID = JSON.parse(localStorage.getItem("logrosID")) || [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ];
-  index = localStorage.getItem("index") || -1;
-  id = JSON.parse(localStorage.getItem("id")) || -1;
-  idActual = localStorage.getItem("idActual") || -1;
   comienzo = Date.parse(localStorage.getItem("comienzo")) || new Date();
   correoEnviado = false;
 
-  //Inicio de selección de personaje
-
   if (idActual == -1) {
+    //Inicio de selección de personaje
     previoAFetch();
     fetch("./json/cordialidad.json")
       .then((respuesta) => respuesta.json())
@@ -116,6 +118,7 @@ function inicio() {
       })
       .catch(catchError);
   } else {
+    //Carga de elementos guardados en Local Storage
     caminos = JSON.parse(localStorage.getItem("caminos"));
     inventario = JSON.parse(localStorage.getItem("inventario"));
     healthBase = Number(localStorage.getItem("healthBase"));
@@ -128,6 +131,7 @@ function inicio() {
 }
 
 function setNombre(cordialidad, id) {
+  //Función luego de elegir cordialidad, creación de botones y cambio de texto
   nombre = cordialidad[id].titulo;
   sexo = cordialidad[id].sexo;
   terminacion = "o";
@@ -156,6 +160,7 @@ function setNombre(cordialidad, id) {
 }
 
 function enviarInput() {
+  //Recibe input de nombre para realizar guardado de datos.
   bandera++;
   if (input.value != "") {
     let nombreMayus = input.value.toLowerCase();
@@ -180,6 +185,7 @@ function enviarInput() {
     input.value = "";
 
     texto.innerHTML += `<br><br>Por último, deberás escoger una raza. Dime, ¿con cuál de las siguientes razas crees que te identificas más?`;
+    //Búsqueda de personajes en archivo json, con el fin de crear botones para cada raza.
     previoAFetch();
     fetch("./json/personajes.json")
       .then((respuesta) => respuesta.json())
@@ -233,6 +239,7 @@ function enviarInput() {
 }
 
 function seleccionarRaza(razaSeleccionada, personajes) {
+  //Selección de clase del personaje dentro del array de posibilidades de la raza.
   let razaPersonaje = personajes.filter(
     (personaje) => personaje.raza == razaSeleccionada
   );
@@ -275,6 +282,7 @@ function seleccionarRaza(razaSeleccionada, personajes) {
 }
 
 function realizarInventario(razaPersonaje, personajeEscogido) {
+  //Creación de inventario de usuario y fetch de archivo de caminos, con modificación del mismo acorde a lo seleccionado.
   let usuarioEscogido = razaPersonaje.find(
     (personaje) => personaje.clase === personajeEscogido
   );
@@ -355,9 +363,13 @@ function setStorage(caminos) {
   localStorage.setItem("logrosID", JSON.stringify(logrosID));
   localStorage.setItem("inventario", JSON.stringify(inventario));
   localStorage.setItem("caminos", JSON.stringify(caminos));
+  localStorage.setItem("id", JSON.stringify(id));
+  localStorage.setItem("index", index);
+  localStorage.setItem("idActual", idActual);
 }
 
 function crearBoton(parametro, funcionPasada) {
+  //Permite crear botones, pasando parámetro (palabra del botón) y función. Adicionalmente si es solo el botón siguiente, crea el focus.
   window["boton" + parametro] = document.createElement("button");
   window["boton" + parametro].innerText = parametro;
   window["boton" + parametro].id = parametro.toLowerCase();
@@ -367,6 +379,7 @@ function crearBoton(parametro, funcionPasada) {
 }
 
 function mostrarInventario() {
+  //Manejo de DOM para ver el inventario del usuario.
   if (!muestraDetalle) {
     ocultarInventario();
     let inventarioAMostrar = `<h3>Inventario</h3><br><div class="flexInv">`;
@@ -395,6 +408,7 @@ function mostrarInventario() {
 }
 
 function ocultarInventario() {
+  //Manejo de DOM para ocultar inventario.
   inventarioHTML.classList.toggle("oculto");
   detalles.classList.toggle("oculto");
   pergamino.classList.toggle("blurPergamino");
@@ -405,6 +419,7 @@ function ocultarInventario() {
 }
 
 function registroLogro(id) {
+  //Función que cuando es llamada registra el logro en el array correspondiente para el final del juego.
   switch (id) {
     case "Nombre":
       indice = 0;
@@ -450,11 +465,9 @@ function resetBotonera() {
 }
 
 function inputChecker(arrayInput) {
+  //Manejo de caminos, seteo de storage y variables a manejar dentro de la función.
   resetBotonera();
   setStorage(arrayInput);
-  localStorage.setItem("id", JSON.stringify(id));
-  localStorage.setItem("index", index);
-  localStorage.setItem("idActual", idActual);
   titulo.innerText = arrayInput[index].categoria;
   idACambiar = -1;
   chequeoInput = false;
@@ -464,9 +477,11 @@ function inputChecker(arrayInput) {
   arma = false;
   textoAdicional = "";
   descripcionEspecial = "";
-
   oponente.classList.add("oculto");
   previoAFetch();
+  /*
+  Este archivo busca los IDs que corresponden a mostrar imágenes del oponente, así mismo permite correr el resto del código de manera asincrónica.
+  */
   fetch("./json/oponenteIds.json")
     .then((respuesta) => respuesta.json())
     .then((oponenteIds) => {
@@ -490,11 +505,14 @@ function inputChecker(arrayInput) {
           oponente.classList.remove("oculto");
           imagenOpo = oponenteIds[propiedad].oponente.ruta;
           oponente.innerHTML = imagenOpo;
-        } else {
         }
       }
 
+      //Chequea si el objeto correspondiente a camino tiene "especial", los distintos eventos del juego.
       if (arrayInput[index].especial != undefined) {
+        /*
+        El switch permite realizar los distintos eventos especiales, corrigiendo "caminos" si es necesario, con la lógica integrada posteriormente.
+        */
         switch (arrayInput[index].especial) {
           case "Voces":
             inventario.vida -= 1;
@@ -681,26 +699,33 @@ function inputChecker(arrayInput) {
         }
         setStorage(arrayInput);
       }
+
       if (antesDeLogica) {
+        //Permite modificar el array "caminos" antes de ser mostrado en pantalla.
         descripcionChecker(arrayInput, eliminar, idACambiar);
         localStorage.setItem("caminos", JSON.stringify(arrayInput));
       }
 
       if (arrayInput[index].input) {
+        //Si input (más de una opción, como un prompt) es true, realizará los botones correspondientes
         texto.innerHTML = arrayInput[index].descripcion;
         for (let i = 0; i < arrayInput[index].cantidadOpciones; i++) {
           crearBoton(arrayInput[index].opciones[i], () => {
             if (!antesDeLogica) {
+              //Permite modificar el array "caminos" luego de ser mostrados en pantalla, al presionar los botones.
               descripcionChecker(arrayInput, eliminar, idACambiar);
               localStorage.setItem("caminos", JSON.stringify(arrayInput));
             }
+            //Presionar los botones (cualquiera de ellos), lleva a correr nuevamente la función con un nuevo id.
             nextIndex(arrayInput, i);
             inputChecker(arrayInput);
           });
         }
       } else {
+        //Si input es falso (como si fuese un alert), lee descripción y crea un solo botón.
         texto.innerHTML = arrayInput[index].descripcion + textoAdicional;
         if (divToAppend != false) {
+          //Creación del agua para encontrar el arma.
           texto.appendChild(divToAppend);
           if (arma) {
             let x = Math.round(
@@ -718,12 +743,15 @@ function inputChecker(arrayInput) {
         crearBoton("Siguiente", () => {
           if (!salir) {
             if (!antesDeLogica) {
+              //Permite modificar el array "caminos" luego de ser mostrados en pantalla, al presionar los botones.
               descripcionChecker(arrayInput, eliminar, idACambiar);
               localStorage.setItem("caminos", JSON.stringify(arrayInput));
             }
+            //Presionar el botón, lleva a correr nuevamente la función con un nuevo id.
             nextIndex(arrayInput, 0);
             inputChecker(arrayInput);
           } else {
+            //Lógica de finalización del juego.
             resetBotonera();
             for (let index = 0; index < logros.length; index++) {
               logros[index] = logros[index].replace(`*`, `LOGRO BLOQUEADO.`);
@@ -761,7 +789,37 @@ function inputChecker(arrayInput) {
     .catch(catchError);
 }
 
+function nextIndex(arrayInput, numeroID) {
+  //Retorna el próximo id a manejar en caminos.
+  id = arrayInput[index].nextid;
+  index = arrayInput.findIndex((camino) => {
+    idActual = camino.id;
+    return camino.id === id[numeroID];
+  });
+}
+
+function descripcionChecker(arrayInput, eliminarEspecial, idACambiar) {
+  //Borra el especial del id pasado.
+  i = arrayInput.findIndex((camino) => {
+    return camino.id == idACambiar;
+  });
+
+  if (descripcionEspecial != "") {
+    arrayInput[i].descripcion = descripcionEspecial;
+    eliminarEspecial && delete arrayInput[i].especial;
+  }
+}
+
+function modificarNextId(arrayInput, nextIDacambiar, nextID) {
+  //Modifica el próximo id de caminos
+  i = arrayInput.findIndex((camino) => {
+    return camino.id == nextIDacambiar;
+  });
+  arrayInput[i].nextid = nextID;
+}
+
 function catchError() {
+  //Permite, en caso de que falle la traida de archivos json, resetear el juego a 0.
   resetBotonera();
   titulo.innerText = "Error";
   texto.innerText = "Error, volver a cargar el sitio.";
@@ -769,10 +827,10 @@ function catchError() {
     localStorage.clear();
     inicio();
   });
-  console.log(`Error en id ${idActual}, index ${index}`);
 }
 
 function previoAFetch() {
+  //Crea, en el div botonera, un cartel de cargando dinámico.
   resetBotonera();
   let cargando = document.createElement("div");
   cargando.classList.add("waviy");
@@ -789,6 +847,7 @@ function previoAFetch() {
 }
 
 function finDelJuego() {
+  //Envía correo con datos del jugador a casilla propia, y permite reiniciar el juego o ver estadísticas de usuarios anteriores.
   usuario.classList.remove("oculto");
   titulo.innerText = `Fin`;
   texto.innerHTML = `¡Muchas gracias por jugar! Tus datos se enviaron por correo a mi casilla. Puede que no aparezcan enseguida, pero no te preocupes, ¡en la próxima actualización podrás buscarte y compararte con el resto de los jugadores!<br><br>Puedes reiniciar el juego o ver las distintas estadísticas de previos jugadores.`;
@@ -828,6 +887,10 @@ function finDelJuego() {
         crearBoton("Reiniciar", inicio);
         crearBoton("Estadísticas", estadistica);
       });
+  } else {
+    resetBotonera();
+    crearBoton("Reiniciar", inicio);
+    crearBoton("Estadísticas", estadistica);
   }
 }
 
@@ -850,6 +913,7 @@ function estadistica() {
     tiempo: Math.round((final - comienzo) / 1000),
   };
 
+  //Búsqueda de jugadores en archivo .json
   previoAFetch();
   fetch("./json/jugadores.json")
     .then((respuesta) => respuesta.json())
@@ -875,6 +939,7 @@ function estadistica() {
       crearTabla(tabla, jugadoresFiltrados, coincide);
       crearBoton("Volver", finDelJuego);
 
+      //Ordenar modificará el orden de los jugadores según lo seleccionado.
       crearBoton("Ordenar", () => {
         ordenarDiv.classList.remove("oculto");
         pergamino.classList.toggle("blurPergamino");
@@ -897,6 +962,7 @@ function estadistica() {
         crearBotonOrdenar("Defensa", true, tabla);
       });
 
+      //Filtrar permitirá filtrar por razas.
       crearBoton("Filtrar", () => {
         jugadoresFiltrados = jugadores;
         ordenarDiv.classList.remove("oculto");
@@ -919,6 +985,7 @@ function estadistica() {
         }
       });
 
+      //Buscar permite buscar nombres de jugadores.
       crearBoton("Buscar", () => {
         botonesBuscador.classList.remove("oculto");
         botonesBuscador.innerHTML = "";
@@ -1021,6 +1088,7 @@ function estadistica() {
         botonesBuscador.appendChild(botonVolver);
       });
 
+      //Permite mostrar otros valores en la tabla.
       crearBoton("Stats", () => {
         statsOLogros = !statsOLogros;
         statsOLogros
@@ -1150,6 +1218,7 @@ function ordenarFunciones(prueba, tabla) {
 }
 
 function crearTabla(tabla, jugadores, jugadorBoo) {
+  //Crea tabla con los datos de los jugadores, adicionalmente matcheando con el usuario actual.
   let tablaG = document.createElement("table");
   let tablaBody = document.createElement("tbody");
   let tablaJug;
@@ -1281,32 +1350,6 @@ function crearTabla(tabla, jugadores, jugadorBoo) {
   }
 }
 
-function nextIndex(arrayInput, numeroID) {
-  id = arrayInput[index].nextid;
-  index = arrayInput.findIndex((camino) => {
-    idActual = camino.id;
-    return camino.id === id[numeroID];
-  });
-}
-
-function descripcionChecker(arrayInput, eliminarEspecial, idACambiar) {
-  i = arrayInput.findIndex((camino) => {
-    return camino.id == idACambiar;
-  });
-
-  if (descripcionEspecial != "") {
-    arrayInput[i].descripcion = descripcionEspecial;
-    eliminarEspecial && delete arrayInput[i].especial;
-  }
-}
-
-function modificarNextId(arrayInput, nextIDacambiar, nextID) {
-  i = arrayInput.findIndex((camino) => {
-    return camino.id == nextIDacambiar;
-  });
-  arrayInput[i].nextid = nextID;
-}
-
 function modificarTiempo(celda) {
   //Celda me deja el tiempo en segundos
   let horas = Math.floor(celda) / (60 * 60);
@@ -1320,6 +1363,7 @@ function modificarTiempo(celda) {
 }
 
 function combate(oponente) {
+  //Función de cálculo de puntos y daño realizado en los combates.
   textoExtra = "";
   iniciativaPropia = Math.ceil(Math.random() * 10) + inventario.iniciativa;
   iniciativaOponente = Math.ceil(Math.random() * 10) + oponente.iniciativa;
@@ -1389,6 +1433,7 @@ function combate(oponente) {
 }
 
 function creacionAdicionales() {
+  //Detalles adicionales del DOM de vista de explicaciones y envío de correo.
   detalles.addEventListener("click", () => {
     mostrarDetalles.classList.toggle("oculto");
     usuario.classList.toggle("blurPergamino");
@@ -1434,6 +1479,7 @@ function creacionAdicionales() {
 }
 
 function tostada(dano) {
+  //Tostada con daño recibido en combate.
   Toastify({
     text: `Perdiste ${dano} de vida`,
     duration: 3000,
@@ -1446,4 +1492,20 @@ function tostada(dano) {
     },
     offset: { y: 30 },
   }).showToast();
+}
+
+function cargandoTitulo() {
+  //Creación de animación en título al inicio en caso de no cargar archivos .json
+  let cargando = document.createElement("div");
+  cargando.classList.add("waviy");
+  let textoCargando = "CARGANDO...";
+  for (let i = 0; i < textoCargando.length; i++) {
+    let spanNuevo = document.createElement("span");
+    let caracter = textoCargando.charAt(i);
+    spanNuevo.innerHTML = caracter;
+    spanNuevo.style = `--i:${i + 1}`;
+    cargando.appendChild(spanNuevo);
+  }
+  titulo.innerHTML = "";
+  titulo.appendChild(cargando);
 }

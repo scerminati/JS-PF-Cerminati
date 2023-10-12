@@ -25,7 +25,7 @@
   },
   {
     "nombre": "Dame Eleanor",
-    "raza": "Elfo",
+    "raza": "Mago",
     "clase": "Profeta",
     "vida": 9,
     "iniciativa": 3,
@@ -37,7 +37,7 @@
   },
   {
     "nombre": "Lady Isabella",
-    "raza": "Elfo",
+    "raza": "Mago",
     "clase": "Monje",
     "vida": 12,
     "iniciativa": 2,
@@ -73,7 +73,7 @@
   },
   {
     "nombre": "Sir Thomas",
-    "raza": "Elfo",
+    "raza": "Orco",
     "clase": "Herrero",
     "vida": 9,
     "iniciativa": 4,
@@ -217,7 +217,7 @@
   },
   {
     "nombre": "Lord Edward",
-    "raza": "Elfo",
+    "raza": "Mago",
     "clase": "Profeta",
     "vida": 9,
     "iniciativa": 3,
@@ -229,7 +229,7 @@
   },
   {
     "nombre": "Dame Isabella",
-    "raza": "Elfo",
+    "raza": "Mago",
     "clase": "Monje",
     "vida": 12,
     "iniciativa": 2,
