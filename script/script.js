@@ -4,7 +4,7 @@ function inicio() {
   //Levantar elementos del DOM
   usuario = document.getElementById("usuario");
   oponente = document.getElementById("oponente");
-  inventarioHTML = document.getElementById("inventario");
+  inventarioHTML = document.getElementById("inventarioHTML");
   pergamino = document.getElementById("pergamino");
   detalles = document.getElementById("detalles");
   mostrarDetalles = document.getElementById("mostrarDetalles");
@@ -19,10 +19,6 @@ function inicio() {
   input.placeholder = "Introduce tu nombre";
   personajesHTML = crearElemento("personajesHTML", "div", pergamino, "oculto");
   botonera = crearElemento("botonera", "div", pergamino, "");
-
-  creacionAdicionales();
-  cargandoTitulo();
-  resetBotonera();
 
   //Inicialización de parámetros, en 0 o traidos de Local Storage
   usuario.classList.add("oculto");
@@ -66,6 +62,7 @@ function inicio() {
   index = localStorage.getItem("index") || -1;
   id = JSON.parse(localStorage.getItem("id")) || -1;
   idActual = localStorage.getItem("idActual") || -1;
+  creacionPersonaje = false;
 
   fetch("./json/bruja.json")
     .then((respuesta) => respuesta.json())
@@ -94,6 +91,10 @@ function inicio() {
       mensajeDragon = mensajeD;
     })
     .catch(catchError);
+
+  creacionAdicionales();
+  cargandoTitulo();
+  resetBotonera();
 
   comienzo = Date.parse(localStorage.getItem("comienzo")) || new Date();
   correoEnviado = false;
@@ -124,6 +125,7 @@ function inicio() {
     usuario.innerHTML = localStorage.getItem("usuarioImagen");
     personajesHTML.classList.add("oculto");
     usuario.addEventListener("click", mostrarInventario);
+    creacionPersonaje = true;
     inputChecker(caminos);
   }
 }
@@ -380,28 +382,55 @@ function mostrarInventario() {
   //Manejo de DOM para ver el inventario del usuario.
   if (!muestraDetalle) {
     ocultarInventario();
-    let inventarioAMostrar = `<h3>Inventario</h3><br><div class="flexInv">`;
-    let titulosAMostrar = `<div >`;
+    inventarioHTML.innerHTML = "";
+    inventarioTitulo = crearElemento(
+      "inventarioTitulo",
+      "h3",
+      inventarioHTML,
+      ""
+    );
+    inventarioTitulo.innerText = "Inventario";
+    inventarioHTML.innerHTML += `<br>`;
+    inventarioDivFlex = crearElemento(
+      "inventarioDivFlex",
+      "div",
+      inventarioHTML,
+      "flexInv"
+    );
+    titulosAMostrar = crearElemento(
+      "titulosAMostrar",
+      "div",
+      inventarioDivFlex,
+      ""
+    );
+
     for (const propiedad in inventario) {
-      titulosAMostrar += `<b>${propiedad.replace(
+      titulosAMostrar.innerHTML += `<b>${propiedad.replace(
         propiedad[0],
         propiedad[0].toUpperCase()
       )}:</b></br>`;
     }
-    titulosAMostrar += `<br></div>`;
+    titulosAMostrar.innerHTML += `<br>`;
 
-    let propiedadesAMonstrar = `<div class="right">`;
+    propiedadesAMostrar = crearElemento(
+      "propiedadesAMostrar",
+      "div",
+      inventarioDivFlex,
+      "right"
+    );
     for (const propiedad in inventario) {
-      propiedadesAMonstrar += `${inventario[propiedad]}</br>`;
+      propiedadesAMostrar.innerHTML += `${inventario[propiedad]}</br>`;
     }
-    propiedadesAMonstrar += `<br></div>`;
+    propiedadesAMostrar.innerHTML += `<br>`;
 
-    inventarioAMostrar += titulosAMostrar + propiedadesAMonstrar + `<br></div>`;
-    inventarioHTML.innerHTML = inventarioAMostrar;
-    let botonInventario = document.createElement("button");
+    botonInventario = crearElemento(
+      "botonInventario",
+      "button",
+      inventarioHTML,
+      ""
+    );
     botonInventario.innerText = "Volver";
     botonInventario.addEventListener("click", ocultarInventario);
-    inventarioHTML.appendChild(botonInventario);
   }
 }
 
@@ -1454,7 +1483,7 @@ function creacionAdicionales() {
     mostrarDetalles.classList.toggle("oculto");
     usuario.classList.toggle("blurPergamino");
     scrollDiv.scrollTo(0, 0);
-    if (!inventario) {
+    if (!creacionPersonaje) {
       pergamino.classList.toggle("blurPergamino");
       let nodes = botonera.getElementsByTagName("button");
       for (let i = 0; i < nodes.length; i++) {
@@ -1469,7 +1498,7 @@ function creacionAdicionales() {
     usuario.classList.remove("blurPergamino");
     scrollDiv.scrollTo(0, 0);
 
-    if (!inventario) {
+    if (!creacionPersonaje) {
       pergamino.classList.remove("blurPergamino");
       var nodes = botonera.getElementsByTagName("button");
       for (var i = 0; i < nodes.length; i++) {
