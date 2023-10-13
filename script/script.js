@@ -567,48 +567,43 @@ function inputChecker(arrayInput) {
 
             break;
           case "Combate Bruja":
-              textoAdicional = "";
-              textoAdicional =
-                mensajeBruja[Math.floor(Math.random() * mensajeBruja.length)];
-              adicional = combate(bruja);
-              logBruja.push(turno);
-              textoAdicional += `<br><br>La bruja tiene ${bruja.vida} puntos de vida. ${adicional}`;
-              localStorage.setItem("logBruja", JSON.stringify(logBruja));
-              localStorage.setItem("bruja", JSON.stringify(bruja));
-              localStorage.setItem("turnoContador", turnoContador);
-              if (muerte) {
-                arrayInput[index].nextid[0] = arrayInput[index].nextid[1];
-              } else if (victoria) {
-                arrayInput[index].nextid[0] = arrayInput[index].nextid[2];
-                victoria = false;
-                registroLogro("Bruja");
-                eliminar = true;
-                idACambiar = 1.3;
-                descripcionEspecial = `Ya has derrotado a la bruja, no hay nada más que ver aquí`;
-                modificarNextId(arrayInput, idACambiar, [1.21]);
-                turno = "";
-                turnoContador = 0;
-                inventario.combate += 2;
-                inventario.vida = healthBase + 5;
-                healthBase = inventario.vida;
-                localStorage.removeItem("logBruja");
-                localStorage.removeItem("turno");
-                localStorage.removeItem("bruja");
-                localStorage.removeItem("turnoContador");
-              }
+            textoAdicional = "";
+            textoAdicional =
+              mensajeBruja[Math.floor(Math.random() * mensajeBruja.length)];
+            adicional = combate(bruja);
+            logBruja.push(turno);
+            textoAdicional += `<br><br>La bruja tiene ${bruja.vida} puntos de vida. ${adicional}`;
+            localStorage.setItem("textoAdicional", textoAdicional);
+            localStorage.setItem("logBruja", JSON.stringify(logBruja));
+            localStorage.setItem("bruja", JSON.stringify(bruja));
+            localStorage.setItem("turnoContador", turnoContador);
+            if (muerte) {
+              arrayInput[index].nextid[0] = arrayInput[index].nextid[1];
+            } else if (victoria) {
+              arrayInput[index].nextid[0] = arrayInput[index].nextid[2];
+              victoria = false;
+              registroLogro("Bruja");
+              eliminar = true;
+              idACambiar = 1.3;
+              descripcionEspecial = `Ya has derrotado a la bruja, no hay nada más que ver aquí`;
+              modificarNextId(arrayInput, idACambiar, [1.21]);
+              turno = "";
+              turnoContador = 0;
+              inventario.combate += 2;
+              inventario.vida = healthBase + 5;
+              healthBase = inventario.vida;
+              localStorage.removeItem("logBruja");
+              localStorage.removeItem("turno");
+              localStorage.removeItem("bruja");
+              localStorage.removeItem("turnoContador");
+            }
             break;
           case "Log Bruja":
-            if (turno != "") {
-              antesDeLogica = true;
-              logCompleto = "";
-              for (let i = 0; i < logBruja.length; i++) {
-                logCompleto += logBruja[i] + `<br>`;
-              }
-              descripcionEspecial =
-                arrayInput[index].descripcion + `<br>` + logCompleto;
-              idACambiar = arrayInput[index].id;
-              turno = "";
+            logCompleto = "";
+            for (let i = 0; i < logBruja.length; i++) {
+              logCompleto += `${logBruja[i]}<br>`;
             }
+            textoAdicional = `<br>` + logCompleto;
             break;
           case "Vendedor":
             if (inventario.monedas == 10) {
@@ -701,16 +696,11 @@ function inputChecker(arrayInput) {
             }
             break;
           case "Log Dragón":
-            if (turno != "") {
-              antesDeLogica = true;
-              logCompleto = "";
-              for (let i = 0; i < logDragon.length; i++) {
-                logCompleto += logDragon[i] + `<br>`;
-              }
-              descripcionEspecial =
-                arrayInput[index].descripcion + `<br>` + logCompleto;
-              idACambiar = arrayInput[index].id;
+            logCompleto = "";
+            for (let i = 0; i < logDragon.length; i++) {
+              logCompleto += `${logDragon[i]}<br>`;
             }
+            textoAdicional = `<br>` + logCompleto;
             break;
           case "Huida":
             if (turnoHuida < 5 && inventario.vida > 0) {
@@ -758,7 +748,7 @@ function inputChecker(arrayInput) {
 
       if (arrayInput[index].input) {
         //Si input (más de una opción, como un prompt) es true, realizará los botones correspondientes
-        texto.innerHTML = arrayInput[index].descripcion;
+        texto.innerHTML = arrayInput[index].descripcion + textoAdicional;
         for (let i = 0; i < arrayInput[index].cantidadOpciones; i++) {
           crearBoton(arrayInput[index].opciones[i], () => {
             if (!antesDeLogica) {

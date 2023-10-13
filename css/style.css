@@ -129,9 +129,13 @@ body i {
   background-color: #ecd495;
   width: 600px;
   height: auto;
+  max-height: 500px;
   font-family: General;
   border: 2px solid #936b47;
   border-radius: 0 0% 10% 10%;
+}
+#pergamino #texto {
+  overflow-y: auto;
 }
 
 #botonera {
