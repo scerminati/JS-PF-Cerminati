@@ -128,7 +128,6 @@ function inicio() {
     personajesHTML.classList.add("oculto");
     usuario.addEventListener("click", mostrarInventario);
     creacionPersonaje = true;
-    console.log(JSON.stringify(caminos));
     inputChecker(caminos);
   }
 }
@@ -152,14 +151,15 @@ function setNombre(cordialidad, id) {
   input.classList.remove("oculto");
   input.maxLength = 14 - nombre.length;
   resetBotonera();
+
   crearBoton("Borrar", () => {
     input.value = "";
   });
+
   crearBoton("Enviar", enviarInput);
   input.addEventListener("keyup", (e) => {
     e.key === "Enter" && enviarInput();
   });
-  input.addEventListener("change", enviarInput);
 }
 
 function enviarInput() {
@@ -180,7 +180,7 @@ function enviarInput() {
   if (bandera == 3 && input.value == "") {
     nombre += `Anónim${terminacion}`;
     registroLogro("Nombre");
-    texto.innerHTML = `Parece que no confias en mi, no estamos empezando bien entonces. Te llamaré de ahora en más ${nombre}. Tu nombre no es tan conocido en el reino, y a medida que se esparce la voz, generas desconfianza entre la gente.`;
+    texto.innerHTML = `Parece que no confias en mi, no estamos empezando bien entonces. Decidiste permanecer en el anonimato, por lo que de ahora en más serás ${nombre}. Un desconocido apareció en el pueblo y se rumorea con cierta desconfianza de tu llegada.`;
   }
   if (input.value != "" || bandera == 3) {
     input.classList.add("oculto");
@@ -567,41 +567,45 @@ function inputChecker(arrayInput) {
 
             break;
           case "Combate Bruja":
-            textoAdicional = "";
-            textoAdicional =
-              mensajeBruja[Math.floor(Math.random() * mensajeBruja.length)];
-            adicional = combate(bruja);
-            logBruja.push(turno);
-            textoAdicional += `<br><br>La bruja tiene ${bruja.vida} puntos de vida. ${adicional}`;
-            localStorage.setItem("logBruja", JSON.stringify(logBruja));
-            localStorage.setItem("bruja", JSON.stringify(bruja));
-            localStorage.setItem("turnoContador", turnoContador);
-            if (muerte) {
-              arrayInput[index].nextid[0] = arrayInput[index].nextid[1];
-            } else if (victoria) {
-              arrayInput[index].nextid[0] = arrayInput[index].nextid[2];
-              victoria = false;
-              registroLogro("Bruja");
-              eliminar = true;
-              idACambiar = 1.3;
-              descripcionEspecial = `Ya has derrotado a la bruja, no hay nada más que ver aquí`;
-              modificarNextId(arrayInput, idACambiar, [1.21]);
-              turno = "";
-              turnoContador = 0;
-              inventario.combate += 2;
-              inventario.vida = healthBase + 5;
-              healthBase = inventario.vida;
-              localStorage.removeItem("logBruja");
-              localStorage.removeItem("turno");
-              localStorage.removeItem("bruja");
-              localStorage.removeItem("turnoContador");
-            }
+              textoAdicional = "";
+              textoAdicional =
+                mensajeBruja[Math.floor(Math.random() * mensajeBruja.length)];
+              adicional = combate(bruja);
+              logBruja.push(turno);
+              textoAdicional += `<br><br>La bruja tiene ${bruja.vida} puntos de vida. ${adicional}`;
+              localStorage.setItem("logBruja", JSON.stringify(logBruja));
+              localStorage.setItem("bruja", JSON.stringify(bruja));
+              localStorage.setItem("turnoContador", turnoContador);
+              if (muerte) {
+                arrayInput[index].nextid[0] = arrayInput[index].nextid[1];
+              } else if (victoria) {
+                arrayInput[index].nextid[0] = arrayInput[index].nextid[2];
+                victoria = false;
+                registroLogro("Bruja");
+                eliminar = true;
+                idACambiar = 1.3;
+                descripcionEspecial = `Ya has derrotado a la bruja, no hay nada más que ver aquí`;
+                modificarNextId(arrayInput, idACambiar, [1.21]);
+                turno = "";
+                turnoContador = 0;
+                inventario.combate += 2;
+                inventario.vida = healthBase + 5;
+                healthBase = inventario.vida;
+                localStorage.removeItem("logBruja");
+                localStorage.removeItem("turno");
+                localStorage.removeItem("bruja");
+                localStorage.removeItem("turnoContador");
+              }
             break;
           case "Log Bruja":
             if (turno != "") {
               antesDeLogica = true;
+              logCompleto = "";
+              for (let i = 0; i < logBruja.length; i++) {
+                logCompleto += logBruja[i] + `<br>`;
+              }
               descripcionEspecial =
-                arrayInput[index].descripcion + `<br>` + turno;
+                arrayInput[index].descripcion + `<br>` + logCompleto;
               idACambiar = arrayInput[index].id;
               turno = "";
             }
@@ -699,8 +703,12 @@ function inputChecker(arrayInput) {
           case "Log Dragón":
             if (turno != "") {
               antesDeLogica = true;
+              logCompleto = "";
+              for (let i = 0; i < logDragon.length; i++) {
+                logCompleto += logDragon[i] + `<br>`;
+              }
               descripcionEspecial =
-                arrayInput[index].descripcion + `<br>` + turno;
+                arrayInput[index].descripcion + `<br>` + logCompleto;
               idACambiar = arrayInput[index].id;
             }
             break;

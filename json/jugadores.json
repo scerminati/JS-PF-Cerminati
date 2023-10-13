@@ -310,5 +310,53 @@
     "puntaje": 40,
     "logros": 4,
     "tiempo": 280
+  },
+  {
+    "nombre": "Lord Anónimo",
+    "raza": "Elfo",
+    "clase": "Guerrero",
+    "vida": 10,
+    "iniciativa": 2,
+    "combate": 16,
+    "defensa": 1,
+    "puntaje": 75,
+    "logros": 5,
+    "tiempo": 242
+  },
+  {
+    "nombre": "D",
+    "raza": "Humano",
+    "clase": "Caballero",
+    "vida": 13,
+    "iniciativa": 0,
+    "combate": 2,
+    "defensa": 5,
+    "puntaje": 0,
+    "logros": 0,
+    "tiempo": 112
+  },
+  {
+    "nombre": "Lord Sss",
+    "raza": "Elfo",
+    "clase": "Guerrero",
+    "vida": 10,
+    "iniciativa": 2,
+    "combate": 7,
+    "defensa": 1,
+    "puntaje": 0,
+    "logros": 0,
+    "tiempo": 22
+  },
+  {
+    "nombre": "Sir Diego",
+    "raza": "Orco",
+    "clase": "Destructor",
+    "vida": 14,
+    "iniciativa": 2,
+    "combate": 14,
+    "defensa": 2,
+    "puntaje": 65,
+    "logros": 4,
+    "tiempo": 327
   }
 ]
