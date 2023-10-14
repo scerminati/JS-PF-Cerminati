@@ -118,14 +118,14 @@ function inicio() {
 }
 
 function inicioLuegoDeCarga() {
-  //creacionAdicionales();
+  creacionAdicionales();
   muestraDetalle = false;
   resetBotonera();
   comienzo = Date.parse(localStorage.getItem("comienzo")) || new Date();
   correoEnviado = false;
 
   if (idActual == -1) {
-    //Inicio de selección de personaje
+    //Inicio de selección de personaje, 
     cargandoTexto(true);
     fetch("./json/cordialidad.json")
       .then((respuesta) => respuesta.json())
