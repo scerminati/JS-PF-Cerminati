@@ -358,5 +358,41 @@
     "puntaje": 65,
     "logros": 4,
     "tiempo": 327
+  },
+  {
+    "nombre": "Anastasia",
+    "raza": "Elfo",
+    "clase": "Asesino",
+    "vida": 11,
+    "iniciativa": 6,
+    "combate": 10,
+    "defensa": 0,
+    "puntaje": 65,
+    "logros": 4,
+    "tiempo": 368
+  },
+  {
+    "nombre": "Lady Anónima",
+    "raza": "Orco",
+    "clase": "Arquero",
+    "vida": 12,
+    "iniciativa": 0,
+    "combate": 12,
+    "defensa": 3,
+    "puntaje": 60,
+    "logros": 5,
+    "tiempo": 182
+  },
+  {
+    "nombre": "Sir Bondrewd",
+    "raza": "Mago",
+    "clase": "Profeta",
+    "vida": 13,
+    "iniciativa": 3,
+    "combate": 4,
+    "defensa": 0,
+    "puntaje": 0,
+    "logros": 0,
+    "tiempo": 43
   }
 ]
