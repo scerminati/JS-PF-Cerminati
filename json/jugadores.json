@@ -394,5 +394,17 @@
     "puntaje": 0,
     "logros": 0,
     "tiempo": 43
+  },
+  {
+    "nombre": "Lady Aaa",
+    "raza": "Elfo",
+    "clase": "Guerrero",
+    "vida": 10,
+    "iniciativa": 2,
+    "combate": 7,
+    "defensa": 1,
+    "puntaje": 5,
+    "logros": 1,
+    "tiempo": 162244
   }
 ]
