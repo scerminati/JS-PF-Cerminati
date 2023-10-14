@@ -194,7 +194,7 @@
   },
   {
     "id": 2.4,
-    "descripcion": "Un gran salón se impone frente a ti. El enorme dragón se encuentra ahí, ansioso. Pareciera como si te hubiese estado esperando.<br><br>El ruido de la puerta le llama la atención, te ve llegar y abre la boca para escupir fuego. ¡Esto se está por poner muy feo!<br><br>El dragón tiene un tamaño imponente, sus escamas de color rojo brillan con la luz del sol que se cuela por el vitral. ¿Estás list*codigo.terminacion para esta batalla? Siempre está la opción de huir...<br><br>Tu oponente se ve feroz, se para frente a ti y su mirada se ve aterradora, ¡pero nada como la valentía de *codigo.nombre para enfrentarlo!<br><br>Te preparas para la gran batalla final. ¡Es tu oportunidad para salvar a Javascra! ¡Mucha suerte!",
+    "descripcion": "Un gran salón se impone frente a ti. El enorme dragón se encuentra ahí, ansioso, sus escamas color rojo brillan con la luz del sol que se cuela por el vitral. Pareciera como si te hubiese estado esperando.<br><br>El ruido de la puerta le llama la atención, te ve llegar y abre la boca para escupir fuego. ¡Esto se está por poner muy feo! Se para frente a ti, y su mirada se ve aterradora, ¡pero nada como la valentía de *codigo.nombre para enfrentarlo!<br><br>¿Estás list*codigo.terminacion para esta batalla? Siempre está la opción de huir... ¡Es tu oportunidad para salvar a Javascra! ¡Mucha suerte!",
     "categoria": "Castillo",
     "input": false,
     "cantidadOpciones": 0,
