@@ -38,6 +38,7 @@ function inicio() {
   statsOLogros = false;
   turno = "";
   turnoContador = Number(localStorage.getItem("turnoContador")) || 0;
+  refrescar = JSON.parse(localStorage.getItem("refrescar")) || false;
   logBruja = JSON.parse(localStorage.getItem("logBruja")) || [];
   turnoHuida = Number(localStorage.getItem("turnoHuida")) || 0;
   logDragon = JSON.parse(localStorage.getItem("logDragon")) || [];
@@ -64,39 +65,62 @@ function inicio() {
   idActual = localStorage.getItem("idActual") || -1;
   creacionPersonaje = false;
 
-  fetch("./json/bruja.json")
-    .then((respuesta) => respuesta.json())
-    .then((brujaJson) => {
-      bruja = JSON.parse(localStorage.getItem("bruja")) || brujaJson;
-    })
-    .catch(catchError);
-
-  fetch("./json/dragon.json")
-    .then((respuesta) => respuesta.json())
-    .then((dragonJson) => {
-      dragon = JSON.parse(localStorage.getItem("dragon")) || dragonJson;
-    })
-    .catch(catchError);
-
-  fetch("./json/mensajeBruja.json")
-    .then((respuesta) => respuesta.json())
-    .then((mensajeB) => {
-      mensajeBruja = mensajeB;
-    })
-    .catch(catchError);
-
-  fetch("./json/mensajeDragon.json")
-    .then((respuesta) => respuesta.json())
-    .then((mensajeD) => {
-      mensajeDragon = mensajeD;
-    })
-    .catch(catchError);
-
-  creacionAdicionales();
   cargandoTexto(false);
+
+  Promise.all([
+    fetch("./json/bruja.json")
+      .then((respuesta) => respuesta.json())
+      .then((brujaJson) => {
+        bruja = JSON.parse(localStorage.getItem("bruja")) || brujaJson;
+      }),
+
+    fetch("./json/dragon.json")
+      .then((respuesta) => respuesta.json())
+      .then((dragonJson) => {
+        dragon = JSON.parse(localStorage.getItem("dragon")) || dragonJson;
+      }),
+
+    fetch("./json/mensajeBruja.json")
+      .then((respuesta) => respuesta.json())
+      .then((mensajeB) => {
+        mensajeBruja = mensajeB;
+      }),
+
+    fetch("./json/mensajeDragon.json")
+      .then((respuesta) => respuesta.json())
+      .then((mensajeD) => {
+        mensajeDragon = mensajeD;
+      }),
+
+    fetch("./json/oponenteIds.json")
+      .then((respuesta) => respuesta.json())
+      .then((oponenteIds) => {
+        oponenteIds.forEach((idConOponente) => {
+          idConOponente.oponente = idConOponente.oponente.replace(
+            "*codigo.bruja",
+            JSON.stringify(bruja)
+          );
+          idConOponente.oponente = idConOponente.oponente.replace(
+            "*codigo.dragon",
+            JSON.stringify(dragon)
+          );
+          idConOponente.oponente = JSON.parse(idConOponente.oponente);
+        });
+        oponenteIdsFetch = oponenteIds;
+        localStorage.setItem(
+          "oponenteIdsFetch",
+          JSON.stringify(oponenteIdsFetch)
+        );
+      }),
+  ])
+    .then(inicioLuegoDeCarga())
+    .catch(catchError);
+}
+
+function inicioLuegoDeCarga() {
+  //creacionAdicionales();
   muestraDetalle = false;
   resetBotonera();
-
   comienzo = Date.parse(localStorage.getItem("comienzo")) || new Date();
   correoEnviado = false;
 
@@ -116,8 +140,7 @@ function inicio() {
             setNombre(cordialidad, index)
           );
         }
-      })
-      .catch(catchError);
+      });
   } else {
     //Carga de elementos guardados en Local Storage
     caminos = JSON.parse(localStorage.getItem("caminos"));
@@ -514,315 +537,309 @@ function inputChecker(arrayInput) {
   textoAdicional = "";
   descripcionEspecial = "";
   oponente.classList.add("oculto");
-  cargandoTexto(true);
-  /*
-  Este archivo busca los IDs que corresponden a mostrar imágenes del oponente, así mismo permite correr el resto del código de manera asincrónica.
-  */
-  fetch("./json/oponenteIds.json")
-    .then((respuesta) => respuesta.json())
-    .then((oponenteIds) => {
-      muestraDetalle = false;
-      resetBotonera();
-      oponenteIds.forEach((idConOponente) => {
-        idConOponente.oponente = idConOponente.oponente.replace(
-          "*codigo.bruja",
-          JSON.stringify(bruja)
-        );
-        idConOponente.oponente = idConOponente.oponente.replace(
-          "*codigo.dragon",
-          JSON.stringify(dragon)
-        );
-        idConOponente.oponente = JSON.parse(idConOponente.oponente);
-      });
-      for (const propiedad in oponenteIds) {
-        if (
-          oponenteIds[propiedad].id == idActual &&
-          oponenteIds[propiedad].oponente.vida > 0
-        ) {
-          oponente.classList.remove("oculto");
-          imagenOpo = oponenteIds[propiedad].oponente.ruta;
-          oponente.innerHTML = imagenOpo;
-        }
-      }
 
-      //Chequea si el objeto correspondiente a camino tiene "especial", los distintos eventos del juego.
-      if (arrayInput[index].especial != undefined) {
-        /*
+  oponenteIdsFetch = JSON.parse(localStorage.getItem("oponenteIdsFetch"));
+  for (const propiedad in oponenteIdsFetch) {
+    if (
+      oponenteIdsFetch[propiedad].id == idActual &&
+      oponenteIdsFetch[propiedad].oponente.vida > 0
+    ) {
+      oponente.classList.remove("oculto");
+      imagenOpo = oponenteIdsFetch[propiedad].oponente.ruta;
+      oponente.innerHTML = imagenOpo;
+    }
+  }
+
+  //Chequea si el objeto correspondiente a camino tiene "especial", los distintos eventos del juego.
+  if (arrayInput[index].especial != undefined) {
+    /*
         El switch permite realizar los distintos eventos especiales, corrigiendo "caminos" si es necesario, con la lógica integrada posteriormente.
         */
-        switch (arrayInput[index].especial) {
-          case "Voces":
-            inventario.vida -= 1;
-            tostada(1);
-            registroLogro("Voces");
-            inventario.vida <= 0 &&
-              (arrayInput[index].nextid[0] = arrayInput[index].nextid[1]);
+    switch (arrayInput[index].especial) {
+      case "Voces":
+        inventario.vida -= 1;
+        tostada(1);
+        registroLogro("Voces");
+        inventario.vida <= 0 &&
+          (arrayInput[index].nextid[0] = arrayInput[index].nextid[1]);
 
-            break;
-          case "Monedas":
-            inventario.monedas += 10;
-            descripcionEspecial = `Ya exploraste este lugar, te recomiendo que busques en otro lado.`;
-            idACambiar = arrayInput[index].id;
+        break;
+      case "Monedas":
+        inventario.monedas += 10;
+        descripcionEspecial = `Ya exploraste este lugar, te recomiendo que busques en otro lado.`;
+        idACambiar = arrayInput[index].id;
+        eliminar = true;
+
+        break;
+      case "Combate Bruja":
+        if (refrescar) {
+          refrescar = false;
+          textoAdicional =
+            mensajeBruja[Math.floor(Math.random() * mensajeBruja.length)];
+          adicional = combate(bruja);
+          logBruja.push(turno);
+          textoAdicional += `<br><br>La bruja tiene ${bruja.vida} puntos de vida. ${adicional}`;
+          localStorage.setItem("textoAdicional", textoAdicional);
+          localStorage.setItem("refrescar", JSON.stringify(refrescar));
+          localStorage.setItem("logBruja", JSON.stringify(logBruja));
+          localStorage.setItem("bruja", JSON.stringify(bruja));
+          localStorage.setItem("turnoContador", turnoContador);
+          if (muerte) {
+            arrayInput[index].nextid[0] = arrayInput[index].nextid[1];
+          } else if (victoria) {
+            arrayInput[index].nextid[0] = arrayInput[index].nextid[2];
+            victoria = false;
+            registroLogro("Bruja");
             eliminar = true;
-
-            break;
-          case "Combate Bruja":
-            textoAdicional = "";
-            textoAdicional =
-              mensajeBruja[Math.floor(Math.random() * mensajeBruja.length)];
-            adicional = combate(bruja);
-            logBruja.push(turno);
-            textoAdicional += `<br><br>La bruja tiene ${bruja.vida} puntos de vida. ${adicional}`;
-            localStorage.setItem("textoAdicional", textoAdicional);
-            localStorage.setItem("logBruja", JSON.stringify(logBruja));
-            localStorage.setItem("bruja", JSON.stringify(bruja));
-            localStorage.setItem("turnoContador", turnoContador);
-            if (muerte) {
-              arrayInput[index].nextid[0] = arrayInput[index].nextid[1];
-            } else if (victoria) {
-              arrayInput[index].nextid[0] = arrayInput[index].nextid[2];
-              victoria = false;
-              registroLogro("Bruja");
-              eliminar = true;
-              idACambiar = 1.3;
-              descripcionEspecial = `Ya has derrotado a la bruja, no hay nada más que ver aquí`;
-              modificarNextId(arrayInput, idACambiar, [1.21]);
-              turno = "";
-              turnoContador = 0;
-              inventario.combate += 2;
-              inventario.vida = healthBase + 5;
-              healthBase = inventario.vida;
-              localStorage.removeItem("logBruja");
-              localStorage.removeItem("turno");
-              localStorage.removeItem("bruja");
-              localStorage.removeItem("turnoContador");
-            }
-            break;
-          case "Log Bruja":
-            logCompleto = "";
-            for (let i = 0; i < logBruja.length; i++) {
-              logCompleto += `${logBruja[i]}<br>`;
-            }
-            textoAdicional = `<br>` + logCompleto;
-            break;
-          case "Vendedor":
-            if (inventario.monedas == 10) {
-              arrayInput[index].nextid[0] = arrayInput[index].nextid[1];
-              puntaje += 10;
-              inventario.monedas -= 10;
-            }
-            break;
-          case "Soga":
-            idACambiar = 3.2;
-            descripcionEspecial = `"Buenos días, ${inventario.nombre}, recuerde que ya no tengo nada para ofrecerle. Solo quería entablar una conversación con usted. ¿Qué va a hacer usted hoy en este maravilloso día?"`;
-            eliminar = true;
-            modificarNextId(arrayInput, idACambiar, [3.1]);
-            inventario.herramientas = "Soga";
-            break;
-          case "Arma":
-            arma = true;
-            divToAppend = document.createElement("div");
-            divToAppend.id = "aguaID";
-            divToAppend.classList.add("agua");
-            let armaEscondida = crearElemento(
-              "armaEscondida",
-              "div",
-              divToAppend,
-              ""
-            );
-            armaEscondida.addEventListener("click", () => {
-              idACambiar = 3.6;
-              respirar = 0;
-              localStorage.setItem("respirar", respirar);
-              modificarNextId(arrayInput, idACambiar, [3.7]);
-              nextIndex(arrayInput, 0);
-              inputChecker(arrayInput);
-            });
-
-            break;
-          case "Respiración":
-            respirar = localStorage.getItem("respirar");
-            texto.classList.add("center");
-            for (let i = 0; i < respirar; i++) {
-              textoAdicional += `<br><br>...`;
-            }
-            respirar++;
-            localStorage.setItem("respirar", respirar);
-            if (respirar == 3) {
-              arrayInput[index].nextid[0] = arrayInput[index].nextid[1];
-              localStorage.removeItem("respirar");
-            }
-            break;
-          case "Log Arma":
-            texto.classList.remove("center");
-            registroLogro("Arma");
-            inventario.armas = armaAEncontrar;
-            idACambiar = 3.6;
-            descripcionEspecial = `El agua ya no esconde ningún secreto, aunque se encuentra extremadamente plácida. Te quedas observándola unos minutos, pero sabes que debes regresar.`;
-            eliminar = true;
-            modificarNextId(arrayInput, idACambiar, [3.1]);
-            modificarNextId(arrayInput, 3.5, [3.1, 3.6]);
-            inventario.combate += 5;
-            break;
-          case "Puente":
-            if (inventario.herramientas == "Soga") {
-              arrayInput[index].nextid[0] = arrayInput[index].nextid[1];
-              registroLogro("Puente");
-            } else {
-              inventario.vida -= 3;
-              tostada(3);
-              inventario.vida <= 0 &&
-                (arrayInput[index].nextid[0] = arrayInput[index].nextid[2]);
-            }
-            break;
-          case "Combate Dragón":
-            textoAdicional = "";
-            textoAdicional =
-              mensajeDragon[Math.floor(Math.random() * mensajeDragon.length)];
-            adicional = combate(dragon);
-            logDragon.push(turno);
-            textoAdicional += `<br><br>El dragón tiene ${dragon.vida} puntos de vida. ${adicional}`;
-            localStorage.setItem("logDragon", JSON.stringify(logDragon));
-            localStorage.setItem("dragon", JSON.stringify(dragon));
-            localStorage.setItem("turnoContador", turnoContador);
-            if (muerte) {
-              arrayInput[index].nextid[0] = arrayInput[index].nextid[1];
-            } else if (victoria) {
-              arrayInput[index].nextid[0] = arrayInput[index].nextid[2];
-              registroLogro("Dragón");
-              localStorage.removeItem("logDragon");
-              localStorage.removeItem("dragon");
-              localStorage.removeItem("turnoContador");
-            }
-            break;
-          case "Log Dragón":
-            logCompleto = "";
-            for (let i = 0; i < logDragon.length; i++) {
-              logCompleto += `${logDragon[i]}<br>`;
-            }
-            textoAdicional = `<br>` + logCompleto;
-            break;
-          case "Huida":
-            if (turnoHuida < 5 && inventario.vida > 0) {
-              turnoHuida++;
-              localStorage.setItem("turnoHuida", turnoHuida);
-              let danoEscape = Math.floor(
-                (Math.random() * 20 + dragon.combate) / 5
-              );
-              inventario.vida -= danoEscape;
-              danoEscape > 0 && tostada(danoEscape);
-            }
-
-            if (inventario.vida <= 0 && turnoHuida <= 5) {
-              arrayInput[index].nextid[0] = arrayInput[index].nextid[1];
-              inventario.vida = 0;
-              descripcionEspecial = `¡El dragón te ha derrotado! Te has quedado sin vida.<br><br><center>FIN DEL JUEGO.</center>`;
-              antesDeLogica = true;
-              idACambiar = 2.8;
-            } else if (inventario.vida > 0 && turnoHuida <= 5) {
-              descripcionEspecial =
-                arrayInput[index].descripcion +
-                `<br> Turno ${turnoHuida}: Tienes ${inventario.vida} puntos de vida.`;
-              antesDeLogica = true;
-              idACambiar = 2.8;
-              if (turnoHuida == 5) {
-                arrayInput[index].nextid[0] = arrayInput[index].nextid[2];
-                puntaje += 10;
-              }
-            }
-            break;
-          case "Fin":
-            salir = true;
-            chequeoInput = true;
-            final = new Date();
-            break;
-        }
-        setStorage(arrayInput);
-      }
-
-      if (antesDeLogica) {
-        //Permite modificar el array "caminos" antes de ser mostrado en pantalla.
-        descripcionChecker(arrayInput, eliminar, idACambiar);
-        localStorage.setItem("caminos", JSON.stringify(arrayInput));
-      }
-
-      if (arrayInput[index].input) {
-        //Si input (más de una opción, como un prompt) es true, realizará los botones correspondientes
-        texto.innerHTML = arrayInput[index].descripcion + textoAdicional;
-        for (let i = 0; i < arrayInput[index].cantidadOpciones; i++) {
-          crearBoton(arrayInput[index].opciones[i], () => {
-            if (!antesDeLogica) {
-              //Permite modificar el array "caminos" luego de ser mostrados en pantalla, al presionar los botones.
-              descripcionChecker(arrayInput, eliminar, idACambiar);
-              localStorage.setItem("caminos", JSON.stringify(arrayInput));
-            }
-            //Presionar los botones (cualquiera de ellos), lleva a correr nuevamente la función con un nuevo id.
-            nextIndex(arrayInput, i);
-            inputChecker(arrayInput);
-          });
-        }
-      } else {
-        //Si input es falso (como si fuese un alert), lee descripción y crea un solo botón.
-        texto.innerHTML = arrayInput[index].descripcion + textoAdicional;
-        if (divToAppend != false) {
-          //Creación del agua para encontrar el arma.
-          texto.appendChild(divToAppend);
-          if (arma) {
-            let x =
-              Math.round(Math.random() * (divToAppend.offsetWidth - 20)) + 5;
-            let y =
-              Math.round(Math.random() * (divToAppend.offsetHeight - 20)) + 5;
-            armaEscondida.style.top = `${y}px`;
-            armaEscondida.style.left = `${x}px`;
+            idACambiar = 1.3;
+            descripcionEspecial = `Ya has derrotado a la bruja, no hay nada más que ver aquí`;
+            modificarNextId(arrayInput, idACambiar, [1.21]);
+            turno = "";
+            turnoContador = 0;
+            inventario.combate += 2;
+            inventario.vida = healthBase + 5;
+            healthBase = inventario.vida;
+            localStorage.removeItem("logBruja");
+            localStorage.removeItem("turno");
+            localStorage.removeItem("bruja");
+            localStorage.removeItem("turnoContador");
           }
+        } else {
+          textoAdicional = localStorage.getItem("textoAdicional");
         }
-        crearBoton("Siguiente", () => {
-          if (!salir) {
-            if (!antesDeLogica) {
-              //Permite modificar el array "caminos" luego de ser mostrados en pantalla, al presionar los botones.
-              descripcionChecker(arrayInput, eliminar, idACambiar);
-              localStorage.setItem("caminos", JSON.stringify(arrayInput));
-            }
-            //Presionar el botón, lleva a correr nuevamente la función con un nuevo id.
-            nextIndex(arrayInput, 0);
-            inputChecker(arrayInput);
-          } else {
-            //Lógica de finalización del juego.
-            resetBotonera();
-            for (let index = 0; index < logros.length; index++) {
-              logros[index] = logros[index].replace(`*`, `LOGRO BLOQUEADO.`);
-            }
-
-            let tiempoTotal = final - comienzo;
-            tiempoTotal = Math.round(tiempoTotal / 1000);
-            let unidad = `segundos`;
-            if (tiempoTotal > 120) {
-              tiempoTotal = Math.round(tiempoTotal / 60);
-              unidad = `minutos`;
-            }
-            texto.innerHTML = `${inventario.nombre} del reino ${
-              inventario.raza
-            }, aquí tus estadísticas de juego.<br><br>Has conseguido un puntaje total de ${puntaje}/100.<br><br>Logros obtenidos durante la aventura:<br>${logros.join(
-              " "
-            )}<br><br>Obtuviste un total de ${logrosTotales} de ${
-              logros.length
-            } logros.<br><br>El tiempo total de aventura fue de ${tiempoTotal} ${unidad}.`;
-
-            localStorage.clear();
-            if (puntaje == 100) {
-              crearBoton("Siguiente", () => {
-                texto.innerHTML = `¡JUEGO PERFECTO EN PUNTAJE! Felicidades, ${inventario.nombre} del reino ${inventario.raza}, tu nombre será recordado, y has sido nombrad${terminacion} el ${inventario.raza} más valiente de estos tiempos.`;
-                resetBotonera();
-                crearBoton("Siguiente", finDelJuego);
-              });
-            } else {
-              crearBoton("Siguiente", finDelJuego);
-            }
-          }
+        break;
+      case "Log Bruja":
+        logCompleto = "";
+        refrescar = true;
+        localStorage.setItem("refrescar", JSON.stringify(refrescar));
+        for (let i = 0; i < logBruja.length; i++) {
+          logCompleto += `${logBruja[i]}<br>`;
+        }
+        textoAdicional = `<br>` + logCompleto;
+        break;
+      case "Vendedor":
+        if (inventario.monedas == 10) {
+          arrayInput[index].nextid[0] = arrayInput[index].nextid[1];
+          puntaje += 10;
+          inventario.monedas -= 10;
+        }
+        break;
+      case "Soga":
+        idACambiar = 3.2;
+        descripcionEspecial = `"Buenos días, ${inventario.nombre}, recuerde que ya no tengo nada para ofrecerle. Solo quería entablar una conversación con usted. ¿Qué va a hacer usted hoy en este maravilloso día?"`;
+        eliminar = true;
+        modificarNextId(arrayInput, idACambiar, [3.1]);
+        inventario.herramientas = "Soga";
+        break;
+      case "Arma":
+        arma = true;
+        divToAppend = document.createElement("div");
+        divToAppend.id = "aguaID";
+        divToAppend.classList.add("agua");
+        let armaEscondida = crearElemento(
+          "armaEscondida",
+          "div",
+          divToAppend,
+          ""
+        );
+        armaEscondida.addEventListener("click", () => {
+          idACambiar = 3.6;
+          respirar = 0;
+          localStorage.setItem("respirar", respirar);
+          modificarNextId(arrayInput, idACambiar, [3.7]);
+          nextIndex(arrayInput, 0);
+          inputChecker(arrayInput);
         });
+
+        break;
+      case "Respiración":
+        respirar = localStorage.getItem("respirar");
+        texto.classList.add("center");
+        for (let i = 0; i < respirar; i++) {
+          textoAdicional += `<br><br>...`;
+        }
+        respirar++;
+        localStorage.setItem("respirar", respirar);
+        if (respirar == 3) {
+          arrayInput[index].nextid[0] = arrayInput[index].nextid[1];
+          localStorage.removeItem("respirar");
+        }
+        break;
+      case "Log Arma":
+        texto.classList.remove("center");
+        registroLogro("Arma");
+        inventario.armas = armaAEncontrar;
+        idACambiar = 3.6;
+        descripcionEspecial = `El agua ya no esconde ningún secreto, aunque se encuentra extremadamente plácida. Te quedas observándola unos minutos, pero sabes que debes regresar.`;
+        eliminar = true;
+        modificarNextId(arrayInput, idACambiar, [3.1]);
+        modificarNextId(arrayInput, 3.5, [3.1, 3.6]);
+        inventario.combate += 5;
+        break;
+      case "Puente":
+        if (inventario.herramientas == "Soga") {
+          arrayInput[index].nextid[0] = arrayInput[index].nextid[1];
+          registroLogro("Puente");
+        } else {
+          inventario.vida -= 3;
+          tostada(3);
+          inventario.vida <= 0 &&
+            (arrayInput[index].nextid[0] = arrayInput[index].nextid[2]);
+        }
+        break;
+      case "Combate Dragón":
+        if (refrescar) {
+          refrescar = false;
+          textoAdicional = "";
+          textoAdicional =
+            mensajeDragon[Math.floor(Math.random() * mensajeDragon.length)];
+          adicional = combate(dragon);
+          logDragon.push(turno);
+          textoAdicional += `<br><br>El dragón tiene ${dragon.vida} puntos de vida. ${adicional}`;
+          localStorage.setItem("textoAdicional", textoAdicional);
+          localStorage.setItem("refrescar", JSON.stringify(refrescar));
+          localStorage.setItem("logDragon", JSON.stringify(logDragon));
+          localStorage.setItem("dragon", JSON.stringify(dragon));
+          localStorage.setItem("turnoContador", turnoContador);
+          if (muerte) {
+            arrayInput[index].nextid[0] = arrayInput[index].nextid[1];
+          } else if (victoria) {
+            arrayInput[index].nextid[0] = arrayInput[index].nextid[2];
+            registroLogro("Dragón");
+            localStorage.removeItem("logDragon");
+            localStorage.removeItem("dragon");
+            localStorage.removeItem("turnoContador");
+          }
+        } else {
+          textoAdicional = localStorage.getItem("textoAdicional");
+        }
+        break;
+      case "Log Dragón":
+        refrescar = true;
+        localStorage.setItem("refrescar", JSON.stringify(refrescar));
+        logCompleto = "";
+        for (let i = 0; i < logDragon.length; i++) {
+          logCompleto += `${logDragon[i]}<br>`;
+        }
+        textoAdicional = `<br>` + logCompleto;
+        break;
+      case "Huida":
+        if (turnoHuida < 5 && inventario.vida > 0) {
+          turnoHuida++;
+          localStorage.setItem("turnoHuida", turnoHuida);
+          let danoEscape = Math.floor(
+            (Math.random() * 20 + dragon.combate) / 5
+          );
+          inventario.vida -= danoEscape;
+          danoEscape > 0 && tostada(danoEscape);
+        }
+
+        if (inventario.vida <= 0 && turnoHuida <= 5) {
+          arrayInput[index].nextid[0] = arrayInput[index].nextid[1];
+          inventario.vida = 0;
+          descripcionEspecial = `¡El dragón te ha derrotado! Te has quedado sin vida.<br><br><center>FIN DEL JUEGO.</center>`;
+          antesDeLogica = true;
+          idACambiar = 2.8;
+        } else if (inventario.vida > 0 && turnoHuida <= 5) {
+          descripcionEspecial =
+            arrayInput[index].descripcion +
+            `<br> Turno ${turnoHuida}: Tienes ${inventario.vida} puntos de vida.`;
+          antesDeLogica = true;
+          idACambiar = 2.8;
+          if (turnoHuida == 5) {
+            arrayInput[index].nextid[0] = arrayInput[index].nextid[2];
+            puntaje += 10;
+          }
+        }
+        break;
+      case "Fin":
+        salir = true;
+        chequeoInput = true;
+        final = new Date();
+        break;
+    }
+    setStorage(arrayInput);
+  }
+
+  if (antesDeLogica) {
+    //Permite modificar el array "caminos" antes de ser mostrado en pantalla.
+    descripcionChecker(arrayInput, eliminar, idACambiar);
+    localStorage.setItem("caminos", JSON.stringify(arrayInput));
+  }
+
+  if (arrayInput[index].input) {
+    //Si input (más de una opción, como un prompt) es true, realizará los botones correspondientes
+    texto.innerHTML = arrayInput[index].descripcion + textoAdicional;
+    for (let i = 0; i < arrayInput[index].cantidadOpciones; i++) {
+      crearBoton(arrayInput[index].opciones[i], () => {
+        if (!antesDeLogica) {
+          //Permite modificar el array "caminos" luego de ser mostrados en pantalla, al presionar los botones.
+          descripcionChecker(arrayInput, eliminar, idACambiar);
+          localStorage.setItem("caminos", JSON.stringify(arrayInput));
+        }
+        //Presionar los botones (cualquiera de ellos), lleva a correr nuevamente la función con un nuevo id.
+        nextIndex(arrayInput, i);
+        inputChecker(arrayInput);
+      });
+    }
+  } else {
+    //Si input es falso (como si fuese un alert), lee descripción y crea un solo botón.
+    texto.innerHTML = arrayInput[index].descripcion + textoAdicional;
+    if (divToAppend != false) {
+      //Creación del agua para encontrar el arma.
+      texto.appendChild(divToAppend);
+      if (arma) {
+        let x = Math.round(Math.random() * (divToAppend.offsetWidth - 20)) + 5;
+        let y = Math.round(Math.random() * (divToAppend.offsetHeight - 20)) + 5;
+        armaEscondida.style.top = `${y}px`;
+        armaEscondida.style.left = `${x}px`;
       }
-    })
-    .catch(catchError);
+    }
+    crearBoton("Siguiente", () => {
+      if (!salir) {
+        if (!antesDeLogica) {
+          //Permite modificar el array "caminos" luego de ser mostrados en pantalla, al presionar los botones.
+          descripcionChecker(arrayInput, eliminar, idACambiar);
+          localStorage.setItem("caminos", JSON.stringify(arrayInput));
+        }
+        //Presionar el botón, lleva a correr nuevamente la función con un nuevo id.
+        nextIndex(arrayInput, 0);
+        inputChecker(arrayInput);
+      } else {
+        //Lógica de finalización del juego.
+        resetBotonera();
+        for (let index = 0; index < logros.length; index++) {
+          logros[index] = logros[index].replace(`*`, `LOGRO BLOQUEADO.`);
+        }
+
+        let tiempoTotal = final - comienzo;
+        tiempoTotal = Math.round(tiempoTotal / 1000);
+        let unidad = `segundos`;
+        if (tiempoTotal > 120) {
+          tiempoTotal = Math.round(tiempoTotal / 60);
+          unidad = `minutos`;
+        }
+        texto.innerHTML = `${inventario.nombre} del reino ${
+          inventario.raza
+        }, aquí tus estadísticas de juego.<br><br>Has conseguido un puntaje total de ${puntaje}/100.<br><br>Logros obtenidos durante la aventura:<br>${logros.join(
+          " "
+        )}<br><br>Obtuviste un total de ${logrosTotales} de ${
+          logros.length
+        } logros.<br><br>El tiempo total de aventura fue de ${tiempoTotal} ${unidad}.`;
+
+        localStorage.clear();
+        if (puntaje == 100) {
+          crearBoton("Siguiente", () => {
+            texto.innerHTML = `¡JUEGO PERFECTO EN PUNTAJE! Felicidades, ${inventario.nombre} del reino ${inventario.raza}, tu nombre será recordado, y has sido nombrad${terminacion} el ${inventario.raza} más valiente de estos tiempos.`;
+            resetBotonera();
+            crearBoton("Siguiente", finDelJuego);
+          });
+        } else {
+          crearBoton("Siguiente", finDelJuego);
+        }
+      }
+    });
+  }
 }
 
 function nextIndex(arrayInput, numeroID) {
