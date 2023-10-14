@@ -1,11 +1,47 @@
 [
-  { "id": 1.3, "oponente": "*codigo.bruja" },
-  { "id": 1.31, "oponente": "*codigo.bruja" },
-  { "id": 1.32, "oponente": "*codigo.bruja" },
-  { "id": 1.33, "oponente": "*codigo.bruja" },
-  { "id": 2.4, "oponente": "*codigo.dragon" },
-  { "id": 2.7, "oponente": "*codigo.dragon" },
-  { "id": 2.72, "oponente": "*codigo.dragon" },
-  { "id": 2.73, "oponente": "*codigo.dragon" },
-  { "id": 2.8, "oponente": "*codigo.dragon" }
+  {
+    "id": 1.3,
+    "oponente": "Bruja",
+    "ruta": "<img src=\"./images/bruja.png\" />"
+  },
+  {
+    "id": 1.31,
+    "oponente": "Bruja",
+    "ruta": "<img src=\"./images/bruja.png\" />"
+  },
+  {
+    "id": 1.32,
+    "oponente": "Bruja",
+    "ruta": "<img src=\"./images/bruja.png\" />"
+  },
+  {
+    "id": 1.33,
+    "oponente": "Bruja",
+    "ruta": "<img src=\"./images/bruja.png\" />"
+  },
+  {
+    "id": 2.4,
+    "oponente": "Dragón",
+    "ruta": "<img src=\"./images/dragon.png\" />"
+  },
+  {
+    "id": 2.7,
+    "oponente": "Dragón",
+    "ruta": "<img src=\"./images/dragon.png\" />"
+  },
+  {
+    "id": 2.72,
+    "oponente": "Dragón",
+    "ruta": "<img src=\"./images/dragon.png\" />"
+  },
+  {
+    "id": 2.73,
+    "oponente": "Dragón",
+    "ruta": "<img src=\"./images/dragon.png\" />"
+  },
+  {
+    "id": 2.8,
+    "oponente": "Dragón",
+    "ruta": "<img src=\"./images/dragon.png\" />"
+  }
 ]

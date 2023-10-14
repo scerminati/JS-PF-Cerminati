@@ -3,6 +3,5 @@
   "vida": 8,
   "iniciativa": 10,
   "combate": 2,
-  "defensa": 2,
-  "ruta": "<img src=\"./images/bruja.png\" />"
+  "defensa": 2
 }

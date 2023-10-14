@@ -72,12 +72,14 @@ function inicio() {
       .then((respuesta) => respuesta.json())
       .then((brujaJson) => {
         bruja = JSON.parse(localStorage.getItem("bruja")) || brujaJson;
+        localStorage.setItem("bruja", JSON.stringify(bruja));
       }),
 
     fetch("./json/dragon.json")
       .then((respuesta) => respuesta.json())
       .then((dragonJson) => {
         dragon = JSON.parse(localStorage.getItem("dragon")) || dragonJson;
+        localStorage.setItem("dragon", JSON.stringify(dragon));
       }),
 
     fetch("./json/mensajeBruja.json")
@@ -95,17 +97,6 @@ function inicio() {
     fetch("./json/oponenteIds.json")
       .then((respuesta) => respuesta.json())
       .then((oponenteIds) => {
-        oponenteIds.forEach((idConOponente) => {
-          idConOponente.oponente = idConOponente.oponente.replace(
-            "*codigo.bruja",
-            JSON.stringify(bruja)
-          );
-          idConOponente.oponente = idConOponente.oponente.replace(
-            "*codigo.dragon",
-            JSON.stringify(dragon)
-          );
-          idConOponente.oponente = JSON.parse(idConOponente.oponente);
-        });
         oponenteIdsFetch = oponenteIds;
         localStorage.setItem(
           "oponenteIdsFetch",
@@ -125,7 +116,7 @@ function inicioLuegoDeCarga() {
   correoEnviado = false;
 
   if (idActual == -1) {
-    //Inicio de selección de personaje, 
+    //Inicio de selección de personaje,
     cargandoTexto(true);
     fetch("./json/cordialidad.json")
       .then((respuesta) => respuesta.json())
@@ -539,14 +530,18 @@ function inputChecker(arrayInput) {
   oponente.classList.add("oculto");
 
   oponenteIdsFetch = JSON.parse(localStorage.getItem("oponenteIdsFetch"));
+  bruja = JSON.parse(localStorage.getItem("bruja"));
+  dragon = JSON.parse(localStorage.getItem("dragon"));
   for (const propiedad in oponenteIdsFetch) {
-    if (
-      oponenteIdsFetch[propiedad].id == idActual &&
-      oponenteIdsFetch[propiedad].oponente.vida > 0
-    ) {
-      oponente.classList.remove("oculto");
-      imagenOpo = oponenteIdsFetch[propiedad].oponente.ruta;
-      oponente.innerHTML = imagenOpo;
+    if (oponenteIdsFetch[propiedad].id == idActual) {
+      if (
+        (oponenteIdsFetch[propiedad].oponente == "Bruja" && bruja.vida > 0) ||
+        (oponenteIdsFetch[propiedad].oponente == "Dragón" && dragon.vida > 0)
+      ) {
+        oponente.classList.remove("oculto");
+        imagenOpo = oponenteIdsFetch[propiedad].ruta;
+        oponente.innerHTML = imagenOpo;
+      }
     }
   }
 
@@ -599,9 +594,7 @@ function inputChecker(arrayInput) {
             inventario.combate += 2;
             inventario.vida = healthBase + 5;
             healthBase = inventario.vida;
-            localStorage.removeItem("logBruja");
             localStorage.removeItem("turno");
-            localStorage.removeItem("bruja");
             localStorage.removeItem("turnoContador");
           }
         } else {
